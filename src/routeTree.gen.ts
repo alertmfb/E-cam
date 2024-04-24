@@ -15,8 +15,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignInImport } from './routes/sign-in'
 import { Route as IndexImport } from './routes/index'
-import { Route as AppApplayoutImport } from './routes/app/_applayout'
-import { Route as AppApplayoutDashboardImport } from './routes/app/_applayout.dashboard'
+import { Route as AppAImport } from './routes/app/_a'
+import { Route as AppALoansIndexImport } from './routes/app/_a.loans/index'
+import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
+import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 
 // Create Virtual Routes
 
@@ -39,14 +41,24 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AppApplayoutRoute = AppApplayoutImport.update({
-  id: '/_applayout',
+const AppARoute = AppAImport.update({
+  id: '/_a',
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppApplayoutDashboardRoute = AppApplayoutDashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => AppApplayoutRoute,
+const AppALoansIndexRoute = AppALoansIndexImport.update({
+  path: '/loans/',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppADashboardIndexRoute = AppADashboardIndexImport.update({
+  path: '/dashboard/',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansNewRoute = AppALoansNewImport.update({
+  path: '/loans/new',
+  getParentRoute: () => AppARoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -65,13 +77,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
     }
-    '/app/_applayout': {
-      preLoaderRoute: typeof AppApplayoutImport
+    '/app/_a': {
+      preLoaderRoute: typeof AppAImport
       parentRoute: typeof AppRoute
     }
-    '/app/_applayout/dashboard': {
-      preLoaderRoute: typeof AppApplayoutDashboardImport
-      parentRoute: typeof AppApplayoutImport
+    '/app/_a/loans/new': {
+      preLoaderRoute: typeof AppALoansNewImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/dashboard/': {
+      preLoaderRoute: typeof AppADashboardIndexImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/': {
+      preLoaderRoute: typeof AppALoansIndexImport
+      parentRoute: typeof AppAImport
     }
   }
 }
@@ -82,7 +102,11 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   SignInRoute,
   AppRoute.addChildren([
-    AppApplayoutRoute.addChildren([AppApplayoutDashboardRoute]),
+    AppARoute.addChildren([
+      AppALoansNewRoute,
+      AppADashboardIndexRoute,
+      AppALoansIndexRoute,
+    ]),
   ]),
 ])
 

@@ -1,7 +1,7 @@
 import { AppHeader } from '@/components/header'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/_applayout')({
+export const Route = createFileRoute('/app/_a')({
   component: Layout,
 })
 

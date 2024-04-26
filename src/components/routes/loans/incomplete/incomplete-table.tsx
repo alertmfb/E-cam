@@ -56,7 +56,7 @@ export function IncompleteTable() {
             <TableCell className="text-right">{application.date}</TableCell>
             <TableCell className="text-right">
               <Link
-                to="/app/loans/$loanId/customer-information"
+                to="/app/loans/$loanId/client-information"
                 params={{ loanId: application.loanId }}
               >
                 view

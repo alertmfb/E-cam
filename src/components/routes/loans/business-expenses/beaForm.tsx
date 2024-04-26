@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { SectionInputContainer, FormSection } from '../new/loan-form'
-import { faS, feS } from './feSchems'
+import { baS, beS } from './beSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -22,9 +22,9 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
-export function FamilyExpensesForm() {
-  const form = useForm<z.infer<typeof feS>>({
-    resolver: zodResolver(feS),
+export function BusinessExpensesForm() {
+  const form = useForm<z.infer<typeof beS>>({
+    resolver: zodResolver(beS),
     defaultValues: {
       category: '',
       item: '',
@@ -32,7 +32,7 @@ export function FamilyExpensesForm() {
       amount: '',
     },
   })
-  function onSubmit(values: z.infer<typeof feS>) {
+  function onSubmit(values: z.infer<typeof beS>) {
     console.log(values)
   }
 
@@ -128,9 +128,9 @@ export function FamilyExpensesForm() {
   )
 }
 
-export function FamilyAssetsForm() {
-  const form = useForm<z.infer<typeof faS>>({
-    resolver: zodResolver(faS),
+export function BusinessAssetsForm() {
+  const form = useForm<z.infer<typeof baS>>({
+    resolver: zodResolver(baS),
     defaultValues: {
       category: '',
       item: '',
@@ -138,7 +138,7 @@ export function FamilyAssetsForm() {
       amount: '',
     },
   })
-  function onSubmit(values: z.infer<typeof faS>) {
+  function onSubmit(values: z.infer<typeof baS>) {
     console.log(values)
   }
   return (

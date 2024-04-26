@@ -18,8 +18,10 @@ function FamilyExpenses() {
         <h1 className="text-2xl font-semibold">Family Expenses</h1>
         <ApplicationNav loanId={loanId} key="family-expenses" />
       </div>
-      <main className="flex flex-col h-20 pt-3">
+      <main className="flex flex-col h-20 pt-3 gap-5">
         <FamilyExpensesForm />
+        <h1 className="text-2xl font-semibold">Family Assets</h1>
+
         <FamilyAssetsForm />
       </main>
     </div>

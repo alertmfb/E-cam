@@ -23,7 +23,7 @@ import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomp
 import { Route as AppALoansLoanIdIndexImport } from './routes/app/_a.loans/$loanId/index'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
-import { Route as AppALoansLoanIdCustomerInformationImport } from './routes/app/_a.loans/$loanId/customer-information'
+import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 
 // Create Virtual Routes
@@ -88,9 +88,9 @@ const AppALoansLoanIdFamilyExpensesRoute =
     getParentRoute: () => AppARoute,
   } as any)
 
-const AppALoansLoanIdCustomerInformationRoute =
-  AppALoansLoanIdCustomerInformationImport.update({
-    path: '/loans/$loanId/customer-information',
+const AppALoansLoanIdClientInformationRoute =
+  AppALoansLoanIdClientInformationImport.update({
+    path: '/loans/$loanId/client-information',
     getParentRoute: () => AppARoute,
   } as any)
 
@@ -140,8 +140,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
       parentRoute: typeof AppAImport
     }
-    '/app/_a/loans/$loanId/customer-information': {
-      preLoaderRoute: typeof AppALoansLoanIdCustomerInformationImport
+    '/app/_a/loans/$loanId/client-information': {
+      preLoaderRoute: typeof AppALoansLoanIdClientInformationImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/$loanId/family-expenses': {
@@ -171,7 +171,7 @@ export const routeTree = rootRoute.addChildren([
       AppADashboardIndexRoute,
       AppALoansIndexRoute,
       AppALoansLoanIdBusinessExpensesRoute,
-      AppALoansLoanIdCustomerInformationRoute,
+      AppALoansLoanIdClientInformationRoute,
       AppALoansLoanIdFamilyExpensesRoute,
       AppALoansLoanIdReferenceRoute,
       AppALoansLoanIdIndexRoute,

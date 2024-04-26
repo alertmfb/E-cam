@@ -15,8 +15,8 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link
-              activeProps={{ className: 'text-black' }}
-              to="/app/loans/$loanId/customer-information"
+              activeProps={{ className: 'text-black font-semibold' }}
+              to="/app/loans/$loanId/client-information"
               params={{ loanId }}
             >
               Client Information
@@ -27,7 +27,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link
-              activeProps={{ className: 'text-black' }}
+              activeProps={{ className: 'text-black font-semibold' }}
               to="/app/loans/$loanId/family-expenses"
               params={{ loanId: loanId }}
             >
@@ -39,7 +39,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link
-              activeProps={{ className: 'text-black' }}
+              activeProps={{ className: 'text-black font-semibold' }}
               to="/app/loans/$loanId/business-expenses"
               params={{ loanId: loanId }}
             >
@@ -51,7 +51,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link
-              activeProps={{ className: 'text-black' }}
+              activeProps={{ className: 'text-black font-semibold' }}
               to="/app/loans/$loanId/reference"
               params={{ loanId: loanId }}
             >
@@ -61,7 +61,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbEllipsis />
+          <BreadcrumbEllipsis className="cursor-pointer" />
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

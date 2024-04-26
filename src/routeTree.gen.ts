@@ -19,6 +19,12 @@ import { Route as AppAImport } from './routes/app/_a'
 import { Route as AppALoansIndexImport } from './routes/app/_a.loans/index'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
 import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
+import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
+import { Route as AppALoansLoanIdIndexImport } from './routes/app/_a.loans/$loanId/index'
+import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
+import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
+import { Route as AppALoansLoanIdCustomerInformationImport } from './routes/app/_a.loans/$loanId/customer-information'
+import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 
 // Create Virtual Routes
 
@@ -61,6 +67,39 @@ const AppALoansNewRoute = AppALoansNewImport.update({
   getParentRoute: () => AppARoute,
 } as any)
 
+const AppALoansIncompleteRoute = AppALoansIncompleteImport.update({
+  path: '/loans/incomplete',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansLoanIdIndexRoute = AppALoansLoanIdIndexImport.update({
+  path: '/loans/$loanId/',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
+  path: '/loans/$loanId/reference',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansLoanIdFamilyExpensesRoute =
+  AppALoansLoanIdFamilyExpensesImport.update({
+    path: '/loans/$loanId/family-expenses',
+    getParentRoute: () => AppARoute,
+  } as any)
+
+const AppALoansLoanIdCustomerInformationRoute =
+  AppALoansLoanIdCustomerInformationImport.update({
+    path: '/loans/$loanId/customer-information',
+    getParentRoute: () => AppARoute,
+  } as any)
+
+const AppALoansLoanIdBusinessExpensesRoute =
+  AppALoansLoanIdBusinessExpensesImport.update({
+    path: '/loans/$loanId/business-expenses',
+    getParentRoute: () => AppARoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -81,6 +120,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAImport
       parentRoute: typeof AppRoute
     }
+    '/app/_a/loans/incomplete': {
+      preLoaderRoute: typeof AppALoansIncompleteImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/new': {
       preLoaderRoute: typeof AppALoansNewImport
       parentRoute: typeof AppAImport
@@ -93,6 +136,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansIndexImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/$loanId/business-expenses': {
+      preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/customer-information': {
+      preLoaderRoute: typeof AppALoansLoanIdCustomerInformationImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/family-expenses': {
+      preLoaderRoute: typeof AppALoansLoanIdFamilyExpensesImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/reference': {
+      preLoaderRoute: typeof AppALoansLoanIdReferenceImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/': {
+      preLoaderRoute: typeof AppALoansLoanIdIndexImport
+      parentRoute: typeof AppAImport
+    }
   }
 }
 
@@ -103,9 +166,15 @@ export const routeTree = rootRoute.addChildren([
   SignInRoute,
   AppRoute.addChildren([
     AppARoute.addChildren([
+      AppALoansIncompleteRoute,
       AppALoansNewRoute,
       AppADashboardIndexRoute,
       AppALoansIndexRoute,
+      AppALoansLoanIdBusinessExpensesRoute,
+      AppALoansLoanIdCustomerInformationRoute,
+      AppALoansLoanIdFamilyExpensesRoute,
+      AppALoansLoanIdReferenceRoute,
+      AppALoansLoanIdIndexRoute,
     ]),
   ]),
 ])

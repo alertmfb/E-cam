@@ -29,6 +29,14 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from '@radix-ui/react-icons'
+import {
+  locationsArr,
+  getZoneNumber,
+  getZoneColor,
+  branchesArr,
+} from './zonification'
+import { useState } from 'react'
+
 // import { useNavigate } from '@tanstack/react-router'
 
 export function LoanForm() {
@@ -42,51 +50,63 @@ export function LoanForm() {
       business_address: '',
       business_desc: '',
       business_landmark: '',
-      // another section
+      alert_discovery: '',
+      // // another section
       name: '',
       sex: '',
       residence_address: '',
       residence_landmark: '',
       house_ownership_status: '',
-      house_stay: 0,
+      house_stay: '',
       house_desc: '',
-      // another section
+      // // another section
       marital_status: '',
       religion: '',
       nationality: '',
       place_of_worship_name: '',
       place_of_worship_address: '',
       place_of_worship_landmark: '',
-      // another section
-      business_worth: 0,
+      // // another section
+      business_worth: '0',
       loan_purpose: '',
-      series_of_loan: 0,
-      previous_loan_amount: 0,
-      new_loan_amount: 0,
+      series_of_loan: '0',
+      previous_loan_amount: '0',
+      new_loan_amount: '0',
       previous_loan_default: '',
       previous_loan_default_reason: '',
-      // another section
+      // // another section
       running_loan: '',
       // disbursement_date
       // maturity_date
-      running_loan_amount: 0,
-      running_loan_duration: 0,
-      running_monthly_instalment_amount: 0,
-      running_days_overdue: 0,
-      running_no_instalments_paid: 0,
-      running_loan_balance: 0,
-      // another section
+      running_loan_amount: '0',
+      running_loan_duration: '0',
+      running_monthly_instalment_amount: '0',
+      running_days_overdue: '0',
+      running_no_instalments_paid: '0',
+      running_loan_balance: '0',
+      // // another section
       is_client_guarantor: '',
       guarantor_branch: '',
       customer_name: '',
-      guaranteed_loan_amount: 0,
-      guarantor_loan_duration: 0,
-      guarantor_monthly_instalment_amount: 0,
-      guarantor_days_overdue: 0,
-      guarantor_instalments_paid: 0,
-      guarantor_loan_balance: 0,
+      guaranteed_loan_amount: '0',
+      guarantor_loan_duration: '0',
+      guarantor_monthly_instalment_amount: '0',
+      guarantor_days_overdue: '0',
+      guarantor_instalments_paid: '0',
+      guarantor_loan_balance: '0',
+      // // another section
+      // // TODO: auto populate this
+      // loan_officer_name: 'Loan Officer',
+      // loan_officer_branch: 'EBUTE-METTA',
     },
   })
+
+  const [zoneColor, setZoneColor] = useState('bg-white')
+
+  function handleZonificationCheck(clientLocation: string) {
+    const n = getZoneNumber(clientLocation)
+    setZoneColor(getZoneColor(3, n))
+  }
 
   function onSubmit(values: z.infer<typeof lfS>) {
     console.log(values)
@@ -96,11 +116,11 @@ export function LoanForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 pb-4"
+        className="flex flex-col gap-6 pb-4 drop-shadow-md"
       >
         <div className="flex flex-col items-center justify-start gap-10 border p-4 rounded-lg">
           <FormSection>
-            <div className="w-full flex gap-4 items-start flex-1 flex-wrap">
+            <SectionInputContainer>
               <FormField
                 control={form.control}
                 name="bvn"
@@ -108,7 +128,12 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Customer's BVN</FormLabel>
                     <FormControl>
-                      <Input placeholder="bvn" {...field} />
+                      <Input
+                        placeholder="bvn"
+                        type="number"
+                        required
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -121,7 +146,12 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Phone number</FormLabel>
                     <FormControl>
-                      <Input placeholder="091..." {...field} />
+                      <Input
+                        placeholder="091..."
+                        type="number"
+                        required
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -134,7 +164,12 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Nuban no</FormLabel>
                     <FormControl>
-                      <Input placeholder="nuban no" {...field} />
+                      <Input
+                        placeholder="nuban no"
+                        type="number"
+                        required
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -149,15 +184,12 @@ export function LoanForm() {
                       How did the customer know about Alert?
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input placeholder="" required {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
-
-            <div className="w-full flex items-start gap-4 flex-1 flex-wrap">
               <FormField
                 control={form.control}
                 name="business_name"
@@ -165,7 +197,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Business Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="business name" {...field} />
+                      <Input placeholder="business name" required {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -181,6 +213,7 @@ export function LoanForm() {
                       <Textarea
                         placeholder="brief business description"
                         className="w-96"
+                        required
                         {...field}
                       />
                     </FormControl>
@@ -197,6 +230,7 @@ export function LoanForm() {
                     <FormControl>
                       <Textarea
                         placeholder="business address"
+                        required
                         className="w-96"
                         {...field}
                       />
@@ -214,7 +248,8 @@ export function LoanForm() {
                     <FormLabel>Landmark</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="any landmark close to the business"
+                        required
+                        placeholder="closest landmark"
                         {...field}
                       />
                     </FormControl>
@@ -222,7 +257,12 @@ export function LoanForm() {
                   </FormItem>
                 )}
               />
-            </div>
+
+              <FormItem>
+                <FormLabel>Customer's Picture</FormLabel>
+                <Input type="file" />
+              </FormItem>
+            </SectionInputContainer>
           </FormSection>
 
           <FormSection>
@@ -234,7 +274,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Business Owner Name</FormLabel>
                     <FormControl>
-                      <Input placeholder=".." {...field} />
+                      <Input required placeholder=".." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -247,7 +287,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Business Owner Sex</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -311,7 +351,12 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>No of Years of stay in house</FormLabel>
                     <FormControl>
-                      <Input placeholder="no in years" {...field} />
+                      <Input
+                        required
+                        placeholder="no in years"
+                        type="number"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -336,6 +381,7 @@ export function LoanForm() {
               />
             </SectionInputContainer>
           </FormSection>
+
           <FormSection>
             <SectionInputContainer>
               <FormField
@@ -371,7 +417,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Religion</FormLabel>
                     <FormControl>
-                      <Input placeholder="religion" {...field} />
+                      <Input required placeholder="religion" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -384,7 +430,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Nationality</FormLabel>
                     <FormControl>
-                      <Input placeholder="nationality" {...field} />
+                      <Input required placeholder="nationality" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -397,7 +443,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Place of worship name</FormLabel>
                     <FormControl>
-                      <Input placeholder="... parish" {...field} />
+                      <Input required placeholder="... parish" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -423,7 +469,11 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Landmark</FormLabel>
                     <FormControl>
-                      <Input placeholder="closest landmark" {...field} />
+                      <Input
+                        required
+                        placeholder="closest landmark"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -431,6 +481,7 @@ export function LoanForm() {
               />
             </SectionInputContainer>
           </FormSection>
+
           <FormSection>
             <SectionInputContainer>
               <FormField
@@ -440,7 +491,12 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Business Worth</FormLabel>
                     <FormControl>
-                      <Input placeholder="business worth" {...field} />
+                      <Input
+                        required
+                        placeholder="business worth"
+                        type="number"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -470,7 +526,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Series of Loan</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -483,7 +539,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Previous Loan Amount</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -498,7 +554,7 @@ export function LoanForm() {
                       New Loan Request/Amount
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -547,6 +603,7 @@ export function LoanForm() {
               />
             </SectionInputContainer>
           </FormSection>
+
           <FormSection>
             <SectionInputContainer>
               <FormField
@@ -581,7 +638,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Running Loan Amount</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -594,7 +651,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Running Loan Duration</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -607,7 +664,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Monthly Installment Amount</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -620,7 +677,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Days Overdue</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -633,7 +690,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Number of Instalments Paid</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -646,7 +703,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Loan Balance</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -656,7 +713,7 @@ export function LoanForm() {
                 control={form.control}
                 name="disbursement_date"
                 render={({ field }) => (
-                  <FormItem className="self-center">
+                  <FormItem className="self-end">
                     <FormLabel className="mr-3">Disbursement Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -695,7 +752,7 @@ export function LoanForm() {
                 control={form.control}
                 name="maturity_date"
                 render={({ field }) => (
-                  <FormItem className="self-center">
+                  <FormItem className="self-end">
                     <FormLabel className="mr-3">Maturity Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -731,6 +788,7 @@ export function LoanForm() {
               />
             </SectionInputContainer>
           </FormSection>
+
           <FormSection>
             <SectionInputContainer>
               <FormField
@@ -739,9 +797,20 @@ export function LoanForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Is the client a guarantor?</FormLabel>
-                    <FormControl>
-                      <Input placeholder="" {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="yes/no" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="no">no</SelectItem>
+                        <SelectItem value="yes">yes</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -752,9 +821,23 @@ export function LoanForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Branch</FormLabel>
-                    <FormControl>
-                      <Input placeholder="" {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="select" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {branchesArr.sort().map((branch, idx) => (
+                          <SelectItem key={idx} value={branch}>
+                            {branch}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -766,7 +849,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Name of the customer</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -779,7 +862,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Guaranteed Loan Amount</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -792,7 +875,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Duration</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -805,7 +888,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Monthly Instalment Amount</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -818,7 +901,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Number of Days in Overdue</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -831,7 +914,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Number of Instalments Paid</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -844,7 +927,7 @@ export function LoanForm() {
                   <FormItem>
                     <FormLabel>Loan Balance</FormLabel>
                     <FormControl>
-                      <Input placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -852,9 +935,61 @@ export function LoanForm() {
               />
             </SectionInputContainer>
           </FormSection>
+
+          <FormSection>
+            <SectionInputContainer>
+              <FormItem>
+                <FormLabel>Loan Officer Name</FormLabel>
+                <FormControl>
+                  <Input
+                    required
+                    placeholder=""
+                    value="Loan Officer"
+                    disabled
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+              <FormItem>
+                <FormLabel>Loan Officer Branch</FormLabel>
+                <FormControl>
+                  <Input placeholder="" value="EBUTE-METTA" disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            </SectionInputContainer>
+          </FormSection>
+
+          <FormSection>
+            <SectionInputContainer>
+              <FormItem>
+                <FormLabel>Location of client's business</FormLabel>
+
+                <select
+                  className="flex h-10 items-center justify-between rounded-md border border-input px-2"
+                  onChange={(e) => handleZonificationCheck(e.target.value)}
+                >
+                  <option value="">select</option>
+                  {locationsArr.sort().map((location, idx) => (
+                    <option value={location} key={idx}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+              </FormItem>
+
+              <FormItem>
+                <FormLabel>Zonification Indicator</FormLabel>
+                <div
+                  className={`flex h-10 w-full rounded-md border ${zoneColor}`}
+                ></div>
+                <FormMessage />
+              </FormItem>
+            </SectionInputContainer>
+          </FormSection>
         </div>
         <Button type="submit" className="w-32">
-          Submit
+          Save
         </Button>
       </form>
     </Form>

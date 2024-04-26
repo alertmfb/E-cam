@@ -2,17 +2,18 @@
 
 Supabase
 
-## Workflow
+## Breakdown
 
-A brief explanation of the flow of data through the application
 An '\*' indicates the item is subject to change
 
 1. Users\*
 
 - Loan Officer
-- Credit Officer
-- Relationship Officer
 - Branch Manager
+- Relationship Manager/ Zonal Manager
+- DCOO
+- MD
+- Director
 
 2. Data
 

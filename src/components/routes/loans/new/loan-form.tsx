@@ -996,7 +996,11 @@ export function LoanForm() {
   )
 }
 
-function SectionInputContainer({ children }: { children?: React.ReactNode }) {
+export function SectionInputContainer({
+  children,
+}: {
+  children?: React.ReactNode
+}) {
   return (
     <div className="w-full flex gap-4 items-start flex-1 flex-wrap">
       {children}
@@ -1004,7 +1008,7 @@ function SectionInputContainer({ children }: { children?: React.ReactNode }) {
   )
 }
 
-function FormSection({ children }: { children?: React.ReactNode }) {
+export function FormSection({ children }: { children?: React.ReactNode }) {
   return (
     <div className="w-full flex flex-col gap-4 pb-4 border-b">{children}</div>
   )

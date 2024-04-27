@@ -22,6 +22,7 @@ import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
 import { Route as AppALoansLoanIdIndexImport } from './routes/app/_a.loans/$loanId/index'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
+import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
@@ -81,6 +82,12 @@ const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
   path: '/loans/$loanId/reference',
   getParentRoute: () => AppARoute,
 } as any)
+
+const AppALoansLoanIdGuarantorsInfoRoute =
+  AppALoansLoanIdGuarantorsInfoImport.update({
+    path: '/loans/$loanId/guarantors-info',
+    getParentRoute: () => AppARoute,
+  } as any)
 
 const AppALoansLoanIdFamilyExpensesRoute =
   AppALoansLoanIdFamilyExpensesImport.update({
@@ -148,6 +155,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdFamilyExpensesImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/$loanId/guarantors-info': {
+      preLoaderRoute: typeof AppALoansLoanIdGuarantorsInfoImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/$loanId/reference': {
       preLoaderRoute: typeof AppALoansLoanIdReferenceImport
       parentRoute: typeof AppAImport
@@ -173,6 +184,7 @@ export const routeTree = rootRoute.addChildren([
       AppALoansLoanIdBusinessExpensesRoute,
       AppALoansLoanIdClientInformationRoute,
       AppALoansLoanIdFamilyExpensesRoute,
+      AppALoansLoanIdGuarantorsInfoRoute,
       AppALoansLoanIdReferenceRoute,
       AppALoansLoanIdIndexRoute,
     ]),

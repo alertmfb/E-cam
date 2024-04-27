@@ -1,4 +1,9 @@
 import { ApplicationNav } from '@/components/routes/loans/application-nav'
+import {
+  CommercialReferenceForm,
+  FamilyRefereceForm,
+  NeighbourhoodReferenceForm,
+} from '@/components/routes/loans/references/referenceForm'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/reference')({
@@ -14,7 +19,14 @@ function Reference() {
         <h1 className="text-2xl font-semibold">Reference</h1>
         <ApplicationNav loanId={loanId} key="reference" />
       </div>
-      <main className="flex flex-col h-20 pt-3">Populate data in form</main>
+      <main className="flex flex-col h-20 pt-3 gap-5">
+        <h1 className="text-xl font-semibold">Family Reference</h1>
+        <FamilyRefereceForm />
+        <h1 className="text-xl font-semibold">Commercial Reference</h1>
+        <CommercialReferenceForm />
+        <h1 className="text-xl font-semibold">Neighbourhood Reference</h1>
+        <NeighbourhoodReferenceForm />
+      </main>
     </div>
   )
 }

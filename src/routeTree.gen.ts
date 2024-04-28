@@ -22,7 +22,9 @@ import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
 import { Route as AppALoansLoanIdIndexImport } from './routes/app/_a.loans/$loanId/index'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
+import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
+import { Route as AppALoansLoanIdGuarantorVerificationImport } from './routes/app/_a.loans/$loanId/guarantor-verification'
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
@@ -83,9 +85,21 @@ const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
   getParentRoute: () => AppARoute,
 } as any)
 
+const AppALoansLoanIdPictoralEvidenceRoute =
+  AppALoansLoanIdPictoralEvidenceImport.update({
+    path: '/loans/$loanId/pictoral-evidence',
+    getParentRoute: () => AppARoute,
+  } as any)
+
 const AppALoansLoanIdGuarantorsInfoRoute =
   AppALoansLoanIdGuarantorsInfoImport.update({
     path: '/loans/$loanId/guarantors-info',
+    getParentRoute: () => AppARoute,
+  } as any)
+
+const AppALoansLoanIdGuarantorVerificationRoute =
+  AppALoansLoanIdGuarantorVerificationImport.update({
+    path: '/loans/$loanId/guarantor-verification',
     getParentRoute: () => AppARoute,
   } as any)
 
@@ -155,8 +169,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdFamilyExpensesImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/$loanId/guarantor-verification': {
+      preLoaderRoute: typeof AppALoansLoanIdGuarantorVerificationImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/$loanId/guarantors-info': {
       preLoaderRoute: typeof AppALoansLoanIdGuarantorsInfoImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/pictoral-evidence': {
+      preLoaderRoute: typeof AppALoansLoanIdPictoralEvidenceImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/$loanId/reference': {
@@ -184,7 +206,9 @@ export const routeTree = rootRoute.addChildren([
       AppALoansLoanIdBusinessExpensesRoute,
       AppALoansLoanIdClientInformationRoute,
       AppALoansLoanIdFamilyExpensesRoute,
+      AppALoansLoanIdGuarantorVerificationRoute,
       AppALoansLoanIdGuarantorsInfoRoute,
+      AppALoansLoanIdPictoralEvidenceRoute,
       AppALoansLoanIdReferenceRoute,
       AppALoansLoanIdIndexRoute,
     ]),

@@ -82,13 +82,23 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link>Pictoral Evidence</Link>
+                <Link
+                  to="/app/loans/$loanId/pictoral-evidence"
+                  params={{ loanId: loanId }}
+                >
+                  Pictoral Evidence
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link>Guarantor's Business Verifivation</Link>
+                <Link
+                  to="/app/loans/$loanId/guarantor-verification"
+                  params={{ loanId }}
+                >
+                  Guarantor's Business Verifivation
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link>Collateral Pledge</Link>
+                <Link>Visit Report</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -117,13 +127,28 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link>Business Expenses</Link>
+                <Link
+                  to="/app/loans/$loanId/business-expenses"
+                  params={{ loanId: loanId }}
+                >
+                  Business Expenses
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link>Family Expenses</Link>
+                <Link
+                  to="/app/loans/$loanId/family-expenses"
+                  params={{ loanId: loanId }}
+                >
+                  Family Expenses
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link>Client Information</Link>
+                <Link
+                  to="/app/loans/$loanId/client-information"
+                  params={{ loanId: loanId }}
+                >
+                  Client Information
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -140,15 +165,27 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <Link>Pictoral Evidence</Link>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/pictoral-evidence"
+            params={{ loanId: loanId }}
+          >
+            Pictoral Evidence
+          </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <Link>Guarantors Business..</Link>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/guarantor-verification"
+            params={{ loanId }}
+          >
+            Guarantors biz ver..
+          </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <Link>Collateral Pledge</Link>
+          <Link>Visit Report</Link>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

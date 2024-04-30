@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const lfS = z.object({
+const ciS = z.object({
   // email: z.string().email({ message: 'email is required' }),
   bvn: z.string().min(11, { message: 'bvn must be 11 digits' }).max(11),
   phone_number: z.string().min(11, { message: 'invalid phone number' }).max(13),
@@ -100,4 +100,4 @@ const lfS = z.object({
   // }),
 })
 
-export { lfS }
+export { ciS }

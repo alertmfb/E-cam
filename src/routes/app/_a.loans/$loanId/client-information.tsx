@@ -1,4 +1,5 @@
 import { ApplicationNav } from '@/components/routes/loans/application-nav'
+import { ClientInfoForm } from '@/components/routes/loans/client-information/client-info'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
@@ -15,7 +16,9 @@ function CustomerInformation() {
         <h1 className="text-2xl font-semibold">Client's Information</h1>
         <ApplicationNav loanId={loanId} key="client-information" />
       </div>
-      <main className="flex flex-col h-20 pt-3">Populate data in form</main>
+      <main className="flex flex-col h-20 pt-3">
+        <ClientInfoForm />
+      </main>
     </div>
   )
 }

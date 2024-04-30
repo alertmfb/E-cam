@@ -1,5 +1,8 @@
 import { useForm } from 'react-hook-form'
-import { SectionInputContainer, FormSection } from '../new/loan-form'
+import {
+  SectionInputContainer,
+  FormSection,
+} from '../client-information/client-info'
 import { giS } from './giSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'

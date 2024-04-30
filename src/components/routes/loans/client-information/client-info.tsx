@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { lfS } from './lfSchema'
+import { ciS } from './lfSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -36,12 +36,15 @@ import {
   branchesArr,
 } from './zonification'
 import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { createClientInfo } from '@/lib/api/client-info/functions'
 
 // import { useNavigate } from '@tanstack/react-router'
 
-export function LoanForm() {
-  const form = useForm<z.infer<typeof lfS>>({
-    resolver: zodResolver(lfS),
+export function ClientInfoForm() {
+  // const navigate = useNavigate()
+  const form = useForm<z.infer<typeof ciS>>({
+    resolver: zodResolver(ciS),
     defaultValues: {
       bvn: '',
       phone_number: '',
@@ -67,33 +70,33 @@ export function LoanForm() {
       place_of_worship_address: '',
       place_of_worship_landmark: '',
       // // another section
-      business_worth: '0',
+      business_worth: '',
       loan_purpose: '',
-      series_of_loan: '0',
-      previous_loan_amount: '0',
-      new_loan_amount: '0',
+      series_of_loan: '',
+      previous_loan_amount: '',
+      new_loan_amount: '',
       previous_loan_default: '',
       previous_loan_default_reason: '',
       // // another section
       running_loan: '',
       // disbursement_date
       // maturity_date
-      running_loan_amount: '0',
-      running_loan_duration: '0',
-      running_monthly_instalment_amount: '0',
-      running_days_overdue: '0',
-      running_no_instalments_paid: '0',
-      running_loan_balance: '0',
+      running_loan_amount: '',
+      running_loan_duration: '',
+      running_monthly_instalment_amount: '',
+      running_days_overdue: '',
+      running_no_instalments_paid: '',
+      running_loan_balance: '',
       // // another section
       is_client_guarantor: '',
       guarantor_branch: '',
       customer_name: '',
-      guaranteed_loan_amount: '0',
-      guarantor_loan_duration: '0',
-      guarantor_monthly_instalment_amount: '0',
-      guarantor_days_overdue: '0',
-      guarantor_instalments_paid: '0',
-      guarantor_loan_balance: '0',
+      guaranteed_loan_amount: '',
+      guarantor_loan_duration: '',
+      guarantor_monthly_instalment_amount: '',
+      guarantor_days_overdue: '',
+      guarantor_instalments_paid: '',
+      guarantor_loan_balance: '',
       // // another section
       // // TODO: auto populate this
       // loan_officer_name: 'Loan Officer',
@@ -108,8 +111,13 @@ export function LoanForm() {
     setZoneColor(getZoneColor(3, n))
   }
 
-  function onSubmit(values: z.infer<typeof lfS>) {
-    console.log(values)
+  const addMutation = useMutation({
+    mutationFn: createClientInfo,
+    onSuccess: () => {},
+  })
+
+  function onSubmit(values: z.infer<typeof ciS>) {
+    addMutation.mutate(values)
   }
 
   return (
@@ -988,7 +996,7 @@ export function LoanForm() {
             </SectionInputContainer>
           </FormSection>
         </div>
-        <Button type="submit" className="w-32">
+        <Button type="submit" className="w-32 self-end">
           Save
         </Button>
       </form>

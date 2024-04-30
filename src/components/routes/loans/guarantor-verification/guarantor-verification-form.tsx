@@ -11,7 +11,10 @@ import {
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { gvS } from './gvSchema'
-import { FormSection, SectionInputContainer } from '../new/loan-form'
+import {
+  FormSection,
+  SectionInputContainer,
+} from '../client-information/client-info'
 import { Input } from '@/components/ui/input'
 import {
   Popover,

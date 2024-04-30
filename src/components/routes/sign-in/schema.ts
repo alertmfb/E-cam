@@ -7,7 +7,7 @@ const formSchema = z.object({
     .max(60, { message: 'email too long' }),
   password: z
     .string()
-    .min(8, { message: 'passworn too short' })
+    .min(8, { message: 'password too short' })
     .max(22, { message: 'password too long' }),
 })
 

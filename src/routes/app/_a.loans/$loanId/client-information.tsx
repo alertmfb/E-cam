@@ -17,7 +17,7 @@ function CustomerInformation() {
         <ApplicationNav loanId={loanId} key="client-information" />
       </div>
       <main className="flex flex-col h-20 pt-3">
-        <ClientInfoForm />
+        <ClientInfoForm loanId={loanId} />
       </main>
     </div>
   )

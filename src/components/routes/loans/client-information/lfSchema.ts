@@ -53,46 +53,94 @@ const ciS = z.object({
   previous_loan_default_reason: z.string({
     required_error: 'this field is required',
   }),
-  running_loan: z.string({ required_error: 'this field is required' }),
-  running_loan_amount: z.string({ required_error: 'this field is required' }),
-  disbursement_date: z.date({ required_error: 'this field is required' }),
+  running_loan: z
+    .string({ required_error: 'this field is required' })
+    .optional()
+    .or(z.literal('')),
+  running_loan_amount: z
+    .string({ required_error: 'this field is required' })
+    .optional()
+    .or(z.literal('')),
+  disbursement_date: z.date().optional(),
   // TODO: make this exactly +x days from disbursement date
-  maturity_date: z.date({ required_error: 'this field is required' }),
-  running_loan_duration: z.string({
-    required_error: 'loan duration is required',
-    invalid_type_error: 'must ba a number',
-  }),
-  running_monthly_instalment_amount: z.string({
-    required_error: 'this field is required',
-    invalid_type_error: 'must be a number',
-  }),
-  running_days_overdue: z.string({ required_error: 'this field is required' }),
-  running_no_instalments_paid: z.string({
-    required_error: 'this field is required',
-  }),
-  running_loan_balance: z.string({ required_error: 'this field is required' }),
+  maturity_date: z.date().optional(),
+  running_loan_duration: z
+    .string({
+      required_error: 'loan duration is required',
+      invalid_type_error: 'must ba a number',
+    })
+    .optional()
+    .or(z.literal('')),
+  running_monthly_instalment_amount: z
+    .string({
+      required_error: 'this field is required',
+      invalid_type_error: 'must be a number',
+    })
+    .optional()
+    .or(z.literal('')),
+  running_days_overdue: z
+    .string({ required_error: 'this field is required' })
+    .optional()
+    .or(z.literal('')),
+  running_no_instalments_paid: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
+  running_loan_balance: z
+    .string({ required_error: 'this field is required' })
+    .optional()
+    .or(z.literal('')),
 
-  is_client_guarantor: z.string({ required_error: 'this field is required' }),
-  guarantor_branch: z.string({ required_error: 'branch required' }),
-  customer_name: z.string({ required_error: 'this field is required' }),
-  guaranteed_loan_amount: z.string({
-    required_error: 'this field is required',
-  }),
-  guarantor_loan_duration: z.string({
-    required_error: 'this field is required',
-  }),
-  guarantor_monthly_instalment_amount: z.string({
-    required_error: 'this field is required',
-  }),
-  guarantor_days_overdue: z.string({
-    required_error: 'this field is required',
-  }),
-  guarantor_instalments_paid: z.string({
-    required_error: 'this field is required',
-  }),
-  guarantor_loan_balance: z.string({
-    required_error: 'this field is required',
-  }),
+  is_client_guarantor: z
+    .string({ required_error: 'this field is required' })
+    .optional()
+    .or(z.literal('')),
+  guarantor_branch: z
+    .string({ required_error: 'branch required' })
+    .optional()
+    .or(z.literal('')),
+  customer_name: z
+    .string({ required_error: 'this field is required' })
+    .optional()
+    .or(z.literal('')),
+  guaranteed_loan_amount: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
+  guarantor_loan_duration: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
+  guarantor_monthly_instalment_amount: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
+  guarantor_days_overdue: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
+  guarantor_instalments_paid: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
+  guarantor_loan_balance: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .optional()
+    .or(z.literal('')),
 
   // loan_officer_name: z.string({ required_error: 'loan officer name required' }),
   // loan_officer_branch: z.string({

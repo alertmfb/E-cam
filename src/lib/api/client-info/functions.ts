@@ -2,7 +2,9 @@ import { ciS } from '@/components/routes/loans/client-information/lfSchema'
 import { Axios } from '@/lib/axios'
 import { z } from 'zod'
 
-type ClientInfoPayload = z.infer<typeof ciS>
+type ClientInfoPayload = z.infer<typeof ciS> & {
+  client_business_location: string
+}
 
 export const createClientInfo = async (payload: ClientInfoPayload) => {
   try {

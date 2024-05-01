@@ -39,10 +39,12 @@ import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { createClientInfo } from '@/lib/api/client-info/functions'
 
-// import { useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 
-export function ClientInfoForm() {
-  // const navigate = useNavigate()
+type LoanId = { loanId: string }
+
+export function ClientInfoForm(loanId: LoanId) {
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof ciS>>({
     resolver: zodResolver(ciS),
     defaultValues: {
@@ -104,20 +106,35 @@ export function ClientInfoForm() {
     },
   })
 
+  const [runningLoan, setRunningLoan] = useState('no')
+  const [clientGuarantor, setClientGuarantor] = useState('no')
+
+  const [businessLocation, setBusinessLocation] = useState('')
   const [zoneColor, setZoneColor] = useState('bg-white')
 
   function handleZonificationCheck(clientLocation: string) {
+    setBusinessLocation(clientLocation)
     const n = getZoneNumber(clientLocation)
     setZoneColor(getZoneColor(3, n))
   }
 
   const addMutation = useMutation({
     mutationFn: createClientInfo,
-    onSuccess: () => {},
+    onSuccess: () => {
+      navigate({
+        to: '/app/loans/$loanId/family-expenses',
+        params: { loanId: loanId.loanId },
+      })
+    },
   })
 
   function onSubmit(values: z.infer<typeof ciS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({
+      ...values,
+      client_business_location: businessLocation,
+      running_loan: runningLoan,
+      is_client_guarantor: clientGuarantor,
+    })
   }
 
   return (
@@ -534,7 +551,7 @@ export function ClientInfoForm() {
                   <FormItem>
                     <FormLabel>Series of Loan</FormLabel>
                     <FormControl>
-                      <Input required placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -547,7 +564,7 @@ export function ClientInfoForm() {
                   <FormItem>
                     <FormLabel>Previous Loan Amount</FormLabel>
                     <FormControl>
-                      <Input required placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -562,7 +579,7 @@ export function ClientInfoForm() {
                       New Loan Request/Amount
                     </FormLabel>
                     <FormControl>
-                      <Input required placeholder="" {...field} />
+                      <Input required placeholder="" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -614,333 +631,377 @@ export function ClientInfoForm() {
 
           <FormSection>
             <SectionInputContainer>
-              <FormField
-                control={form.control}
-                name="running_loan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Is the client on a running loan?</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="yes/no" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="no">no</SelectItem>
-                        <SelectItem value="yes">yes</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <FormItem className="w-fit">
+                <FormLabel>Is the client on a running loan?</FormLabel>
+                <select
+                  className="flex w-full h-10 items-center justify-between rounded-md border border-input px-2"
+                  onChange={(e) => setRunningLoan(e.target.value)}
+                >
+                  <option value="">yes/no</option>
+                  <option value="no">no</option>
+                  <option value="yes">yes</option>
+                </select>
+              </FormItem>
 
-              <FormField
-                control={form.control}
-                name="running_loan_amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Running Loan Amount</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="running_loan_duration"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Running Loan Duration</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="running_monthly_instalment_amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Monthly Installment Amount</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="running_days_overdue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Days Overdue</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="running_no_instalments_paid"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Instalments Paid</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="running_loan_balance"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Loan Balance</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="disbursement_date"
-                render={({ field }) => (
-                  <FormItem className="self-end">
-                    <FormLabel className="mr-3">Disbursement Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
+              {runningLoan !== 'no' && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="running_loan_amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Running Loan Amount</FormLabel>
                         <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
                         </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="running_loan_duration"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Running Loan Duration</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="running_monthly_instalment_amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Monthly Installment Amount</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="running_days_overdue"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Days Overdue</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="running_no_instalments_paid"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Number of Instalments Paid</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="running_loan_balance"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Loan Balance</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="disbursement_date"
+                    render={({ field }) => (
+                      <FormItem className="self-end">
+                        <FormLabel className="mr-3">
+                          Disbursement Date
+                        </FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-[240px] pl-3 text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, 'PPP')
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="maturity_date"
-                render={({ field }) => (
-                  <FormItem className="self-end">
-                    <FormLabel className="mr-3">Maturity Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="maturity_date"
+                    render={({ field }) => (
+                      <FormItem className="self-end">
+                        <FormLabel className="mr-3">Maturity Date</FormLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-[240px] pl-3 text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, 'PPP')
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
             </SectionInputContainer>
           </FormSection>
 
           <FormSection>
             <SectionInputContainer>
-              <FormField
-                control={form.control}
-                name="is_client_guarantor"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Is the client a guarantor?</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="yes/no" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="no">no</SelectItem>
-                        <SelectItem value="yes">yes</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guarantor_branch"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Branch</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="select" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {branchesArr.sort().map((branch, idx) => (
-                          <SelectItem key={idx} value={branch}>
-                            {branch}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="customer_name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name of the customer</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guaranteed_loan_amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Guaranteed Loan Amount</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" type="number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guarantor_loan_duration"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Duration</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" type="number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guarantor_monthly_instalment_amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Monthly Instalment Amount</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" type="number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guarantor_days_overdue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Days in Overdue</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" type="number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guarantor_instalments_paid"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Instalments Paid</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" type="number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="guarantor_loan_balance"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Loan Balance</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" type="number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <FormItem className="w-fit">
+                <FormLabel>Is the client a guarantor?</FormLabel>
+                <select
+                  className="flex w-full h-10 items-center justify-between rounded-md border border-input px-2"
+                  onChange={(e) => setClientGuarantor(e.target.value)}
+                >
+                  <option value="">yes/no</option>
+                  <option value="no">no</option>
+                  <option value="yes">yes</option>
+                </select>
+              </FormItem>
+              {clientGuarantor !== 'no' && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="guarantor_branch"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Branch</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {branchesArr.sort().map((branch, idx) => (
+                              <SelectItem key={idx} value={branch}>
+                                {branch}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="customer_name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name of the customer</FormLabel>
+                        <FormControl>
+                          <Input required placeholder="" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="guaranteed_loan_amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Guaranteed Loan Amount</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="guarantor_loan_duration"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Duration</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="guarantor_monthly_instalment_amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Monthly Instalment Amount</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="guarantor_days_overdue"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Number of Days in Overdue</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="guarantor_instalments_paid"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Number of Instalments Paid</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="guarantor_loan_balance"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Loan Balance</FormLabel>
+                        <FormControl>
+                          <Input
+                            required
+                            placeholder=""
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
             </SectionInputContainer>
           </FormSection>
 

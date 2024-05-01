@@ -25,7 +25,11 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useMutation } from '@tanstack/react-query'
-import { createFamilyReference } from '@/lib/api/references/functions'
+import {
+  createFamilyReference,
+  createCommercialReference,
+  createNeighbourhoodReference,
+} from '@/lib/api/references/functions'
 
 export function FamilyRefereceForm() {
   const form = useForm<z.infer<typeof rS>>({
@@ -46,9 +50,7 @@ export function FamilyRefereceForm() {
 
   const addMutation = useMutation({
     mutationFn: createFamilyReference,
-    onSuccess: () => {
-
-    }
+    onSuccess: () => {},
   })
 
   function onSubmit(values: z.infer<typeof rS>) {
@@ -249,8 +251,12 @@ export function CommercialReferenceForm() {
       reference_person_comment: '',
     },
   })
+  const addMutation = useMutation({
+    mutationFn: createCommercialReference,
+    onSuccess: () => {},
+  })
   function onSubmit(values: z.infer<typeof rS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
   return (
     <Form {...form}>
@@ -447,8 +453,12 @@ export function NeighbourhoodReferenceForm() {
       reference_person_comment: '',
     },
   })
+  const addMutation = useMutation({
+    mutationFn: createNeighbourhoodReference,
+    onSuccess: () => {},
+  })
   function onSubmit(values: z.infer<typeof rS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
   return (
     <Form {...form}>

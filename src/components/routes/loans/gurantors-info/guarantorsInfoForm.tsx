@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { createGuarantorInfo } from '@/lib/api/guarantor-info/functions'
+import { useMutation } from '@tanstack/react-query'
 
 export function GuarantorsInfoForm() {
   const form = useForm<z.infer<typeof giS>>({
@@ -62,8 +64,14 @@ export function GuarantorsInfoForm() {
       dsr: '',
     },
   })
+
+  const addMutation = useMutation({
+    mutationFn: createGuarantorInfo,
+    onSuccess: () => {},
+  })
+
   function onSubmit(values: z.infer<typeof giS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
   return (
     <Form {...form}>

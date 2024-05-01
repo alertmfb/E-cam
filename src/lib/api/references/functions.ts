@@ -18,3 +18,33 @@ export const createFamilyReference = async (payload: ReferencePayload) => {
     throw new Error(`response error: ${e}`)
   }
 }
+export const createCommercialReference = async (payload: ReferencePayload) => {
+  try {
+    const res = await Axios.post(
+      '/loan-application/reference/commercial',
+      payload,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
+export const createNeighbourhoodReference = async (
+  payload: ReferencePayload
+) => {
+  try {
+    const res = await Axios.post(
+      '/loan-application/reference/neighbourhood',
+      payload,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}

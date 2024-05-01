@@ -32,6 +32,22 @@ export function SigninForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormItem>
+          <FormLabel>Role</FormLabel>
+          <select
+            className="flex w-full h-10 items-center justify-between rounded-md border border-input px-2"
+            required
+          >
+            <option value="">select</option>
+            <option value="LO">Loan Officer</option>
+            <option value="RM">Relationship Manager</option>
+            <option value="BM">Branch Manager</option>
+            <option value="DCOO">DCOO</option>
+            <option value="MD">MD</option>
+            <option value="DR">Director</option>
+          </select>
+        </FormItem>
+
         <FormField
           control={form.control}
           name="email"
@@ -52,14 +68,14 @@ export function SigninForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="password" {...field} />
+                <Input placeholder="********" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button type="submit" className="w-full">
-          Submit
+          Continue
         </Button>
       </form>
     </Form>

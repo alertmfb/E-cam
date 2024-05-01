@@ -32,9 +32,13 @@ export function LoanApplicationForm() {
 
   const createMutation = useMutation({
     mutationFn: createLoanApplication,
-    onSuccess: () => {
+    onSuccess(data) {
       //TODO: toast success
-      navigate({ to: '/app/loans/incomplete' })
+      const id: number = data
+      navigate({
+        to: '/app/loans/$loanId/client-information',
+        params: { loanId: id.toString() },
+      })
     },
   })
 

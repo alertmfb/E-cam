@@ -1,6 +1,5 @@
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo.png'
-import { Button } from './ui/button'
 import { Avatar, AvatarFallback } from './ui/avatar'
 // import { CreditCard, BookMarked, Info } from 'lucide-react'
 
@@ -11,10 +10,14 @@ export function Header() {
         <Link to="/">
           <img src={logo} alt="" className="w-20" />
         </Link>
-        <menu className="flex items-center gap-3 font-semibold">
-          <Button asChild>
+        <menu className="flex items-center gap-6">
+          <span className="text-sm font-medium cursor-pointer">
+            Documentation
+          </span>
+          <span className="text-sm font-medium cursor-pointer">Feedback</span>
+          <span className="text-sm font-medium cursor-pointer">
             <Link to="/sign-in">Sign in</Link>
-          </Button>
+          </span>
         </menu>
       </nav>
     </header>

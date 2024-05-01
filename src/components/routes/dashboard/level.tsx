@@ -1,27 +1,134 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CardFooter } from '@/components/ui/card'
 import { Link } from '@tanstack/react-router'
-import { Banknote } from 'lucide-react'
+import { Activity, Banknote, ListTodo, PlusCircle } from 'lucide-react'
 
-export function LoansCard() {
+export function LoanOfficerUi() {
   return (
-    <Link to="/app/loans">
-      <Card className="cursor-pointer w-96 transform hover:scale-[1.02] ease-in-out duration-700 shadow-md">
-        <CardHeader>
-          <CardTitle className="flex p-1 items-center justify-between gap-2">
-            <span className="text-lg">Loans</span>
-            <Banknote className="mt-1" />
-          </CardTitle>
+    <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+      <Link to="/app/loans/new">
+        <Card
+          x-chunk="dashboard-01-chunk-0"
+          className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Create</CardTitle>
+            <PlusCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">+</div>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm">Create a loan application</p>
+          </CardFooter>
+        </Card>
+      </Link>
+
+      <Card
+        x-chunk="dashboard-01-chunk-0"
+        className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+      >
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Status</CardTitle>
+          <Banknote className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <p className="text-xl">
-            <b>120+</b>
-          </p>
+          <div className="text-2xl font-bold">0</div>
         </CardContent>
         <CardFooter>
-          <p className="text-sm">Create and view loan applications</p>
+          <p className="text-sm">Track applications</p>
         </CardFooter>
       </Card>
-    </Link>
+
+      <Card
+        x-chunk="dashboard-01-chunk-0"
+        className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+      >
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Rejected</CardTitle>
+          <Activity className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">0</div>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm">Rejected applications</p>
+        </CardFooter>
+      </Card>
+
+      <Link to="/app/loans/incomplete">
+        <Card
+          x-chunk="dashboard-01-chunk-0"
+          className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Incomplete</CardTitle>
+            <ListTodo className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1</div>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm">Loan applications not completed</p>
+          </CardFooter>
+        </Card>
+      </Link>
+    </div>
+  )
+}
+
+export function BranchManagerUi() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+      <Card
+        x-chunk="dashboard-01-chunk-0"
+        className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+      >
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Loan Applications
+          </CardTitle>
+          <Banknote className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">0</div>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm">Pending applications</p>
+        </CardFooter>
+      </Card>
+
+      <Card
+        x-chunk="dashboard-01-chunk-0"
+        className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+      >
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Rejected</CardTitle>
+          <Activity className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">0</div>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm">Rejected applications</p>
+        </CardFooter>
+      </Card>
+
+      <Card
+        x-chunk="dashboard-01-chunk-0"
+        className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+      >
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Approved</CardTitle>
+          <ListTodo className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">1</div>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm">Approved applications</p>
+        </CardFooter>
+      </Card>
+    </div>
   )
 }

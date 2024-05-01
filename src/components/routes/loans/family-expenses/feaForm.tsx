@@ -24,6 +24,11 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import {
+  createFamilyExpense,
+  createFamilyAsset,
+} from '@/lib/api/famiy-expenses/functions'
+import { useMutation } from '@tanstack/react-query'
 
 export function FamilyExpensesForm() {
   const form = useForm<z.infer<typeof feS>>({
@@ -35,8 +40,14 @@ export function FamilyExpensesForm() {
       amount: '',
     },
   })
+
+  const addMutation = useMutation({
+    mutationFn: createFamilyExpense,
+    onSuccess: () => {},
+  })
+
   function onSubmit(values: z.infer<typeof feS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
 
   return (
@@ -116,7 +127,7 @@ export function FamilyExpensesForm() {
                 )}
               />
             </SectionInputContainer>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-4">
               <Button type="submit" className="w-32 self-start">
                 Add
               </Button>
@@ -141,8 +152,13 @@ export function FamilyAssetsForm() {
       amount: '',
     },
   })
+  const addMutation = useMutation({
+    mutationFn: createFamilyAsset,
+    onSuccess: () => {},
+  })
+
   function onSubmit(values: z.infer<typeof faS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
   return (
     <Form {...form}>

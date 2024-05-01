@@ -24,6 +24,11 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { useMutation } from '@tanstack/react-query'
+import {
+  createBusinessAsset,
+  createBusinessExpense,
+} from '@/lib/api/business-expenses/functions'
 
 export function BusinessExpensesForm() {
   const form = useForm<z.infer<typeof beS>>({
@@ -35,8 +40,14 @@ export function BusinessExpensesForm() {
       amount: '',
     },
   })
+
+  const addMutation = useMutation({
+    mutationFn: createBusinessExpense,
+    onSuccess: () => {},
+  })
+
   function onSubmit(values: z.infer<typeof beS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
 
   return (
@@ -141,9 +152,16 @@ export function BusinessAssetsForm() {
       amount: '',
     },
   })
+
+  const addMutation = useMutation({
+    mutationFn: createBusinessAsset,
+    onSuccess: () => {},
+  })
+
   function onSubmit(values: z.infer<typeof baS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
+
   return (
     <Form {...form}>
       <form

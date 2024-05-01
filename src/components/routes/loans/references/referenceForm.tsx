@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { useMutation } from '@tanstack/react-query'
+import { createFamilyReference } from '@/lib/api/references/functions'
 
 export function FamilyRefereceForm() {
   const form = useForm<z.infer<typeof rS>>({
@@ -41,8 +43,16 @@ export function FamilyRefereceForm() {
       reference_person_comment: '',
     },
   })
+
+  const addMutation = useMutation({
+    mutationFn: createFamilyReference,
+    onSuccess: () => {
+
+    }
+  })
+
   function onSubmit(values: z.infer<typeof rS>) {
-    console.log(values)
+    addMutation.mutate(values)
   }
   return (
     <Form {...form}>

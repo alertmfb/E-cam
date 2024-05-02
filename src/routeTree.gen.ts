@@ -18,6 +18,9 @@ import { Route as IndexImport } from './routes/index'
 import { Route as AppAImport } from './routes/app/_a'
 import { Route as AppALoansIndexImport } from './routes/app/_a.loans/index'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
+import { Route as AppALoansStatusImport } from './routes/app/_a.loans/status'
+import { Route as AppALoansRejectedImport } from './routes/app/_a.loans/rejected'
+import { Route as AppALoansPendingImport } from './routes/app/_a.loans/pending'
 import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
 import { Route as AppALoansLoanIdIndexImport } from './routes/app/_a.loans/$loanId/index'
@@ -62,6 +65,21 @@ const AppALoansIndexRoute = AppALoansIndexImport.update({
 
 const AppADashboardIndexRoute = AppADashboardIndexImport.update({
   path: '/dashboard/',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansStatusRoute = AppALoansStatusImport.update({
+  path: '/loans/status',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansRejectedRoute = AppALoansRejectedImport.update({
+  path: '/loans/rejected',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansPendingRoute = AppALoansPendingImport.update({
+  path: '/loans/pending',
   getParentRoute: () => AppARoute,
 } as any)
 
@@ -149,6 +167,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansNewImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/pending': {
+      preLoaderRoute: typeof AppALoansPendingImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/rejected': {
+      preLoaderRoute: typeof AppALoansRejectedImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/status': {
+      preLoaderRoute: typeof AppALoansStatusImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/dashboard/': {
       preLoaderRoute: typeof AppADashboardIndexImport
       parentRoute: typeof AppAImport
@@ -201,6 +231,9 @@ export const routeTree = rootRoute.addChildren([
     AppARoute.addChildren([
       AppALoansIncompleteRoute,
       AppALoansNewRoute,
+      AppALoansPendingRoute,
+      AppALoansRejectedRoute,
+      AppALoansStatusRoute,
       AppADashboardIndexRoute,
       AppALoansIndexRoute,
       AppALoansLoanIdBusinessExpensesRoute,

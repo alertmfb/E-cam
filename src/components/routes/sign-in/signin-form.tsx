@@ -13,6 +13,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useNavigate } from '@tanstack/react-router'
+import { supabase } from '@/lib/sb'
 
 export function SigninForm() {
   const navigate = useNavigate()
@@ -24,9 +25,21 @@ export function SigninForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
-    navigate({ to: '/app/dashboard' })
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: '',
+      password: '',
+    })
+
+    if (data.session) {
+      navigate({ to: '/app/dashboard' })
+    }
+
+    if (error) {
+      throw new Error(`Authentication error: ${error}`)
+    }
   }
 
   return (

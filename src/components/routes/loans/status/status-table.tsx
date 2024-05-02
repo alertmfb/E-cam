@@ -2,17 +2,27 @@ import {
   Table,
   TableBody,
   TableCaption,
-  // TableCell,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-// import { useQuery } from '@tanstack/react-query'
-// import { getLoanApplicationsByBranch } from '@/lib/api/loan-application/functions'
-// import { Link } from '@tanstack/react-router'
-// import { Button } from '@/components/ui/button'
+import { useQuery } from '@tanstack/react-query'
+import { getLoanApplicationStatus } from '@/lib/api/loan-application/functions'
+import { Link } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
 
 export function ApplicationStatusTable() {
+  const applications = useQuery({
+    queryKey: ['application-status'],
+    queryFn: () =>
+      getLoanApplicationStatus({
+        branchId: '1',
+        userId: '1',
+        role: 'relationship_manager',
+      }),
+  })
+
   return (
     <Table>
       <TableCaption>
@@ -30,21 +40,22 @@ export function ApplicationStatusTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {/* {applications.data?.map((loan, idx) => (
-      <TableRow key={loan.id}>
-        <TableCell className="font-medium">{idx + 1}</TableCell>
-        <TableCell>{loan.customer_name}</TableCell>
-        <TableCell>{loan.loan_officer_name}</TableCell>
-        <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
-        <TableCell className="text-right">
-          <Button asChild size="sm">
-            <Link to="" params={{ loanId: loan.id }}>
-              view
-            </Link>
-          </Button>
-        </TableCell>
-      </TableRow>
-    ))} */}
+        {applications.data?.map((loan, idx) => (
+          <TableRow key={loan.id}>
+            <TableCell className="font-medium">{idx + 1}</TableCell>
+            <TableCell>{loan.customer_name}</TableCell>
+            <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
+            <TableCell>{loan.approval_amount ?? 0}</TableCell>
+            <TableCell>{loan.approval_comment ?? 'none'}</TableCell>
+            <TableCell className="text-right">
+              <Button asChild size="sm">
+                <Link to="" params={{ loanId: loan.id }}>
+                  view
+                </Link>
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   )

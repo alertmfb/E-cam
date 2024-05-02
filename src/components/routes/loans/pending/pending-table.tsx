@@ -16,7 +16,12 @@ export function PendingApplicationsTable() {
   // TODO: fetch branch id and user id from local storage
   const applications = useQuery({
     queryKey: ['pending-applications'],
-    queryFn: () => getLoanApplicationsByBranch({ branchId: '1', userId: '1' }),
+    queryFn: () =>
+      getLoanApplicationsByBranch({
+        branchId: '1',
+        userId: '1',
+        role: 'relationship_manager',
+      }),
   })
 
   return (

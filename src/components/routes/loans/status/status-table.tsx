@@ -45,11 +45,22 @@ export function ApplicationStatusTable() {
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
-            <TableCell>{loan.approval_amount ?? 0}</TableCell>
-            <TableCell>{loan.approval_comment ?? 'none'}</TableCell>
+            <TableCell>
+              {loan?.rm_approval_amount !== undefined
+                ? loan?.rm_approval_amount
+                : 'N0'}
+            </TableCell>
+            <TableCell>
+              {loan?.rm_approval_comment != undefined
+                ? loan?.rm_approval_comment?.slice(0, 36) + '...'
+                : 'none'}
+            </TableCell>
             <TableCell className="text-right">
               <Button asChild size="sm">
-                <Link to="" params={{ loanId: loan.id }}>
+                <Link
+                  to="/app/loans/status/$loanId"
+                  params={{ loanId: loan.id }}
+                >
                   view
                 </Link>
               </Button>

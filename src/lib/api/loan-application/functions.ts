@@ -19,8 +19,13 @@ type PendingApplication = Omit<LoanApplication, 'customer_bvn'> & {
 }
 
 type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
-  approval_amount: string
-  approval_comment: string
+  rm_approval_amount: string
+  rm_approval_comment: string
+}
+
+type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
+  rm_approval_amount: string
+  rm_approval_comment: string
 }
 
 type RejectedApplcation = PendingApplication & {
@@ -82,6 +87,26 @@ export const getLoanApplicationsByBranch = async ({
 }
 
 // TODO: change the return type for this function
+export const getLoanApplicationStatusById = async ({
+  branchId,
+  userId,
+  role,
+  loanId,
+}: QueryParams & { loanId: string }): Promise<
+  SingleStatusApplication[] | undefined
+> => {
+  try {
+    const res = await Axios.get(
+      `/loan-application/branch/${branchId}/status/${loanId}?role=${role}&userId=${userId}`,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
 export const getLoanApplicationStatus = async ({
   branchId,
   userId,

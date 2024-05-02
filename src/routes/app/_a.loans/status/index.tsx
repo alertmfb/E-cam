@@ -1,7 +1,7 @@
 import { ApplicationStatusTable } from '@/components/routes/loans/status/status-table'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/_a/loans/status')({
+export const Route = createFileRoute('/app/_a/loans/status/')({
   component: Status,
 })
 

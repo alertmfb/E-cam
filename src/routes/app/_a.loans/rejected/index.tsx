@@ -1,7 +1,7 @@
 import { RejectedApplicationsTable } from '@/components/routes/loans/rejected/rejected-table'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/_a/loans/rejected')({
+export const Route = createFileRoute('/app/_a/loans/rejected/')({
   component: Rejected,
 })
 

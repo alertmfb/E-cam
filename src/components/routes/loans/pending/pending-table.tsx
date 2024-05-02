@@ -45,7 +45,10 @@ export function PendingApplicationsTable() {
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
             <TableCell className="text-right">
               <Button asChild size="sm">
-                <Link to="" params={{ loanId: loan.id }}>
+                <Link
+                  to="/app/loans/pending/$loanId/client-info"
+                  params={{ loanId: loan.id }}
+                >
                   view
                 </Link>
               </Button>

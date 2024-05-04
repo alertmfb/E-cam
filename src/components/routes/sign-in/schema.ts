@@ -3,7 +3,7 @@ import { z } from 'zod'
 const formSchema = z.object({
   email: z
     .string()
-    .min(19, { message: 'not a valid email' })
+    .min(3, { message: 'not a valid email' })
     .max(60, { message: 'email too long' }),
   password: z
     .string()

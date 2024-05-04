@@ -1,7 +1,7 @@
 import { Header } from '@/components/header'
 import { SigninForm } from '@/components/routes/sign-in/signin-form'
 import { createFileRoute } from '@tanstack/react-router'
-import signin from '../assets/signin.svg'
+import signinB from '../assets/signinB.svg'
 
 export const Route = createFileRoute('/sign-in')({
   component: SignIn,
@@ -16,7 +16,7 @@ function SignIn() {
           Please Sign in to Continue
         </h1>
         <div className="w-full flex gap-6 items-center justify-around flex-wrap-reverse flex-1">
-          <img src={signin} alt="sign in img" />
+          <img src={signinB} alt="sign in img" />
           <div className="border p-12 rounded-lg shadow-lg">
             <SigninForm />
           </div>

@@ -19,7 +19,7 @@ function LandingPage() {
           </span>
           <br />
           <span className="text-2xl tracking-widest">
-            Credit Appraisial Memorandum
+            Credit Appraisial Memorandum Portal
           </span>
         </span>
         <div className="w-full flex items-center justify-around gap-8 flex-wrap flex-1">

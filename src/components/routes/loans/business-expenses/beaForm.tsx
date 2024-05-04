@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import {
   SectionInputContainer,
   FormSection,
-} from '../client-information/client-info'
+} from '../client-information/client-info-form'
 import { baS, beS } from './beSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'

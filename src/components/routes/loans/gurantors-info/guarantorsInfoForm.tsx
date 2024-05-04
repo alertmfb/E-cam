@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import {
   SectionInputContainer,
   FormSection,
-} from '../client-information/client-info'
+} from '../client-information/client-info-form'
 import { giS } from './giSchema'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,8 +26,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { createGuarantorInfo } from '@/lib/api/guarantor-info/functions'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 
 export function GuarantorsInfoForm() {
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof giS>>({
     resolver: zodResolver(giS),
     defaultValues: {
@@ -67,7 +69,9 @@ export function GuarantorsInfoForm() {
 
   const addMutation = useMutation({
     mutationFn: createGuarantorInfo,
-    onSuccess: () => {},
+    onSuccess: () => {
+      navigate({ to: '/app/loans/status' })
+    },
   })
 
   function onSubmit(values: z.infer<typeof giS>) {

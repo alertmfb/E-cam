@@ -1,10 +1,10 @@
 import { createContext, useState, useEffect } from 'react'
 import { supabase } from '@/lib/sb'
-
+import type { Role } from './functions'
 export interface Session {
   access_token: string
   email: string
-  role: 'loan_officer' | 'relationship_manager'
+  role: Role
 }
 
 export const AuthContext = createContext<Session | null>(null)
@@ -15,16 +15,15 @@ type Props = {
 
 async function checkRole() {
   if (typeof window !== 'undefined' && window.localStorage) {
-    !JSON.parse(localStorage.getItem('role')!)
-    // (await supabase.auth.signOut())
-    // console.log('Role not found')
+    !JSON.parse(localStorage.getItem('role')!) &&
+      (await supabase.auth.signOut())
   }
 }
 
 export const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(true)
-  // fetch the role from local storage and sign out if not found or null
 
+  // fetch the role from local storage and sign out if not found or null
   checkRole()
 
   useEffect(() => {

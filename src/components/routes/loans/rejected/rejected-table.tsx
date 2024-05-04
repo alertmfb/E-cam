@@ -9,23 +9,28 @@ import {
 } from '@/components/ui/table'
 import { useQuery } from '@tanstack/react-query'
 import { fetchRejectedApplications } from '@/lib/api/loan-application/functions'
+// import type { UserResponse } from '@/lib/auth/functions'
+import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
 export function RejectedApplicationsTable() {
+  const auth = useAuthSession()
+  const user = useAuthUser()
+
   const applications = useQuery({
     queryKey: ['application-status'],
     queryFn: () =>
       fetchRejectedApplications({
-        branchId: '1',
+        branchId: user.branch_id.toString(),
         userId: '1',
-        role: 'relationship_manager',
+        role: auth.role,
       }),
   })
   return (
     <Table>
       <TableCaption>
-        These are your rejected applications sent back to the loan officer
+        These are your loan applications rejected from other officials
       </TableCaption>
       <TableHeader>
         <TableRow>
@@ -33,7 +38,7 @@ export function RejectedApplicationsTable() {
           <TableHead>Customer Name</TableHead>
           <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
-          <TableHead>Rejection Comment</TableHead>
+          <TableHead className="text-right">Action</TableHead>
           {/* <TableHead className="text-right">Actions</TableHead> */}
         </TableRow>
       </TableHeader>
@@ -44,10 +49,12 @@ export function RejectedApplicationsTable() {
             <TableCell>{loan.customer_name}</TableCell>
             <TableCell>{loan.loan_officer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
-            <TableCell>{loan.rejection_comment ?? 'none'}</TableCell>
             <TableCell className="text-right">
-              <Button asChild size="sm">
-                <Link to="" params={{ loanId: loan.id }}>
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/rejected/$loanId"
+                  params={{ loanId: loan.id }}
+                >
                   view
                 </Link>
               </Button>

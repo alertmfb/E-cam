@@ -10,11 +10,12 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 
 import { useQuery } from '@tanstack/react-query'
-import { getLoanApplicationStatusById } from '@/lib/api/loan-application/functions'
+import { getRejectedApplicationById } from '@/lib/api/loan-application/functions'
 import { useAuthUser } from '@/lib/auth/hooks'
 import type { Role } from '@/lib/auth/functions'
+import { Button } from '@/components/ui/button'
 
-export function StatusData({ loanId }: { loanId: string }) {
+export function RejectedData({ loanId }: { loanId: string }) {
   const user = useAuthUser()
 
   let role: Role
@@ -23,9 +24,9 @@ export function StatusData({ loanId }: { loanId: string }) {
   }
 
   const { data: loan } = useQuery({
-    queryKey: ['single-status'],
+    queryKey: ['rejected-data'],
     queryFn: () =>
-      getLoanApplicationStatusById({
+      getRejectedApplicationById({
         branchId: user.branch_id.toString(),
         loanId: loanId,
         role: role,
@@ -42,21 +43,23 @@ export function StatusData({ loanId }: { loanId: string }) {
         </CardHeader>
         <CardContent>
           <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start gap-3 justify-between">
-              <Badge className="bg-blue-700">pending</Badge>
-            </div>
             <div className="w-full flex items-start justify-between gap-3">
               <span className="text-sm font-semibold">
-                Approved Amount to be processed:
+                <Badge className={loan?.rm_status === 'r' ? 'bg-red-600' : ''}>
+                  pending
+                </Badge>
               </span>
-              <p>N0</p>
+            </div>
+            <div className="w-full flex items-start justify-between gap-3">
+              {/* <Label>Customer name:</Label>
+              <p>{loan?.customer_name}</p> */}
             </div>
           </form>
         </CardContent>
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
-            <Label>Approval Comment:</Label>
-            <p></p>
+            <Label>Rejection Reason:</Label>
+            <p>nil</p>
           </div>
         </CardFooter>
       </Card>
@@ -68,37 +71,31 @@ export function StatusData({ loanId }: { loanId: string }) {
         </CardHeader>
         <CardContent>
           <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start gap-3 justify-between">
-              <Badge
-                className={
-                  loan?.rm_status === 'approved'
-                    ? 'bg-green-700'
-                    : 'bg-blue-600'
-                }
-              >
-                {loan?.rm_status}
-              </Badge>
-            </div>
             <div className="w-full flex items-start justify-between gap-3">
               <span className="text-sm font-semibold">
-                Approved Amount to be processed:
+                <Badge
+                  className={loan?.rm_status === 'rejected' ? 'bg-red-600' : ''}
+                >
+                  {loan?.rm_status}
+                </Badge>
               </span>
-              <p>
-                N
-                {new Intl.NumberFormat().format(
-                  Number(loan?.rm_approval_amount)
-                )}
-              </p>
+            </div>
+            <div className="w-full flex items-start justify-between gap-3">
+              {/* <Label>Customer name</Label>
+              <p>{loan?.customer_name}</p> */}
             </div>
           </form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="w-full justify-start">
           <div className="flex flex-col items-start gap-3">
-            <Label>Approval Comment:</Label>
-            <p>{loan?.rm_approval_comment}</p>
+            <Label>Rejection Reason:</Label>
+            <p>{loan?.rm_rejection_comment ?? 'nil'}</p>
           </div>
         </CardFooter>
       </Card>
+      <div className="w-full flex justify-end pt-4">
+        <Button className="">Edit Application</Button>
+      </div>
     </div>
   )
 }

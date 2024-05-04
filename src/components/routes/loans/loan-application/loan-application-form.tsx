@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import {
   FormSection,
   SectionInputContainer,
-} from '../client-information/client-info'
+} from '../client-information/client-info-form'
 import { Button } from '@/components/ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { createLoanApplication } from '@/lib/api/loan-application/functions'

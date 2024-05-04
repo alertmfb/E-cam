@@ -122,18 +122,20 @@ export function ClientInfoForm(loanId: LoanId) {
     mutationFn: createClientInfo,
     onSuccess: () => {
       navigate({
-        to: '/app/loans/$loanId/family-expenses',
-        params: { loanId: loanId.loanId },
+        to: '/app/loans/incomplete',
       })
     },
   })
 
   function onSubmit(values: z.infer<typeof ciS>) {
     addMutation.mutate({
-      ...values,
-      client_business_location: businessLocation,
-      running_loan: runningLoan,
-      is_client_guarantor: clientGuarantor,
+      payload: {
+        ...values,
+        client_business_location: businessLocation,
+        running_loan: runningLoan,
+        is_client_guarantor: clientGuarantor,
+      },
+      loanId: loanId.loanId,
     })
   }
 

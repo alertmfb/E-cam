@@ -16,20 +16,20 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SignInImport } from './routes/sign-in'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppAImport } from './routes/app/_a'
-import { Route as AppALoansIndexImport } from './routes/app/_a.loans/index'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
 import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
 import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/status/index'
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
-import { Route as AppALoansLoanIdIndexImport } from './routes/app/_a.loans/$loanId/index'
 import { Route as AppALoansStatusLoanIdImport } from './routes/app/_a.loans/status/$loanId'
+import { Route as AppALoansRejectedLoanIdImport } from './routes/app/_a.loans/rejected/$loanId'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
 import { Route as AppALoansLoanIdGuarantorVerificationImport } from './routes/app/_a.loans/$loanId/guarantor-verification'
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
+import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 import { Route as AppALoansPendingLoanIdClientInfoImport } from './routes/app/_a.loans/pending/$loanId/client-info'
@@ -58,11 +58,6 @@ const IndexRoute = IndexImport.update({
 const AppARoute = AppAImport.update({
   id: '/_a',
   getParentRoute: () => AppRoute,
-} as any)
-
-const AppALoansIndexRoute = AppALoansIndexImport.update({
-  path: '/loans/',
-  getParentRoute: () => AppARoute,
 } as any)
 
 const AppADashboardIndexRoute = AppADashboardIndexImport.update({
@@ -95,13 +90,13 @@ const AppALoansPendingIndexRoute = AppALoansPendingIndexImport.update({
   getParentRoute: () => AppARoute,
 } as any)
 
-const AppALoansLoanIdIndexRoute = AppALoansLoanIdIndexImport.update({
-  path: '/loans/$loanId/',
+const AppALoansStatusLoanIdRoute = AppALoansStatusLoanIdImport.update({
+  path: '/loans/status/$loanId',
   getParentRoute: () => AppARoute,
 } as any)
 
-const AppALoansStatusLoanIdRoute = AppALoansStatusLoanIdImport.update({
-  path: '/loans/status/$loanId',
+const AppALoansRejectedLoanIdRoute = AppALoansRejectedLoanIdImport.update({
+  path: '/loans/rejected/$loanId',
   getParentRoute: () => AppARoute,
 } as any)
 
@@ -133,6 +128,11 @@ const AppALoansLoanIdFamilyExpensesRoute =
     path: '/loans/$loanId/family-expenses',
     getParentRoute: () => AppARoute,
   } as any)
+
+const AppALoansLoanIdDataRoute = AppALoansLoanIdDataImport.update({
+  path: '/loans/$loanId/data',
+  getParentRoute: () => AppARoute,
+} as any)
 
 const AppALoansLoanIdClientInformationRoute =
   AppALoansLoanIdClientInformationImport.update({
@@ -184,16 +184,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppADashboardIndexImport
       parentRoute: typeof AppAImport
     }
-    '/app/_a/loans/': {
-      preLoaderRoute: typeof AppALoansIndexImport
-      parentRoute: typeof AppAImport
-    }
     '/app/_a/loans/$loanId/business-expenses': {
       preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/$loanId/client-information': {
       preLoaderRoute: typeof AppALoansLoanIdClientInformationImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/data': {
+      preLoaderRoute: typeof AppALoansLoanIdDataImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/$loanId/family-expenses': {
@@ -216,12 +216,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdReferenceImport
       parentRoute: typeof AppAImport
     }
-    '/app/_a/loans/status/$loanId': {
-      preLoaderRoute: typeof AppALoansStatusLoanIdImport
+    '/app/_a/loans/rejected/$loanId': {
+      preLoaderRoute: typeof AppALoansRejectedLoanIdImport
       parentRoute: typeof AppAImport
     }
-    '/app/_a/loans/$loanId/': {
-      preLoaderRoute: typeof AppALoansLoanIdIndexImport
+    '/app/_a/loans/status/$loanId': {
+      preLoaderRoute: typeof AppALoansStatusLoanIdImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/pending/': {
@@ -253,16 +253,16 @@ export const routeTree = rootRoute.addChildren([
       AppALoansIncompleteRoute,
       AppALoansNewRoute,
       AppADashboardIndexRoute,
-      AppALoansIndexRoute,
       AppALoansLoanIdBusinessExpensesRoute,
       AppALoansLoanIdClientInformationRoute,
+      AppALoansLoanIdDataRoute,
       AppALoansLoanIdFamilyExpensesRoute,
       AppALoansLoanIdGuarantorVerificationRoute,
       AppALoansLoanIdGuarantorsInfoRoute,
       AppALoansLoanIdPictoralEvidenceRoute,
       AppALoansLoanIdReferenceRoute,
+      AppALoansRejectedLoanIdRoute,
       AppALoansStatusLoanIdRoute,
-      AppALoansLoanIdIndexRoute,
       AppALoansPendingIndexRoute,
       AppALoansRejectedIndexRoute,
       AppALoansStatusIndexRoute,

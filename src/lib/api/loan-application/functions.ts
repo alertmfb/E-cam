@@ -24,13 +24,16 @@ type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
 }
 
 type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
+  rm_status: string
   rm_approval_amount: string
   rm_approval_comment: string
 }
 
 type RejectedApplcation = PendingApplication & {
   loan_amount: string
-  rejection_comment: string
+  rm_status: string
+  customer_name: string
+  rm_rejection_comment: string
 }
 
 // Loan Officer Endpoints
@@ -49,11 +52,13 @@ export const createLoanApplication = async (
   }
 }
 
-export const fetchLoanApplications = async (): Promise<
-  LoanApplication[] | undefined
-> => {
+export const getIncompleteApplications = async ({
+  id,
+}: {
+  id: string
+}): Promise<LoanApplication[] | undefined> => {
   try {
-    const res = await Axios.get('/loan-application/all', {
+    const res = await Axios.get(`/loan-application/incomplete?userId=${id}`, {
       withCredentials: true,
     })
     return res.data
@@ -92,9 +97,7 @@ export const getLoanApplicationStatusById = async ({
   userId,
   role,
   loanId,
-}: QueryParams & { loanId: string }): Promise<
-  SingleStatusApplication[] | undefined
-> => {
+}: QueryParams & { loanId: string }): Promise<SingleStatusApplication> => {
   try {
     const res = await Axios.get(
       `/loan-application/branch/${branchId}/status/${loanId}?role=${role}&userId=${userId}`,
@@ -134,6 +137,24 @@ export const fetchRejectedApplications = async ({
   try {
     const res = await Axios.get(
       `/loan-application/branch/${branchId}/rejected?role=${role}&userId=${userId}`,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
+export const getRejectedApplicationById = async ({
+  branchId,
+  userId,
+  role,
+  loanId,
+}: QueryParams & { loanId: string }): Promise<RejectedApplcation> => {
+  try {
+    const res = await Axios.get(
+      `/loan-application/rejected/${loanId}?role=${role}&userId=${userId}&branchId=${branchId}`,
       {
         withCredentials: true,
       }

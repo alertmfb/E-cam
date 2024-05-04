@@ -1,8 +1,6 @@
 import { useContext } from 'react'
-// import { supabase } from '@/lib/sb'
 import { AuthContext } from './auth-provider'
-import { useNavigate } from '@tanstack/react-router'
-// import type { Session } from '@/lib/auth/auth-provider'
+import { UserResponse } from './functions'
 
 export function useAuthSession() {
   const context = useContext(AuthContext)
@@ -12,7 +10,10 @@ export function useAuthSession() {
   return context
 }
 
-export function RedirectHome() {
-  const navigate = useNavigate()
-  return navigate({ to: '/sign-in' })
+export function useAuthUser() {
+  let user
+  if (typeof window !== 'undefined' && window.localStorage) {
+    user = JSON.parse(localStorage.getItem('user')!) as UserResponse
+  }
+  return user!
 }

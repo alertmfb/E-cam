@@ -14,7 +14,7 @@ import { peS } from './peSchema'
 import {
   FormSection,
   SectionInputContainer,
-} from '../client-information/client-info'
+} from '../client-information/client-info-form'
 import { Input } from '@/components/ui/input'
 import {
   Popover,

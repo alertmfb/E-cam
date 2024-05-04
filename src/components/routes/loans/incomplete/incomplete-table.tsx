@@ -9,12 +9,20 @@ import {
 } from '@/components/ui/table'
 import { Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { fetchLoanApplications } from '@/lib/api/loan-application/functions'
+import { getIncompleteApplications } from '@/lib/api/loan-application/functions'
+import { Button } from '@/components/ui/button'
+import type { UserResponse } from '@/lib/auth/functions'
 
 export function IncompleteTable() {
+  let user: UserResponse
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    user = JSON.parse(localStorage.getItem('user')!) as UserResponse
+  }
+
   const { data: loanApp } = useQuery({
     queryKey: ['incomplete-loan-applications'],
-    queryFn: fetchLoanApplications,
+    queryFn: () => getIncompleteApplications({ id: user?.id.toString() }),
   })
   return (
     //TODO: add delete button and confirmation maodal to the table
@@ -40,12 +48,14 @@ export function IncompleteTable() {
             <TableCell>{loan.customer_bvn}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
             <TableCell className="text-right">
-              <Link
-                to="/app/loans/$loanId/client-information"
-                params={{ loanId: loan.id }}
-              >
-                view
-              </Link>
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/$loanId/family-expenses"
+                  params={{ loanId: loan.id }}
+                >
+                  complete
+                </Link>
+              </Button>
             </TableCell>
           </TableRow>
         ))}

@@ -25,14 +25,18 @@ export function SigninForm() {
     },
   })
 
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.removeItem('user')
+  }
+
+  function handleRoleChange(role: string) {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('role', JSON.stringify(role))
+    }
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: '',
-      password: '',
-    })
-
+    const { data, error } = await supabase.auth.signInWithPassword(values)
     if (data.session) {
       navigate({ to: '/app/dashboard' })
     }
@@ -49,12 +53,13 @@ export function SigninForm() {
           <FormLabel>Role</FormLabel>
           <select
             className="flex w-full h-10 items-center justify-between rounded-md border border-input px-2"
+            onChange={(e) => handleRoleChange(e.target.value)}
             required
           >
             <option value="">select</option>
-            <option value="LO">Loan Officer</option>
-            <option value="RM">Relationship Manager</option>
-            <option value="BM">Branch Manager</option>
+            <option value="loan_officer">Loan Officer</option>
+            <option value="relationship_manager">Relationship Manager</option>
+            <option value="branch_manager">Branch Manager</option>
             <option value="DCOO">DCOO</option>
             <option value="MD">MD</option>
             <option value="DR">Director</option>
@@ -81,13 +86,16 @@ export function SigninForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="********" {...field} />
+                <Input placeholder="********" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full bg-[#6C63FF] hover:bg-[#6C63FF]/90"
+        >
           Continue
         </Button>
       </form>

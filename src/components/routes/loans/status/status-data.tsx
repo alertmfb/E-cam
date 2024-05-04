@@ -43,7 +43,7 @@ export function StatusData({ loanId }: { loanId: string }) {
         <CardContent>
           <form className="w-full flex items-start flex-col gap-6">
             <div className="w-full flex items-start gap-3 justify-between">
-              <Badge className="bg-blue-700">pending</Badge>
+              <Badge className="bg-blue-600">pending</Badge>
             </div>
             <div className="w-full flex items-start justify-between gap-3">
               <span className="text-sm font-semibold">
@@ -73,7 +73,9 @@ export function StatusData({ loanId }: { loanId: string }) {
                 className={
                   loan?.rm_status === 'approved'
                     ? 'bg-green-700'
-                    : 'bg-blue-600'
+                    : loan?.rm_status === 'rejected'
+                      ? 'bg-red-600'
+                      : 'bg-blue-600'
                 }
               >
                 {loan?.rm_status}

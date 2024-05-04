@@ -26,10 +26,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { createGuarantorInfo } from '@/lib/api/guarantor-info/functions'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { useAuthUser } from '@/lib/auth/hooks'
 
-export function GuarantorsInfoForm() {
-  const navigate = useNavigate()
+export function GuarantorsInfoForm(loanId: { loanId: string }) {
+  const user = useAuthUser()
   const form = useForm<z.infer<typeof giS>>({
     resolver: zodResolver(giS),
     defaultValues: {
@@ -70,12 +70,17 @@ export function GuarantorsInfoForm() {
   const addMutation = useMutation({
     mutationFn: createGuarantorInfo,
     onSuccess: () => {
-      navigate({ to: '/app/loans/status' })
+      alert('gaurantor added')
+      form.reset()
     },
   })
 
   function onSubmit(values: z.infer<typeof giS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({
+      payload: values,
+      branchId: user.branch_id.toString(),
+      loanId: loanId.loanId,
+    })
   }
   return (
     <Form {...form}>

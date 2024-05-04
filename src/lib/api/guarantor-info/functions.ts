@@ -9,10 +9,20 @@ type FetchParams = {
   role: string
 }
 
-export const createGuarantorInfo = async (payload: GuarantorInfoPayload) => {
+type GuarantorData = {
+  payload: GuarantorInfoPayload
+  branchId: string
+  loanId: string
+}
+
+export const createGuarantorInfo = async ({
+  payload,
+  branchId,
+  loanId,
+}: GuarantorData) => {
   try {
     const res = await Axios.post(
-      '/loan-application/guarantor-info/create',
+      `/loan-application/guarantor-info/create?branchId=${branchId}&loanId=${loanId}`,
       payload,
       {
         withCredentials: true,

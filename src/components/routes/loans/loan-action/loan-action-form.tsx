@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-import { loanActionSchema } from './laSchema'
+import { loanActionSchema, loanRejectionSchema } from './laSchema'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -19,9 +19,25 @@ import {
   SectionInputContainer,
 } from '../client-information/client-info-form'
 import { useMutation } from '@tanstack/react-query'
-import { approveLoanApplication } from './functions'
+import {
+  approveLoanApplication,
+  rejectLoanApplication,
+} from '../../../../lib/api/loan-action/functions'
+import { useAuthUser } from '@/lib/auth/hooks'
+import { useNavigate } from '@tanstack/react-router'
+
+type Role = 'loan_officer' | 'relationship_manager'
 
 export function LoanActionForm(loanId: { loanId: string }) {
+  const user = useAuthUser()
+  const navigate = useNavigate()
+
+  let role: Role
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    role = JSON.parse(localStorage.getItem('role')!) as Role
+  }
+
   const form = useForm<z.infer<typeof loanActionSchema>>({
     resolver: zodResolver(loanActionSchema),
     defaultValues: {
@@ -32,13 +48,25 @@ export function LoanActionForm(loanId: { loanId: string }) {
 
   const addMutation = useMutation({
     mutationFn: approveLoanApplication,
-    onSuccess: () => {},
+    onSuccess: () => {
+      alert('Approved!')
+      form.reset()
+      navigate({
+        to: '/app/loans/status/$loanId',
+        params: { loanId: loanId.loanId },
+      })
+    },
   })
 
   function onSubmit(values: z.infer<typeof loanActionSchema>) {
     addMutation.mutate({
       payload: values,
-      params: { loanId: loanId.loanId, branchId: '', role: '', userId: '' },
+      params: {
+        loanId: loanId.loanId,
+        branchId: user.branch_id.toString(),
+        role: role,
+        userId: user.id.toString(),
+      },
     })
   }
 
@@ -50,6 +78,7 @@ export function LoanActionForm(loanId: { loanId: string }) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-6 pb-4 drop-shadow-md"
       >
+        Approval Form
         <div className="flex flex-col items-center justify-start gap-10 border p-4 rounded-lg">
           <FormSection>
             <SectionInputContainer>
@@ -58,9 +87,9 @@ export function LoanActionForm(loanId: { loanId: string }) {
                 name="approval_amount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Item</FormLabel>
+                    <FormLabel>Approval Amount</FormLabel>
                     <FormControl>
-                      <Input placeholder="" type="number" {...field} />
+                      <Input placeholder="N000,000" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -71,7 +100,7 @@ export function LoanActionForm(loanId: { loanId: string }) {
                 name="approval_comment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Details</FormLabel>
+                    <FormLabel>Comment</FormLabel>
                     <FormControl>
                       <Textarea
                         className="w-96"
@@ -84,7 +113,88 @@ export function LoanActionForm(loanId: { loanId: string }) {
                 )}
               />
             </SectionInputContainer>
-            <Button type="submit">Process</Button>
+            <Button type="submit" className="w-fit">
+              Process
+            </Button>
+          </FormSection>
+        </div>
+      </form>
+    </Form>
+  )
+}
+
+export function LoanRejectionForm(loanId: { loanId: string }) {
+  const user = useAuthUser()
+  const navigate = useNavigate()
+
+  let role: Role
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    role = JSON.parse(localStorage.getItem('role')!) as Role
+  }
+
+  const form = useForm<z.infer<typeof loanRejectionSchema>>({
+    resolver: zodResolver(loanRejectionSchema),
+    defaultValues: {
+      rejection_comment: '',
+    },
+  })
+
+  const rejectMutation = useMutation({
+    mutationFn: rejectLoanApplication,
+    onSuccess: () => {
+      alert('Rejected!')
+      form.reset()
+      navigate({
+        to: '/app/loans/status/$loanId',
+        params: { loanId: loanId.loanId },
+      })
+    },
+  })
+
+  function onSubmit(values: z.infer<typeof loanRejectionSchema>) {
+    rejectMutation.mutate({
+      payload: values,
+      params: {
+        loanId: loanId.loanId,
+        branchId: user.branch_id.toString(),
+        role: role,
+        userId: user.id.toString(),
+      },
+    })
+  }
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6 pb-4 drop-shadow-md"
+      >
+        Rejection Form
+        <div className="flex flex-col items-center justify-start gap-10 border p-4 rounded-lg">
+          <FormSection>
+            <SectionInputContainer>
+              <FormField
+                control={form.control}
+                name="rejection_comment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rejection Reasons/comments</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="w-96"
+                        placeholder="details"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </SectionInputContainer>
+            <Button type="submit" className="w-fit" variant="destructive">
+              Reject
+            </Button>
           </FormSection>
         </div>
       </form>

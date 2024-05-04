@@ -1,5 +1,5 @@
 import { AppHeader } from '@/components/header'
-import { AuthProvider, Session } from '@/lib/auth/auth-provider'
+import { AuthProvider } from '@/lib/auth/auth-provider'
 import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 import { Outlet, createFileRoute, Navigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
@@ -10,12 +10,12 @@ export const Route = createFileRoute('/app/_a')({
 })
 
 function Layout() {
-  // const auth = useAuthSession()
-  const auth: Session = {
-    email: 'name@gmail.com',
-    access_token: 'laal',
-    role: 'relationship_manager',
-  }
+  const auth = useAuthSession()
+  // const auth: Session = {
+  //   email: 'name@gmail.com',
+  //   access_token: 'laal',
+  //   role: 'relationship_manager',
+  // }
 
   // fetch user from LocalStorage first, this is to prevent a database call when user refreshes
   const user = useAuthUser()

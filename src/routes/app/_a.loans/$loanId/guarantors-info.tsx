@@ -16,7 +16,7 @@ function GuarantorInfo() {
         <ApplicationNavB loanId={loanId} key="reference" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
-        <GuarantorsInfoForm />
+        <GuarantorsInfoForm loanId={loanId} />
       </main>
     </div>
   )

@@ -5,4 +5,8 @@ const loanActionSchema = z.object({
   approval_comment: z.string({ required_error: 'this field is required' }),
 })
 
-export { loanActionSchema }
+const loanRejectionSchema = z.object({
+  rejection_comment: z.string({ required_error: 'this field is required' }),
+})
+
+export { loanActionSchema, loanRejectionSchema }

@@ -1,6 +1,12 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
+import {
+  LoanActionForm,
+  LoanRejectionForm,
+} from '@/components/routes/loans/loan-action/loan-action-form'
 import { createFileRoute } from '@tanstack/react-router'
+
+type Role = 'loan_officer' | 'relationship_manager'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
   component: LoanData,
@@ -14,7 +20,27 @@ function LoanData() {
       <main className="flex flex-col pt-3 gap-6">
         <ClientInfoData LoanId={loanId.loanId} />
         <GuarantorInfoData LoanId={loanId.loanId} />
+        <Actions loanId={loanId.loanId} />
       </main>
     </div>
+  )
+}
+
+function Actions(loanId: { loanId: string }) {
+  let role: Role
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    role = JSON.parse(localStorage.getItem('role')!) as Role
+  }
+
+  if (role! === 'loan_officer') {
+    return <div></div>
+  }
+
+  return (
+    <>
+      <LoanActionForm loanId={loanId.loanId} />
+      <LoanRejectionForm loanId={loanId.loanId} />
+    </>
   )
 }

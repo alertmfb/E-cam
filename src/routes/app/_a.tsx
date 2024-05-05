@@ -17,6 +17,8 @@ function Layout() {
   //   role: 'branch_manager',
   // }
 
+  // check for if commit working
+
   // fetch user from LocalStorage first, this is to prevent a database call when user refreshes
   const user = useAuthUser()
 

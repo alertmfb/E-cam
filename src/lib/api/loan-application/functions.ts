@@ -24,6 +24,9 @@ type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
 }
 
 type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
+  bm_status: string
+  bm_approval_amount: string
+  bm_approval_comment: string
   rm_status: string
   rm_approval_amount: string
   rm_approval_comment: string
@@ -31,20 +34,34 @@ type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
 
 type RejectedApplcation = PendingApplication & {
   loan_amount: string
-  rm_status: string
   customer_name: string
+  bm_status: string
+  bm_rejection_comment: string
+  rm_status: string
   rm_rejection_comment: string
+}
+
+type CreateApplicationData = {
+  payload: LoanApplicationPayload
+  userId: string
+  branchId: string
 }
 
 // Loan Officer Endpoints
 
-export const createLoanApplication = async (
-  payload: LoanApplicationPayload
-) => {
+export const createLoanApplication = async ({
+  payload,
+  userId,
+  branchId,
+}: CreateApplicationData) => {
   try {
-    const res = await Axios.post('/loan-application/create', payload, {
-      withCredentials: true,
-    })
+    const res = await Axios.post(
+      `/loan-application/create?userId=${userId}&branchId=${branchId}`,
+      payload,
+      {
+        withCredentials: true,
+      }
+    )
 
     return res.data
   } catch (e) {

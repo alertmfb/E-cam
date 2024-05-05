@@ -30,7 +30,7 @@ export const approveLoanApplication = async ({
 }: MutationData) => {
   try {
     const res = await Axios.post(
-      `/loan-application/${params.loanId}/approve?role=${params.role}&branchId=${params.branchId}`,
+      `/loan-application/${params.loanId}/approve?role=${params.role}&branchId=${params.branchId}&loanId=${params.loanId}`,
       payload,
       {
         withCredentials: true,

@@ -23,14 +23,18 @@ export function RejectedApplicationsTable() {
     queryFn: () =>
       fetchRejectedApplications({
         branchId: user.branch_id.toString(),
-        userId: '1',
+        userId: user.id.toString(),
         role: auth.role,
       }),
   })
   return (
     <Table>
       <TableCaption>
-        These are your loan applications rejected from other officials
+        {auth.role === 'loan_officer'
+          ? 'These are your loan applications rejected from other officials'
+          : auth.role === 'relationship_manager'
+            ? 'The are the rejected loan applications for your branch'
+            : ''}
       </TableCaption>
       <TableHeader>
         <TableRow>

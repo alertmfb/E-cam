@@ -31,7 +31,7 @@ import {
   createNeighbourhoodReference,
 } from '@/lib/api/references/functions'
 
-export function FamilyRefereceForm() {
+export function FamilyRefereceForm(loanId: { loanId: string }) {
   const form = useForm<z.infer<typeof rS>>({
     resolver: zodResolver(rS),
     defaultValues: {
@@ -54,7 +54,7 @@ export function FamilyRefereceForm() {
   })
 
   function onSubmit(values: z.infer<typeof rS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({ payload: values, loanId: loanId.loanId })
   }
   return (
     <Form {...form}>
@@ -235,7 +235,7 @@ export function FamilyRefereceForm() {
   )
 }
 
-export function CommercialReferenceForm() {
+export function CommercialReferenceForm(loanId: { loanId: string }) {
   const form = useForm<z.infer<typeof rS>>({
     resolver: zodResolver(rS),
     defaultValues: {
@@ -256,7 +256,7 @@ export function CommercialReferenceForm() {
     onSuccess: () => {},
   })
   function onSubmit(values: z.infer<typeof rS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({ payload: values, loanId: loanId.loanId })
   }
   return (
     <Form {...form}>
@@ -437,7 +437,7 @@ export function CommercialReferenceForm() {
   )
 }
 
-export function NeighbourhoodReferenceForm() {
+export function NeighbourhoodReferenceForm(loanId: { loanId: string }) {
   const form = useForm<z.infer<typeof rS>>({
     resolver: zodResolver(rS),
     defaultValues: {
@@ -458,7 +458,7 @@ export function NeighbourhoodReferenceForm() {
     onSuccess: () => {},
   })
   function onSubmit(values: z.infer<typeof rS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({ payload: values, loanId: loanId.loanId })
   }
   return (
     <Form {...form}>

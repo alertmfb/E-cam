@@ -1,7 +1,7 @@
 import { Axios } from '../axios'
 import { supabase } from '../sb'
 
-export type Role = 'loan_officer' | 'relationship_manager'
+export type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
 type QueryParams = {
   role: Role

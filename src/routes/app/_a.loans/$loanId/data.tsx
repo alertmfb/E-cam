@@ -6,7 +6,7 @@ import {
 } from '@/components/routes/loans/loan-action/loan-action-form'
 import { createFileRoute } from '@tanstack/react-router'
 
-type Role = 'loan_officer' | 'relationship_manager'
+type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
   component: LoanData,

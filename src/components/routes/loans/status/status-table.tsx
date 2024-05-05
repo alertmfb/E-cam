@@ -13,7 +13,7 @@ import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { useAuthUser } from '@/lib/auth/hooks'
 
-type Role = 'loan_officer' | 'relationship_manager'
+type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
 export function ApplicationStatusTable() {
   let role

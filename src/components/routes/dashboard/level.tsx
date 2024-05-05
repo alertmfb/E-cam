@@ -3,7 +3,7 @@ import { CardFooter } from '@/components/ui/card'
 import { Link, Navigate } from '@tanstack/react-router'
 import { Activity, Banknote, ListTodo, PlusCircle, SquareX } from 'lucide-react'
 
-type Role = 'loan_officer' | 'relationship_manager'
+type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
 export function DashboardUi() {
   let role
@@ -15,6 +15,9 @@ export function DashboardUi() {
   switch (role) {
     case 'loan_officer': {
       return <LoanOfficerUi />
+    }
+    case 'branch_manager': {
+      return <RelationshipManagerUi />
     }
     case 'relationship_manager': {
       return <RelationshipManagerUi />

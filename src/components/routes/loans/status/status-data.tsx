@@ -43,20 +43,36 @@ export function StatusData({ loanId }: { loanId: string }) {
         <CardContent>
           <form className="w-full flex items-start flex-col gap-6">
             <div className="w-full flex items-start gap-3 justify-between">
-              <Badge className="bg-blue-600">pending</Badge>
+              <Badge
+                className={
+                  loan?.bm_status === 'approved'
+                    ? 'bg-green-700'
+                    : loan?.bm_status === 'rejected'
+                      ? 'bg-red-600'
+                      : 'bg-blue-600'
+                }
+              >
+                pending
+              </Badge>
             </div>
             <div className="w-full flex items-start justify-between gap-3">
               <span className="text-sm font-semibold">
                 Approved Amount to be processed:
               </span>
-              <p>N0</p>
+              <p>
+                {' '}
+                N
+                {new Intl.NumberFormat().format(
+                  Number(loan?.bm_approval_amount)
+                )}
+              </p>
             </div>
           </form>
         </CardContent>
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
             <Label>Approval Comment:</Label>
-            <p></p>
+            <p>{loan?.bm_approval_comment}</p>
           </div>
         </CardFooter>
       </Card>

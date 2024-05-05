@@ -12,9 +12,9 @@ export const Route = createFileRoute('/app/_a')({
 function Layout() {
   const auth = useAuthSession()
   // const auth: Session = {
-  //   email: 'name@gmail.com',
+  //   email: 'bm1@gmail.com',
   //   access_token: 'laal',
-  //   role: 'relationship_manager',
+  //   role: 'branch_manager',
   // }
 
   // fetch user from LocalStorage first, this is to prevent a database call when user refreshes

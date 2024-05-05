@@ -435,7 +435,7 @@ export function GuarantorsInfoForm(loanId: { loanId: string }) {
                   <FormItem>
                     <FormLabel>Goods Stock</FormLabel>
                     <FormControl>
-                      <Input placeholder="..." {...field} />
+                      <Input placeholder="..." type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

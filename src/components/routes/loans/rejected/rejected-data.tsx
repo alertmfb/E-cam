@@ -45,8 +45,10 @@ export function RejectedData({ loanId }: { loanId: string }) {
           <form className="w-full flex items-start flex-col gap-6">
             <div className="w-full flex items-start justify-between gap-3">
               <span className="text-sm font-semibold">
-                <Badge className={loan?.rm_status === 'r' ? 'bg-red-600' : ''}>
-                  pending
+                <Badge
+                  className={loan?.bm_status === 'rejected' ? 'bg-red-600' : ''}
+                >
+                  {loan?.bm_status}
                 </Badge>
               </span>
             </div>
@@ -59,7 +61,7 @@ export function RejectedData({ loanId }: { loanId: string }) {
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
             <Label>Rejection Reason:</Label>
-            <p>nil</p>
+            <p>{loan?.bm_rejection_comment ?? 'nil'}</p>
           </div>
         </CardFooter>
       </Card>
@@ -80,10 +82,7 @@ export function RejectedData({ loanId }: { loanId: string }) {
                 </Badge>
               </span>
             </div>
-            <div className="w-full flex items-start justify-between gap-3">
-              {/* <Label>Customer name</Label>
-              <p>{loan?.customer_name}</p> */}
-            </div>
+            <div className="w-full flex items-start justify-between gap-3"></div>
           </form>
         </CardContent>
         <CardFooter className="w-full justify-start">

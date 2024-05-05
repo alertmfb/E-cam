@@ -26,7 +26,7 @@ import {
 import { useAuthUser } from '@/lib/auth/hooks'
 import { useNavigate } from '@tanstack/react-router'
 
-type Role = 'loan_officer' | 'relationship_manager'
+type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
 export function LoanActionForm(loanId: { loanId: string }) {
   const user = useAuthUser()

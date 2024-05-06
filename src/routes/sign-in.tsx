@@ -8,6 +8,7 @@ export const Route = createFileRoute('/sign-in')({
 })
 
 function SignIn() {
+  // TODO: check auth session and redirect to dashboard
   return (
     <div>
       <Header />

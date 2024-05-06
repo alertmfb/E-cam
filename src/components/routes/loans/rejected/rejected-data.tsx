@@ -35,7 +35,7 @@ export function RejectedData({ loanId }: { loanId: string }) {
   })
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto py-6">
       <Card className="w-full shadow-md">
         <CardHeader>
           <CardTitle>Branch Manager</CardTitle>
@@ -92,9 +92,11 @@ export function RejectedData({ loanId }: { loanId: string }) {
           </div>
         </CardFooter>
       </Card>
-      <div className="w-full flex justify-end pt-4">
-        <Button className="">Edit Application</Button>
-      </div>
+      {role! === 'loan_officer' && (
+        <div className="w-full flex justify-end pt-4">
+          <Button className="">Edit Application</Button>
+        </div>
+      )}
     </div>
   )
 }

@@ -18,7 +18,7 @@ function LandingPage() {
             Alert Group
           </span>
           <br />
-          <span className="text-2xl tracking-widest">
+          <span className="text-2xl tracking-tight">
             Credit Appraisial Memorandum Portal
           </span>
         </span>
@@ -28,7 +28,7 @@ function LandingPage() {
             <h1 className="text-4xl text-blue-950 font-semibold">
               Welcome back, User!
             </h1>
-            <Button asChild>
+            <Button className="bg-[#3F3D56]" asChild>
               <Link to="/sign-in">Sign in</Link>
             </Button>
           </div>

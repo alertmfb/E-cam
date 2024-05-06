@@ -12,6 +12,7 @@ export type UserResponse = {
   id: number
   name: string
   branch_id: number
+  email: string
 }
 
 export const findUser = async ({

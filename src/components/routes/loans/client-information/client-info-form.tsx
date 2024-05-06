@@ -355,6 +355,7 @@ export function ClientInfoForm(loanId: LoanId) {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      required
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -1007,7 +1008,7 @@ export function ClientInfoForm(loanId: LoanId) {
             </SectionInputContainer>
           </FormSection>
 
-          <FormSection>
+          {/* <FormSection>
             <SectionInputContainer>
               <FormItem>
                 <FormLabel>Loan Officer Name</FormLabel>
@@ -1029,7 +1030,7 @@ export function ClientInfoForm(loanId: LoanId) {
                 <FormMessage />
               </FormItem>
             </SectionInputContainer>
-          </FormSection>
+          </FormSection> */}
 
           <FormSection>
             <SectionInputContainer>

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CardFooter } from '@/components/ui/card'
+// import {} from '@/lib/auth/hooks'
 import { Link, Navigate } from '@tanstack/react-router'
 import { Activity, Banknote, ListTodo, PlusCircle, SquareX } from 'lucide-react'
 
@@ -23,6 +24,7 @@ export function DashboardUi() {
       return <RelationshipManagerUi />
     }
     default: {
+      console.log('trigger 4')
       return <Navigate to="/sign-in" />
     }
   }

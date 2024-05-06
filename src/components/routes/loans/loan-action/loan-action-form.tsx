@@ -146,7 +146,7 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
       alert('Rejected!')
       form.reset()
       navigate({
-        to: '/app/loans/status/$loanId',
+        to: '/app/loans/rejected/$loanId',
         params: { loanId: loanId.loanId },
       })
     },

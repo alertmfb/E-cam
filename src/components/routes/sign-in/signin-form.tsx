@@ -58,8 +58,8 @@ export function SigninForm() {
           >
             <option value="">select</option>
             <option value="loan_officer">Loan Officer</option>
-            <option value="relationship_manager">Relationship Manager</option>
             <option value="branch_manager">Branch Manager</option>
+            <option value="relationship_manager">Relationship Manager</option>
             <option value="DCOO">DCOO</option>
             <option value="MD">MD</option>
             <option value="DR">Director</option>

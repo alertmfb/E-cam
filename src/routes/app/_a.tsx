@@ -3,50 +3,49 @@ import { AuthProvider } from '@/lib/auth/auth-provider'
 import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 import { Outlet, createFileRoute, Navigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { findUser } from '@/lib/auth/functions'
+import { Role, findUser, signOut } from '@/lib/auth/functions'
 
 export const Route = createFileRoute('/app/_a')({
   component: Layout,
 })
 
 function Layout() {
+  // fetch auth session object
   const auth = useAuthSession()
-  // const auth: Session = {
-  //   email: 'bm1@gmail.com',
-  //   access_token: 'laal',
-  //   role: 'branch_manager',
-  // }
+  let role: Role
 
-  // check for if
-
-  // fetch user from LocalStorage first, this is to prevent a database call when user refreshes
-  const user = useAuthUser()
-
-  // enable query if the user does not have an id
-  const { data, isLoading, isSuccess } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => findUser({ email: auth.email, role: auth.role }),
-    enabled: !user?.id,
-  })
-
-  if (isLoading) {
-    console.log('Fetching data')
+  if (typeof window !== 'undefined' && window.localStorage) {
+    role = JSON.parse(localStorage.getItem('role')!) as Role
   }
 
-  // when query successfull, check id to ensure returned user is valid
-  if (isSuccess) {
-    if (!data.id) {
+  // fetch user from LocalStorage first, this is to prevent a database call each time user refreshes
+  const user = useAuthUser()
+  if (!user?.email) {
+    signOut()
+  }
+
+  // enable query only if there isnt a user in the local storage
+  const { data, status, fetchStatus } = useQuery({
+    queryKey: ['find-userrr'],
+    queryFn: () => findUser({ email: auth.email, role: role }),
+    enabled: !user?.email,
+  })
+
+  // this ran because the enabled property was set to true
+  if (fetchStatus === 'fetching') {
+    return <span>Loading...</span>
+  }
+
+  // this bock ckecks if we have data
+  if (status === 'success') {
+    if (!data?.email) {
+      console.log('trigger 2')
       return <Navigate to="/sign-in" replace />
     }
 
-    // set user to local storage
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem('user', JSON.stringify(data))
     }
-  }
-
-  if (!auth.access_token) {
-    return <Navigate to="/sign-in" replace />
   }
 
   return (

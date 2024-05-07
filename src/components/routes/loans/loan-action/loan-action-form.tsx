@@ -70,7 +70,6 @@ export function LoanActionForm(loanId: { loanId: string }) {
     })
   }
 
-  console.log(loanId)
 
   return (
     <Form {...form}>

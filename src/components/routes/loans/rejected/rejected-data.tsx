@@ -15,7 +15,13 @@ import { useAuthUser } from '@/lib/auth/hooks'
 import type { Role } from '@/lib/auth/functions'
 import { Button } from '@/components/ui/button'
 
-export function RejectedData({ loanId }: { loanId: string }) {
+export function RejectedData({
+  loanId,
+  branchId,
+}: {
+  loanId: string
+  branchId: string
+}) {
   const user = useAuthUser()
 
   let role: Role
@@ -27,7 +33,7 @@ export function RejectedData({ loanId }: { loanId: string }) {
     queryKey: ['rejected-data'],
     queryFn: () =>
       getRejectedApplicationById({
-        branchId: user.branch_id.toString(),
+        branchId: branchId,
         loanId: loanId,
         role: role,
         userId: user.id.toString(),
@@ -52,10 +58,7 @@ export function RejectedData({ loanId }: { loanId: string }) {
                 </Badge>
               </span>
             </div>
-            <div className="w-full flex items-start justify-between gap-3">
-              {/* <Label>Customer name:</Label>
-              <p>{loan?.customer_name}</p> */}
-            </div>
+            <div className="w-full flex items-start justify-between gap-3"></div>
           </form>
         </CardContent>
         <CardFooter>

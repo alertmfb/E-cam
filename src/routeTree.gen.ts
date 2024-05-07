@@ -22,8 +22,6 @@ import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomp
 import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/status/index'
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
-import { Route as AppALoansStatusLoanIdImport } from './routes/app/_a.loans/status/$loanId'
-import { Route as AppALoansRejectedLoanIdImport } from './routes/app/_a.loans/rejected/$loanId'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
@@ -32,6 +30,10 @@ import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.lo
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
+import { Route as AppALoansStatusLoanIdIndexImport } from './routes/app/_a.loans/status/$loanId/index'
+import { Route as AppALoansRejectedLoanIdIndexImport } from './routes/app/_a.loans/rejected/$loanId/index'
+import { Route as AppALoansStatusLoanIdBranchIdImport } from './routes/app/_a.loans/status/$loanId/$branchId'
+import { Route as AppALoansRejectedLoanIdBranchIdImport } from './routes/app/_a.loans/rejected/$loanId/$branchId'
 import { Route as AppALoansPendingLoanIdClientInfoImport } from './routes/app/_a.loans/pending/$loanId/client-info'
 
 // Create Virtual Routes
@@ -90,16 +92,6 @@ const AppALoansPendingIndexRoute = AppALoansPendingIndexImport.update({
   getParentRoute: () => AppARoute,
 } as any)
 
-const AppALoansStatusLoanIdRoute = AppALoansStatusLoanIdImport.update({
-  path: '/loans/status/$loanId',
-  getParentRoute: () => AppARoute,
-} as any)
-
-const AppALoansRejectedLoanIdRoute = AppALoansRejectedLoanIdImport.update({
-  path: '/loans/rejected/$loanId',
-  getParentRoute: () => AppARoute,
-} as any)
-
 const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
   path: '/loans/$loanId/reference',
   getParentRoute: () => AppARoute,
@@ -143,6 +135,31 @@ const AppALoansLoanIdClientInformationRoute =
 const AppALoansLoanIdBusinessExpensesRoute =
   AppALoansLoanIdBusinessExpensesImport.update({
     path: '/loans/$loanId/business-expenses',
+    getParentRoute: () => AppARoute,
+  } as any)
+
+const AppALoansStatusLoanIdIndexRoute = AppALoansStatusLoanIdIndexImport.update(
+  {
+    path: '/loans/status/$loanId/',
+    getParentRoute: () => AppARoute,
+  } as any,
+)
+
+const AppALoansRejectedLoanIdIndexRoute =
+  AppALoansRejectedLoanIdIndexImport.update({
+    path: '/loans/rejected/$loanId/',
+    getParentRoute: () => AppARoute,
+  } as any)
+
+const AppALoansStatusLoanIdBranchIdRoute =
+  AppALoansStatusLoanIdBranchIdImport.update({
+    path: '/loans/status/$loanId/$branchId',
+    getParentRoute: () => AppARoute,
+  } as any)
+
+const AppALoansRejectedLoanIdBranchIdRoute =
+  AppALoansRejectedLoanIdBranchIdImport.update({
+    path: '/loans/rejected/$loanId/$branchId',
     getParentRoute: () => AppARoute,
   } as any)
 
@@ -216,14 +233,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdReferenceImport
       parentRoute: typeof AppAImport
     }
-    '/app/_a/loans/rejected/$loanId': {
-      preLoaderRoute: typeof AppALoansRejectedLoanIdImport
-      parentRoute: typeof AppAImport
-    }
-    '/app/_a/loans/status/$loanId': {
-      preLoaderRoute: typeof AppALoansStatusLoanIdImport
-      parentRoute: typeof AppAImport
-    }
     '/app/_a/loans/pending/': {
       preLoaderRoute: typeof AppALoansPendingIndexImport
       parentRoute: typeof AppAImport
@@ -238,6 +247,22 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/pending/$loanId/client-info': {
       preLoaderRoute: typeof AppALoansPendingLoanIdClientInfoImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/rejected/$loanId/$branchId': {
+      preLoaderRoute: typeof AppALoansRejectedLoanIdBranchIdImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/status/$loanId/$branchId': {
+      preLoaderRoute: typeof AppALoansStatusLoanIdBranchIdImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/rejected/$loanId/': {
+      preLoaderRoute: typeof AppALoansRejectedLoanIdIndexImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/status/$loanId/': {
+      preLoaderRoute: typeof AppALoansStatusLoanIdIndexImport
       parentRoute: typeof AppAImport
     }
   }
@@ -261,12 +286,14 @@ export const routeTree = rootRoute.addChildren([
       AppALoansLoanIdGuarantorsInfoRoute,
       AppALoansLoanIdPictoralEvidenceRoute,
       AppALoansLoanIdReferenceRoute,
-      AppALoansRejectedLoanIdRoute,
-      AppALoansStatusLoanIdRoute,
       AppALoansPendingIndexRoute,
       AppALoansRejectedIndexRoute,
       AppALoansStatusIndexRoute,
       AppALoansPendingLoanIdClientInfoRoute,
+      AppALoansRejectedLoanIdBranchIdRoute,
+      AppALoansStatusLoanIdBranchIdRoute,
+      AppALoansRejectedLoanIdIndexRoute,
+      AppALoansStatusLoanIdIndexRoute,
     ]),
   ]),
 ])

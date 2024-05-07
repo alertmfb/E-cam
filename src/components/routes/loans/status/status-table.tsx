@@ -15,7 +15,7 @@ import { useAuthUser } from '@/lib/auth/hooks'
 
 type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
-export function ApplicationStatusTable() {
+export function ApplicationStatusTable(branchId: { branchId: string }) {
   let role
 
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -27,7 +27,7 @@ export function ApplicationStatusTable() {
       return <LoanOfficerStatusTable />
     }
     default: {
-      return <GeneralStatusTable />
+      return <GeneralStatusTable branchId={branchId.branchId} />
     }
   }
 }
@@ -49,6 +49,10 @@ export function LoanOfficerStatusTable() {
         role: role,
       }),
   })
+
+  if (applications.fetchStatus === 'fetching') {
+    return <div>Loading...</div>
+  }
 
   return (
     <Table>
@@ -78,8 +82,11 @@ export function LoanOfficerStatusTable() {
               </Button>
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/status/$loanId"
-                  params={{ loanId: loan.id }}
+                  to="/app/loans/status/$loanId/$branchId"
+                  params={{
+                    loanId: loan.id,
+                    branchId: user.branch_id.toString(),
+                  }}
                 >
                   view approvals
                 </Link>
@@ -92,7 +99,7 @@ export function LoanOfficerStatusTable() {
   )
 }
 
-export function GeneralStatusTable() {
+export function GeneralStatusTable(branchId: { branchId: string }) {
   const user = useAuthUser()
 
   let role: Role
@@ -101,10 +108,10 @@ export function GeneralStatusTable() {
     role = JSON.parse(localStorage.getItem('role')!) as Role
   }
   const applications = useQuery({
-    queryKey: ['application-status'],
+    queryKey: ['application-status-id'],
     queryFn: () =>
       getLoanApplicationStatus({
-        branchId: user.branch_id.toString(),
+        branchId: branchId.branchId,
         userId: user.id.toString(),
         role: role,
       }),
@@ -113,7 +120,7 @@ export function GeneralStatusTable() {
   return (
     <Table>
       <TableCaption>
-        These are the pending applications for your branch
+        These are pending applications for all the branches
       </TableCaption>
       <TableHeader>
         <TableRow>
@@ -138,8 +145,8 @@ export function GeneralStatusTable() {
               </Button>
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/status/$loanId"
-                  params={{ loanId: loan.id }}
+                  to="/app/loans/status/$loanId/$branchId"
+                  params={{ loanId: loan.id, branchId: branchId.branchId }}
                 >
                   view approvals
                 </Link>

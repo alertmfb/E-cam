@@ -14,7 +14,13 @@ import { getLoanApplicationStatusById } from '@/lib/api/loan-application/functio
 import { useAuthUser } from '@/lib/auth/hooks'
 import type { Role } from '@/lib/auth/functions'
 
-export function StatusData({ loanId }: { loanId: string }) {
+export function StatusData({
+  loanId,
+  branchId,
+}: {
+  loanId: string
+  branchId: string
+}) {
   const user = useAuthUser()
 
   let role: Role
@@ -26,7 +32,7 @@ export function StatusData({ loanId }: { loanId: string }) {
     queryKey: ['single-status'],
     queryFn: () =>
       getLoanApplicationStatusById({
-        branchId: user.branch_id.toString(),
+        branchId: branchId,
         loanId: loanId,
         role: role,
         userId: user.id.toString(),

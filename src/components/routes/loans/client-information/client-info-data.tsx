@@ -31,7 +31,7 @@ export function ClientInfoData(loanId: { LoanId: string }) {
   })
 
   if (info.isPending) {
-    return <div>...Loading</div>
+    return <div>Loading...</div>
   }
 
   const infoArray = Object.entries(info?.data as ClientInfoPayload)

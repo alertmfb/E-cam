@@ -13,6 +13,12 @@ type ReferenceFetchParams = {
   branchId: string
 }
 
+type ReferenceResponse = {
+  family_references: ReferencePayload[]
+  commercial_references: ReferencePayload[]
+  neighbourhood_references: ReferencePayload[]
+}
+
 export const createFamilyReference = async ({
   payload,
   loanId,
@@ -68,7 +74,7 @@ export const createNeighbourhoodReference = async ({
 export const getReferences = async ({
   loanId,
   branchId,
-}: ReferenceFetchParams): Promise<ReferenceData[]> => {
+}: ReferenceFetchParams): Promise<ReferenceResponse> => {
   try {
     const res = await Axios.get(
       `/loan-application/reference/all?loanId=${loanId}&branchId=${branchId}`,

@@ -50,7 +50,10 @@ export function FamilyRefereceForm(loanId: { loanId: string }) {
 
   const addMutation = useMutation({
     mutationFn: createFamilyReference,
-    onSuccess: () => {},
+    onSuccess: () => {
+      alert('family reference added')
+      form.reset()
+    },
   })
 
   function onSubmit(values: z.infer<typeof rS>) {
@@ -213,7 +216,7 @@ export function FamilyRefereceForm(loanId: { loanId: string }) {
                   <FormItem>
                     <FormLabel>Comment from the reference person</FormLabel>
                     <FormControl>
-                      <Input placeholder="..." type="number" {...field} />
+                      <Input placeholder="..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -253,7 +256,10 @@ export function CommercialReferenceForm(loanId: { loanId: string }) {
   })
   const addMutation = useMutation({
     mutationFn: createCommercialReference,
-    onSuccess: () => {},
+    onSuccess: () => {
+      alert('commercial reference added')
+      form.reset()
+    },
   })
   function onSubmit(values: z.infer<typeof rS>) {
     addMutation.mutate({ payload: values, loanId: loanId.loanId })
@@ -415,7 +421,7 @@ export function CommercialReferenceForm(loanId: { loanId: string }) {
                   <FormItem>
                     <FormLabel>Comment from the reference person</FormLabel>
                     <FormControl>
-                      <Input placeholder="..." type="number" {...field} />
+                      <Input placeholder="..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -455,7 +461,10 @@ export function NeighbourhoodReferenceForm(loanId: { loanId: string }) {
   })
   const addMutation = useMutation({
     mutationFn: createNeighbourhoodReference,
-    onSuccess: () => {},
+    onSuccess: () => {
+      alert('neighbourhood reference added')
+      form.reset()
+    },
   })
   function onSubmit(values: z.infer<typeof rS>) {
     addMutation.mutate({ payload: values, loanId: loanId.loanId })
@@ -617,7 +626,7 @@ export function NeighbourhoodReferenceForm(loanId: { loanId: string }) {
                   <FormItem>
                     <FormLabel>Comment from the reference person</FormLabel>
                     <FormControl>
-                      <Input placeholder="..." type="number" {...field} />
+                      <Input placeholder="..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

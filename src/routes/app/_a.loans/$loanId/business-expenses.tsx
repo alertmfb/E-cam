@@ -21,9 +21,9 @@ function BusinessExpenses() {
         <ApplicationNav loanId={loanId} key="business-expenses" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
-        <BusinessExpensesForm />
+        <BusinessExpensesForm loanId={loanId} />
         <h1 className="text-2xl font-semibold">Business Assets</h1>
-        <BusinessAssetsForm />
+        <BusinessAssetsForm loanId={loanId} />
       </main>
     </div>
   )

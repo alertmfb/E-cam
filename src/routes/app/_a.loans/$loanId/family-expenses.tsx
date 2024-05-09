@@ -19,10 +19,10 @@ function FamilyExpenses() {
         <ApplicationNav loanId={loanId} key="family-expenses" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
-        <FamilyExpensesForm />
+        <FamilyExpensesForm loanId={loanId}/>
         <h1 className="text-2xl font-semibold">Family Assets</h1>
 
-        <FamilyAssetsForm />
+        <FamilyAssetsForm loanId={loanId}/>
       </main>
     </div>
   )

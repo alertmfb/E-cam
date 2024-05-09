@@ -29,8 +29,12 @@ import {
   createFamilyAsset,
 } from '@/lib/api/famiy-expenses/functions'
 import { useMutation } from '@tanstack/react-query'
+import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 
-export function FamilyExpensesForm() {
+export function FamilyExpensesForm({ loanId }: { loanId: string }) {
+  const auth = useAuthSession()
+  const user = useAuthUser()
+
   const form = useForm<z.infer<typeof feS>>({
     resolver: zodResolver(feS),
     defaultValues: {
@@ -43,11 +47,19 @@ export function FamilyExpensesForm() {
 
   const addMutation = useMutation({
     mutationFn: createFamilyExpense,
-    onSuccess: () => {},
+    onSuccess: () => {
+      alert('Family expense added')
+    },
   })
 
   function onSubmit(values: z.infer<typeof feS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({
+      payload: values,
+      role: auth.role,
+      branchId: user.branch_id.toString(),
+      userId: user.id.toString(),
+      loanId: loanId,
+    })
   }
 
   return (
@@ -142,7 +154,10 @@ export function FamilyExpensesForm() {
   )
 }
 
-export function FamilyAssetsForm() {
+export function FamilyAssetsForm({ loanId }: { loanId: string }) {
+  const auth = useAuthSession()
+  const user = useAuthUser()
+
   const form = useForm<z.infer<typeof faS>>({
     resolver: zodResolver(faS),
     defaultValues: {
@@ -154,11 +169,19 @@ export function FamilyAssetsForm() {
   })
   const addMutation = useMutation({
     mutationFn: createFamilyAsset,
-    onSuccess: () => {},
+    onSuccess: () => {
+      alert('Family asset added')
+    },
   })
 
   function onSubmit(values: z.infer<typeof faS>) {
-    addMutation.mutate(values)
+    addMutation.mutate({
+      payload: values,
+      role: auth.role,
+      branchId: user.branch_id.toString(),
+      userId: user.id.toString(),
+      loanId: loanId,
+    })
   }
   return (
     <Form {...form}>

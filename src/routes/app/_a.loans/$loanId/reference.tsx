@@ -21,11 +21,11 @@ function Reference() {
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
         <h1 className="text-xl font-semibold">Family Reference</h1>
-        <FamilyRefereceForm />
+        <FamilyRefereceForm loanId={loanId} />
         <h1 className="text-xl font-semibold">Commercial Reference</h1>
-        <CommercialReferenceForm />
+        <CommercialReferenceForm loanId={loanId} />
         <h1 className="text-xl font-semibold">Neighbourhood Reference</h1>
-        <NeighbourhoodReferenceForm />
+        <NeighbourhoodReferenceForm loanId={loanId} />
       </main>
     </div>
   )

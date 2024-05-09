@@ -11,8 +11,7 @@ import { Badge } from '@/components/ui/badge'
 
 import { useQuery } from '@tanstack/react-query'
 import { getLoanApplicationStatusById } from '@/lib/api/loan-application/functions'
-import { useAuthUser } from '@/lib/auth/hooks'
-import type { Role } from '@/lib/auth/functions'
+import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 
 export function StatusData({
   loanId,
@@ -23,10 +22,7 @@ export function StatusData({
 }) {
   const user = useAuthUser()
 
-  let role: Role
-  if (typeof window !== 'undefined' && window.localStorage) {
-    role = JSON.parse(localStorage.getItem('role')!)
-  }
+  const { role } = useAuthSession()
 
   const { data: loan } = useQuery({
     queryKey: ['single-status'],

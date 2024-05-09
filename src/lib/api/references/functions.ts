@@ -8,13 +8,18 @@ type ReferenceData = {
   loanId: string
 }
 
+type ReferenceFetchParams = {
+  loanId: string
+  branchId: string
+}
+
 export const createFamilyReference = async ({
   payload,
   loanId,
 }: ReferenceData) => {
   try {
     const res = await Axios.post(
-      `   '/loan-application/reference/family?loanId=${loanId}`,
+      `/loan-application/reference/family?loanId=${loanId}`,
       payload,
       {
         withCredentials: true,
@@ -50,6 +55,23 @@ export const createNeighbourhoodReference = async ({
     const res = await Axios.post(
       `/loan-application/reference/neighbourhood?loanId=${loanId}`,
       payload,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
+
+export const getReferences = async ({
+  loanId,
+  branchId,
+}: ReferenceFetchParams): Promise<ReferenceData[]> => {
+  try {
+    const res = await Axios.get(
+      `/loan-application/reference/all?loanId=${loanId}&branchId=${branchId}`,
       {
         withCredentials: true,
       }

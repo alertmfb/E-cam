@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 export function ReferenceData({ loanId }: { loanId: string }) {
   const user = useAuthUser()
@@ -44,7 +45,8 @@ export function ReferenceData({ loanId }: { loanId: string }) {
             onClick={() => setFr((prev) => !prev)}
           >
             <CardTitle className="text-xl">
-              Family Reference {idx + 1}
+              <div>Family Reference {idx + 1}</div>
+              <ChevronDown />
             </CardTitle>
             <CardDescription>The clients family reference</CardDescription>
           </CardHeader>

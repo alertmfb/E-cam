@@ -22,7 +22,7 @@ function LandingPage() {
             Credit Appraisial Memorandum Portal
           </span>
         </span>
-        <div className="w-full flex items-center justify-around gap-8 flex-wrap flex-1">
+        <div className="w-full flex items-center justify-around gap-8 flex-wrap-reverse flex-1 py-6">
           <img src={home} alt="img" />
           <div className="flex flex-col gap-6 items-center justify-center">
             <h1 className="text-4xl text-blue-950 font-semibold">

@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { ChevronDown } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 
@@ -43,7 +44,11 @@ export function ClientInfoData(loanId: { LoanId: string }) {
           className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
           onClick={() => setContent((prev) => !prev)}
         >
-          <CardTitle className="text-xl">Client Information</CardTitle>
+          <CardTitle className="text-xl flex items-center gap-3 justify-between">
+            {' '}
+            <div>Client Information</div>
+            <ChevronDown />
+          </CardTitle>
           <CardDescription>Details about the client</CardDescription>
         </CardHeader>
 

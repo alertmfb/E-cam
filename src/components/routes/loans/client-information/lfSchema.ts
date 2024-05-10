@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const ciS = z.object({
   // email: z.string().email({ message: 'email is required' }),
-  bvn: z.string().min(11, { message: 'bvn must be 11 digits' }).max(11),
+  // bvn: z.string().min(11, { message: 'bvn must be 11 digits' }).max(11),
   phone_number: z.string().min(11, { message: 'invalid phone number' }).max(13),
   business_name: z.string({ required_error: 'business name is required' }),
   nuban_no: z.string({ required_error: 'this field is required' }),

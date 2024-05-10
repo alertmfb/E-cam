@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 export function GuarantorInfoData(loanId: { LoanId: string }) {
   const user = useAuthUser()
@@ -42,7 +43,11 @@ export function GuarantorInfoData(loanId: { LoanId: string }) {
             className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
             onClick={() => setContent((prev) => !prev)}
           >
-            <CardTitle className="text-xl">Guarantor {idx + 1}</CardTitle>
+            <CardTitle className="text-xl">
+              {' '}
+              <div>Guarantor {idx + 1}</div>
+              <ChevronDown />
+            </CardTitle>
             <CardDescription>The clients guarantor</CardDescription>
           </CardHeader>
           {content && (

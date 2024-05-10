@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 export type ClientInfoPayload = z.infer<typeof ciS> & {
   client_business_location: string
+  customer_bvn: string
 }
 
 type RequestPayload = {
@@ -15,6 +16,21 @@ type FetchParams = {
   userId: string
   loanId: string
   role: string
+}
+
+export const fetchBvn = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<string | null> => {
+  try {
+    const res = await Axios.get(`/loan-application/bvn?loanId=${loanId}`, {
+      withCredentials: true,
+    })
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
 }
 
 export const createClientInfo = async (req: RequestPayload) => {

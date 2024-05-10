@@ -36,8 +36,8 @@ import {
   branchesArr,
 } from './zonification'
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { createClientInfo } from '@/lib/api/client-info/functions'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createClientInfo, fetchBvn } from '@/lib/api/client-info/functions'
 
 import { useNavigate } from '@tanstack/react-router'
 
@@ -48,7 +48,7 @@ export function ClientInfoForm(loanId: LoanId) {
   const form = useForm<z.infer<typeof ciS>>({
     resolver: zodResolver(ciS),
     defaultValues: {
-      bvn: '',
+      // bvn: '',
       phone_number: '',
       nuban_no: '',
       business_name: '',
@@ -118,6 +118,13 @@ export function ClientInfoForm(loanId: LoanId) {
     setZoneColor(getZoneColor(3, n))
   }
 
+  // TODO: Fetch BVN from here
+
+  const { data: bvn, fetchStatus } = useQuery({
+    queryKey: ['bvn'],
+    queryFn: () => fetchBvn({ loanId: loanId.loanId }),
+  })
+
   const addMutation = useMutation({
     mutationFn: createClientInfo,
     onSuccess: () => {
@@ -127,10 +134,20 @@ export function ClientInfoForm(loanId: LoanId) {
     },
   })
 
+  if (fetchStatus === 'fetching') {
+    return <div>Loading...</div>
+  }
+
+  if (!bvn) {
+    alert('Error: bvn not found')
+    navigate({ to: '/app/dashboard' })
+  }
+
   function onSubmit(values: z.infer<typeof ciS>) {
     addMutation.mutate({
       payload: {
         ...values,
+        customer_bvn: bvn!,
         client_business_location: businessLocation,
         running_loan: runningLoan,
         is_client_guarantor: clientGuarantor,
@@ -148,24 +165,10 @@ export function ClientInfoForm(loanId: LoanId) {
         <div className="flex flex-col items-center justify-start gap-10 border p-4 rounded-lg">
           <FormSection>
             <SectionInputContainer>
-              <FormField
-                control={form.control}
-                name="bvn"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Customer's BVN</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="bvn"
-                        type="number"
-                        required
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <FormItem>
+                <FormLabel>Customer's BVN</FormLabel>
+                <Input placeholder="bvn" type="number" value={bvn!} readOnly />
+              </FormItem>
               <FormField
                 control={form.control}
                 name="phone_number"

@@ -37,10 +37,16 @@ export function LoanApplicationForm() {
     onSuccess(data) {
       //TODO: toast success
       const id: number = data
-      navigate({
-        to: '/app/loans/$loanId/client-information',
-        params: { loanId: id.toString() },
-      })
+
+      if (!id) {
+        alert('Customer has an existing loan application')
+        navigate({ to: '/app/dashboard' })
+      } else {
+        navigate({
+          to: '/app/loans/$loanId/client-information',
+          params: { loanId: id.toString() },
+        })
+      }
     },
   })
 

@@ -32,7 +32,7 @@ function Rejected() {
     <div className="w-full flex flex-col px-4 gap-3 pt-10">
       <div className="flex gap-3 items-center justify-between">
         <h1 className="text-xl font-semibold">Rejected applications</h1>
-        {role === 'branch_manager' && (
+        {role === 'regional_manager' && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -57,7 +57,7 @@ function Rejected() {
         )}
       </div>
       <main className="flex flex-col pt-3 gap-2">
-        {role === 'branch_manager' && (
+        {role === 'regional_manager' && (
           <h1 className="font-semibold">Current Branch: {currentBranch}</h1>
         )}
         <RejectedApplicationsTable

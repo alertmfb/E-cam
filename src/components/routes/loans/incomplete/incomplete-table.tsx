@@ -20,10 +20,15 @@ export function IncompleteTable() {
     user = JSON.parse(localStorage.getItem('user')!) as UserResponse
   }
 
-  const { data: loanApp } = useQuery({
+  const { data: loanApp, fetchStatus } = useQuery({
     queryKey: ['incomplete-loan-applications'],
     queryFn: () => getIncompleteApplications({ id: user?.id.toString() }),
   })
+
+  if (fetchStatus === 'fetching') {
+    return <div>Loading...</div>
+  }
+
   return (
     //TODO: add delete button and confirmation maodal to the table
     // TODO: add loading skeleton

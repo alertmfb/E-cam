@@ -60,7 +60,7 @@ export function ClientInfoData(loanId: { LoanId: string }) {
                   key={idx}
                   className="flex items-start justify-between gap-3"
                 >
-                  <Label>{data[0]}</Label>{' '}
+                  <Label>{data[0].split('_').join(' ')}</Label>{' '}
                   <Label className="font-normal">
                     <div>{data[1]?.toString()}</div>
                   </Label>

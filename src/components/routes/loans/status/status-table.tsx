@@ -12,9 +12,9 @@ import { getLoanApplicationStatus } from '@/lib/api/loan-application/functions'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
-// import { Role } from '@/lib/auth/functions'
 
 export function ApplicationStatusTable(branchId: { branchId: string }) {
+  const { institution_id } = useAuthUser()
   const { role } = useAuthSession()
 
   switch (role) {
@@ -25,7 +25,12 @@ export function ApplicationStatusTable(branchId: { branchId: string }) {
       return <BranchManagerStatusTable />
     }
     default: {
-      return <GeneralStatusTable branchId={branchId.branchId} />
+      return (
+        <GeneralStatusTable
+          branchId={branchId.branchId}
+          institutionId={institution_id}
+        />
+      )
     }
   }
 }
@@ -67,7 +72,6 @@ export function LoanOfficerStatusTable() {
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
-
             <TableCell className="text-right">
               <Button asChild variant="link">
                 <Link to="/app/loans/$loanId/data" params={{ loanId: loan.id }}>
@@ -92,6 +96,7 @@ export function LoanOfficerStatusTable() {
     </Table>
   )
 }
+
 export function BranchManagerStatusTable() {
   const user = useAuthUser()
   const { role } = useAuthSession()
@@ -117,6 +122,7 @@ export function BranchManagerStatusTable() {
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
+          <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
@@ -126,6 +132,7 @@ export function BranchManagerStatusTable() {
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
+            <TableCell>{loan.loan_officer}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
 
             <TableCell className="text-right">
@@ -153,7 +160,13 @@ export function BranchManagerStatusTable() {
   )
 }
 
-export function GeneralStatusTable(branchId: { branchId: string }) {
+export function GeneralStatusTable({
+  branchId,
+  institutionId,
+}: {
+  branchId: string
+  institutionId: string
+}) {
   const user = useAuthUser()
   const { role } = useAuthSession()
 
@@ -161,7 +174,8 @@ export function GeneralStatusTable(branchId: { branchId: string }) {
     queryKey: ['application-status-id'],
     queryFn: () =>
       getLoanApplicationStatus({
-        branchId: branchId.branchId,
+        institutionId: institutionId,
+        branchId: branchId,
         userId: user.id.toString(),
         role: role,
       }),
@@ -196,7 +210,7 @@ export function GeneralStatusTable(branchId: { branchId: string }) {
               <Button asChild variant="link">
                 <Link
                   to="/app/loans/status/$loanId/$branchId"
-                  params={{ loanId: loan.id, branchId: branchId.branchId }}
+                  params={{ loanId: loan.id, branchId: branchId }}
                 >
                   view approvals
                 </Link>

@@ -3,6 +3,7 @@ import { Axios } from '@/lib/axios'
 import { z } from 'zod'
 
 type QueryParams = {
+  institutionId?: string
   branchId: string
   userId: string
   role: string
@@ -19,8 +20,9 @@ type PendingApplication = Omit<LoanApplication, 'customer_bvn'> & {
 }
 
 type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
-  rm_approval_amount: string
-  rm_approval_comment: string
+  loan_officer?: string
+  rm_approval_amount?: string
+  rm_approval_comment?: string
 }
 
 type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
@@ -45,6 +47,12 @@ type CreateApplicationData = {
   payload: LoanApplicationPayload
   userId: string
   branchId: string
+  institutionId: string
+}
+
+export type Branch = {
+  id: string
+  name: string
 }
 
 // Loan Officer Endpoints
@@ -53,10 +61,11 @@ export const createLoanApplication = async ({
   payload,
   userId,
   branchId,
+  institutionId,
 }: CreateApplicationData) => {
   try {
     const res = await Axios.post(
-      `/loan-application/create?userId=${userId}&branchId=${branchId}`,
+      `/loan-application/create?userId=${userId}&branchId=${branchId}&institutionId=${institutionId}`,
       payload,
       {
         withCredentials: true,
@@ -90,6 +99,24 @@ export const deleteLoanApplocation = async () => {}
  * Shared Endpoints
  */
 
+export const getBranches = async ({
+  institutionId,
+}: {
+  institutionId: string
+}): Promise<Branch[]> => {
+  try {
+    const res = await Axios.get(
+      `/loan-application/branches/?institutionId=${institutionId}`,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
+
 export const getLoanApplicationsByBranch = async ({
   branchId,
   userId,
@@ -108,7 +135,6 @@ export const getLoanApplicationsByBranch = async ({
   }
 }
 
-// TODO: change the return type for this function
 export const getLoanApplicationStatusById = async ({
   branchId,
   userId,
@@ -127,14 +153,17 @@ export const getLoanApplicationStatusById = async ({
     throw new Error(`response error: ${e}`)
   }
 }
+
+// TODO: change the return type for this function
 export const getLoanApplicationStatus = async ({
+  institutionId,
   branchId,
   userId,
   role,
 }: QueryParams): Promise<StatusApplication[] | undefined> => {
   try {
     const res = await Axios.get(
-      `/loan-application/branch/${branchId}/status?role=${role}&userId=${userId}`,
+      `/loan-application/branch/${branchId}/status?role=${role}&userId=${userId}&institutionId=${institutionId}`,
       {
         withCredentials: true,
       }
@@ -145,7 +174,6 @@ export const getLoanApplicationStatus = async ({
   }
 }
 
-// TODO: Change the return type for this function
 export const fetchRejectedApplications = async ({
   branchId,
   userId,
@@ -163,6 +191,8 @@ export const fetchRejectedApplications = async ({
     throw new Error(`response error: ${e}`)
   }
 }
+
+// TODO: Change the return type for this function
 export const getRejectedApplicationById = async ({
   branchId,
   userId,

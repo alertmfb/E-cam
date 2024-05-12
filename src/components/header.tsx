@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo.png'
 import { Avatar, AvatarFallback } from './ui/avatar'
-import { UserResponse, signOut } from '@/lib/auth/functions'
+import { signOut } from '@/lib/auth/functions'
 import { User, LogOut } from 'lucide-react'
 import {
   DropdownMenu,
@@ -12,12 +12,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useNavigate } from '@tanstack/react-router'
-import { useAuthSession } from '@/lib/auth/hooks'
+import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 
 const roles = {
   loan_officer: 'Loan Officer',
   relationship_manager: 'Relationship Manager',
   branch_manager: 'Branch Manager',
+  regional_manager: 'Regional Manager',
 }
 
 export function Header() {
@@ -43,11 +44,7 @@ export function Header() {
 
 export function AppHeader() {
   const auth = useAuthSession()
-  let user
-
-  if (typeof window !== 'undefined' && window.localStorage) {
-    user = JSON.parse(localStorage.getItem('user')!) as UserResponse
-  }
+  const user = useAuthUser()
 
   return (
     <header className="border-b sticky top-0 w-full bg-white z-10">
@@ -60,7 +57,10 @@ export function AppHeader() {
         <div className="flex items-end gap-3">
           <div className="flex flex-col">
             <p className="font-medium">{user?.name}</p>
-            <p className="text-sm">{roles[auth.role]}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm">{roles[auth.role]}</p>
+              <p className="text-sm font-medium">{user?.institution_name}</p>
+            </div>
           </div>
           <UserDropdown />
         </div>

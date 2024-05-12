@@ -43,7 +43,7 @@ export function GuarantorInfoData(loanId: { LoanId: string }) {
             className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
             onClick={() => setContent((prev) => !prev)}
           >
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl flex items-center gap-3 justify-between">
               {' '}
               <div>Guarantor {idx + 1}</div>
               <ChevronDown />
@@ -59,7 +59,7 @@ export function GuarantorInfoData(loanId: { LoanId: string }) {
                       key={idx}
                       className="flex items-start justify-between gap-3"
                     >
-                      <Label>{data[0]}</Label>{' '}
+                      <Label>{data[0].split('_').join(' ')}</Label>{' '}
                       <Label className="font-normal">
                         <div>{data[1]?.toString()}</div>
                       </Label>

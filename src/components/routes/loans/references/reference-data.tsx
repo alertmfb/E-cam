@@ -75,8 +75,9 @@ export function ReferenceData({ loanId }: { loanId: string }) {
             className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
             onClick={() => setCr((prev) => !prev)}
           >
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl flex gap-3 items-center justify-between">
               Commercial Reference {idx + 1}
+              <ChevronDown />
             </CardTitle>
             <CardDescription>The clients commercial reference</CardDescription>
           </CardHeader>
@@ -105,8 +106,9 @@ export function ReferenceData({ loanId }: { loanId: string }) {
             className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
             onClick={() => setNr((prev) => !prev)}
           >
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl flex gap-3 items-center justify-between">
               Neighbourhood Reference {idx + 1}
+              <ChevronDown />
             </CardTitle>
             <CardDescription>
               The clients neighbourhood reference

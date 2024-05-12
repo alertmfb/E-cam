@@ -1,7 +1,11 @@
 import { Axios } from '../axios'
 import { supabase } from '../sb'
 
-export type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
+export type Role =
+  | 'loan_officer'
+  | 'branch_manager'
+  | 'relationship_manager'
+  | 'regional_manager'
 
 type QueryParams = {
   role: Role
@@ -11,8 +15,11 @@ type QueryParams = {
 export type UserResponse = {
   id: number
   name: string
-  branch_id: number
   email: string
+  branch_id: number
+  branch_name: string
+  institution_id: string
+  institution_name: string
 }
 
 export const findUser = async ({

@@ -55,6 +55,7 @@ export function LoanApplicationForm() {
       payload: values,
       branchId: user.branch_id.toString(),
       userId: user.id.toString(),
+      institutionId: user.institution_id.toString(),
     })
   }
 

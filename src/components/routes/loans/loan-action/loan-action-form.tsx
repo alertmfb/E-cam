@@ -23,20 +23,13 @@ import {
   approveLoanApplication,
   rejectLoanApplication,
 } from '../../../../lib/api/loan-action/functions'
-import { useAuthUser } from '@/lib/auth/hooks'
+import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 import { useNavigate } from '@tanstack/react-router'
-
-type Role = 'loan_officer' | 'branch_manager' | 'relationship_manager'
 
 export function LoanActionForm(loanId: { loanId: string }) {
   const user = useAuthUser()
+  const { role } = useAuthSession()
   const navigate = useNavigate()
-
-  let role: Role
-
-  if (typeof window !== 'undefined' && window.localStorage) {
-    role = JSON.parse(localStorage.getItem('role')!) as Role
-  }
 
   const form = useForm<z.infer<typeof loanActionSchema>>({
     resolver: zodResolver(loanActionSchema),
@@ -52,8 +45,8 @@ export function LoanActionForm(loanId: { loanId: string }) {
       alert('Approved!')
       form.reset()
       navigate({
-        to: '/app/loans/status/$loanId',
-        params: { loanId: loanId.loanId },
+        to: '/app/loans/status/$loanId/$branchId',
+        params: { loanId: loanId.loanId, branchId: user.branch_id.toString() },
       })
     },
   })
@@ -62,6 +55,7 @@ export function LoanActionForm(loanId: { loanId: string }) {
     addMutation.mutate({
       payload: values,
       params: {
+        institutionId: user.institution_id.toString(),
         loanId: loanId.loanId,
         branchId: user.branch_id.toString(),
         role: role,
@@ -69,7 +63,6 @@ export function LoanActionForm(loanId: { loanId: string }) {
       },
     })
   }
-
 
   return (
     <Form {...form}>
@@ -124,13 +117,8 @@ export function LoanActionForm(loanId: { loanId: string }) {
 
 export function LoanRejectionForm(loanId: { loanId: string }) {
   const user = useAuthUser()
+  const { role } = useAuthSession()
   const navigate = useNavigate()
-
-  let role: Role
-
-  if (typeof window !== 'undefined' && window.localStorage) {
-    role = JSON.parse(localStorage.getItem('role')!) as Role
-  }
 
   const form = useForm<z.infer<typeof loanRejectionSchema>>({
     resolver: zodResolver(loanRejectionSchema),
@@ -145,8 +133,8 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
       alert('Rejected!')
       form.reset()
       navigate({
-        to: '/app/loans/rejected/$loanId',
-        params: { loanId: loanId.loanId },
+        to: '/app/loans/rejected/$loanId/$branchId',
+        params: { loanId: loanId.loanId, branchId: user.branch_id.toString() },
       })
     },
   })

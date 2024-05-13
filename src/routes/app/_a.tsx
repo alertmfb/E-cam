@@ -39,6 +39,7 @@ function Layout() {
   // this bock ckecks if we have data
   if (status === 'success') {
     if (!data?.email) {
+      console.log('why?')
       return <Navigate to="/sign-in" replace />
     }
 

@@ -44,7 +44,7 @@ export function ReferenceData({ loanId }: { loanId: string }) {
             className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
             onClick={() => setFr((prev) => !prev)}
           >
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl flex gap-3 items-center justify-between">
               <div>Family Reference {idx + 1}</div>
               <ChevronDown />
             </CardTitle>

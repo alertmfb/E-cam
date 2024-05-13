@@ -11,9 +11,8 @@ import { Badge } from '@/components/ui/badge'
 
 import { useQuery } from '@tanstack/react-query'
 import { getRejectedApplicationById } from '@/lib/api/loan-application/functions'
-import { useAuthUser } from '@/lib/auth/hooks'
-import type { Role } from '@/lib/auth/functions'
-import { Button } from '@/components/ui/button'
+import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+// import { Button } from '@/components/ui/button'
 
 export function RejectedData({
   loanId,
@@ -23,16 +22,13 @@ export function RejectedData({
   branchId: string
 }) {
   const user = useAuthUser()
-
-  let role: Role
-  if (typeof window !== 'undefined' && window.localStorage) {
-    role = JSON.parse(localStorage.getItem('role')!)
-  }
+  const { role } = useAuthSession()
 
   const { data: loan } = useQuery({
     queryKey: ['rejected-data'],
     queryFn: () =>
       getRejectedApplicationById({
+        institutionId: user.institution_id.toString(),
         branchId: branchId,
         loanId: loanId,
         role: role,
@@ -71,7 +67,7 @@ export function RejectedData({
 
       <Card className="w-full shadow-md">
         <CardHeader>
-          <CardTitle>Relationship Manager</CardTitle>
+          <CardTitle>Regional Manager</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
@@ -79,9 +75,11 @@ export function RejectedData({
             <div className="w-full flex items-start justify-between gap-3">
               <span className="text-sm font-semibold">
                 <Badge
-                  className={loan?.rm_status === 'rejected' ? 'bg-red-600' : ''}
+                  className={
+                    loan?.reg_status === 'rejected' ? 'bg-red-600' : ''
+                  }
                 >
-                  {loan?.rm_status}
+                  {loan?.reg_status}
                 </Badge>
               </span>
             </div>
@@ -91,15 +89,15 @@ export function RejectedData({
         <CardFooter className="w-full justify-start">
           <div className="flex flex-col items-start gap-3">
             <Label>Rejection Reason:</Label>
-            <p>{loan?.rm_rejection_comment ?? 'nil'}</p>
+            <p>{loan?.reg_rejection_comment ?? 'nil'}</p>
           </div>
         </CardFooter>
       </Card>
-      {role! === 'loan_officer' && (
+      {/* {role! === 'loan_officer' && (
         <div className="w-full flex justify-end pt-4">
           <Button className="">Edit Application</Button>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

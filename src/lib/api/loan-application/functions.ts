@@ -21,6 +21,7 @@ type PendingApplication = Omit<LoanApplication, 'customer_bvn'> & {
 
 type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
   loan_officer?: string
+  branch?: string
   rm_approval_amount?: string
   rm_approval_comment?: string
 }
@@ -29,18 +30,20 @@ type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
   bm_status: string
   bm_approval_amount: string
   bm_approval_comment: string
-  rm_status: string
-  rm_approval_amount: string
-  rm_approval_comment: string
+  reg_status: string
+  reg_approval_amount: string
+  reg_approval_comment: string
 }
 
 type RejectedApplcation = PendingApplication & {
   loan_amount: string
   customer_name: string
+  branch?: string
+  loan_officer?: string
   bm_status: string
   bm_rejection_comment: string
-  rm_status: string
-  rm_rejection_comment: string
+  reg_status: string
+  reg_rejection_comment: string
 }
 
 type CreateApplicationData = {
@@ -136,6 +139,7 @@ export const getLoanApplicationsByBranch = async ({
 }
 
 export const getLoanApplicationStatusById = async ({
+  institutionId,
   branchId,
   userId,
   role,
@@ -143,7 +147,7 @@ export const getLoanApplicationStatusById = async ({
 }: QueryParams & { loanId: string }): Promise<SingleStatusApplication> => {
   try {
     const res = await Axios.get(
-      `/loan-application/branch/${branchId}/status/${loanId}?role=${role}&userId=${userId}`,
+      `/loan-application/branch/${branchId}/status/${loanId}?role=${role}&userId=${userId}&institutionId=${institutionId}`,
       {
         withCredentials: true,
       }
@@ -175,13 +179,14 @@ export const getLoanApplicationStatus = async ({
 }
 
 export const fetchRejectedApplications = async ({
+  institutionId,
   branchId,
   userId,
   role,
 }: QueryParams): Promise<RejectedApplcation[] | undefined> => {
   try {
     const res = await Axios.get(
-      `/loan-application/branch/${branchId}/rejected?role=${role}&userId=${userId}`,
+      `/loan-application/branch/${branchId}/rejected?role=${role}&userId=${userId}&institutionId=${institutionId}`,
       {
         withCredentials: true,
       }
@@ -194,6 +199,7 @@ export const fetchRejectedApplications = async ({
 
 // TODO: Change the return type for this function
 export const getRejectedApplicationById = async ({
+  institutionId,
   branchId,
   userId,
   role,
@@ -201,7 +207,7 @@ export const getRejectedApplicationById = async ({
 }: QueryParams & { loanId: string }): Promise<RejectedApplcation> => {
   try {
     const res = await Axios.get(
-      `/loan-application/rejected/${loanId}?role=${role}&userId=${userId}&branchId=${branchId}`,
+      `/loan-application/rejected/${loanId}?role=${role}&userId=${userId}&branchId=${branchId}&institutionId=${institutionId}`,
       {
         withCredentials: true,
       }

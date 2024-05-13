@@ -1,19 +1,16 @@
 import { ApplicationStatusTable } from '@/components/routes/loans/status/status-table'
 import { createFileRoute } from '@tanstack/react-router'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { ChevronDown } from 'lucide-react'
-import { useState } from 'react'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
-import { useQuery } from '@tanstack/react-query'
-import { Branch, getBranches } from '@/lib/api/loan-application/functions'
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from '@/components/ui/dropdown-menu'
+// import { Button } from '@/components/ui/button'
+// import { ChevronDown } from 'lucide-react'
+import { useAuthSession } from '@/lib/auth/hooks'
 
 // const branches = {
 //   one: '1',
@@ -26,28 +23,28 @@ export const Route = createFileRoute('/app/_a/loans/status/')({
 
 function Status() {
   const { role } = useAuthSession()
-  const { institution_id } = useAuthUser()
+  // const { institution_id } = useAuthUser()
 
-  const { data: br, fetchStatus } = useQuery({
-    queryKey: ['branches'],
-    queryFn: () => getBranches({ institutionId: institution_id }),
-    enabled: role === 'regional_manager',
-  })
+  // const { data: br, fetchStatus } = useQuery({
+  //   queryKey: ['branches'],
+  //   queryFn: () => getBranches({ institutionId: institution_id }),
+  //   enabled: role === 'regional_manager',
+  // })
 
-  const [currentBranch, setCurrentBranch] = useState<Branch>({
-    id: '0',
-    name: '',
-  })
+  // const [currentBranch, setCurrentBranch] = useState<Branch>({
+  //   id: '0',
+  //   name: '',
+  // })
 
-  if (fetchStatus === 'fetching') {
-    return <div>Loading...</div>
-  }
+  // if (fetchStatus === 'fetching') {
+  //   return <div>Loading...</div>
+  // }
 
   return (
     <div className="w-full flex flex-col px-4 gap-3 pt-10">
       <div className="flex gap-3 items-center justify-between">
         <h1 className="text-xl font-semibold">Loan application status</h1>
-        {role === 'regional_manager' && (
+        {/* {role === 'regional_manager' && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -73,18 +70,15 @@ function Status() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-        )}
+        )} */}
       </div>
       <main className="flex flex-col pt-3 gap-2">
         {role === 'regional_manager' && (
           <h1 className="font-semibold">
-            Current Branch: {currentBranch.name}
+            {/* Current Branch: {currentBranch.name} */}
           </h1>
         )}
-        <ApplicationStatusTable
-          branchId={currentBranch.id}
-          key={currentBranch.id}
-        />
+        <ApplicationStatusTable />
       </main>
     </div>
   )

@@ -28,6 +28,7 @@ export function StatusData({
     queryKey: ['single-status'],
     queryFn: () =>
       getLoanApplicationStatusById({
+        institutionId: user.institution_id.toString(),
         branchId: branchId,
         loanId: loanId,
         role: role,
@@ -54,7 +55,7 @@ export function StatusData({
                       : 'bg-blue-600'
                 }
               >
-                pending
+                {loan?.bm_status}
               </Badge>
             </div>
             <div className="w-full flex items-start justify-between gap-3">
@@ -81,7 +82,7 @@ export function StatusData({
 
       <Card className="w-full shadow-md">
         <CardHeader>
-          <CardTitle>Relationship Manager</CardTitle>
+          <CardTitle>Regional Manager</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
@@ -89,14 +90,14 @@ export function StatusData({
             <div className="w-full flex items-start gap-3 justify-between">
               <Badge
                 className={
-                  loan?.rm_status === 'approved'
+                  loan?.reg_status === 'approved'
                     ? 'bg-green-700'
-                    : loan?.rm_status === 'rejected'
+                    : loan?.reg_status === 'rejected'
                       ? 'bg-red-600'
                       : 'bg-blue-600'
                 }
               >
-                {loan?.rm_status}
+                {loan?.reg_status}
               </Badge>
             </div>
             <div className="w-full flex items-start justify-between gap-3">
@@ -106,7 +107,7 @@ export function StatusData({
               <p>
                 N
                 {new Intl.NumberFormat().format(
-                  Number(loan?.rm_approval_amount)
+                  Number(loan?.reg_approval_amount)
                 )}
               </p>
             </div>
@@ -115,7 +116,7 @@ export function StatusData({
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
             <Label>Approval Comment:</Label>
-            <p>{loan?.rm_approval_comment}</p>
+            <p>{loan?.reg_approval_comment}</p>
           </div>
         </CardFooter>
       </Card>

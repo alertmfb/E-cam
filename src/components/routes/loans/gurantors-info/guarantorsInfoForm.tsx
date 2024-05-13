@@ -70,7 +70,7 @@ export function GuarantorsInfoForm(loanId: { loanId: string }) {
   const addMutation = useMutation({
     mutationFn: createGuarantorInfo,
     onSuccess: () => {
-      alert('gaurantor added')
+      alert('guarantor added')
       form.reset()
     },
   })

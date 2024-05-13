@@ -13,7 +13,7 @@ import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
-export function RejectedApplicationsTable(branchId: { branchId: string }) {
+export function RejectedApplicationsTable() {
   const { role } = useAuthSession()
 
   switch (role) {
@@ -24,7 +24,7 @@ export function RejectedApplicationsTable(branchId: { branchId: string }) {
       return <BranchManagerRejectedTable />
     }
     default: {
-      return <GeneralRejectedTable branchId={branchId.branchId} />
+      return <GeneralRejectedTable />
     }
   }
 }
@@ -34,7 +34,7 @@ export function LoanOfficerRejectedTable() {
   const user = useAuthUser()
 
   const applications = useQuery({
-    queryKey: ['application-status'],
+    queryKey: ['lo-rejected-applications'],
     queryFn: () =>
       fetchRejectedApplications({
         branchId: user.branch_id.toString(),
@@ -58,7 +58,6 @@ export function LoanOfficerRejectedTable() {
           <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Action</TableHead>
-          {/* <TableHead className="text-right">Actions</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -92,7 +91,7 @@ export function BranchManagerRejectedTable() {
   const user = useAuthUser()
 
   const applications = useQuery({
-    queryKey: ['application-status'],
+    queryKey: ['bm-rejected-applications'],
     queryFn: () =>
       fetchRejectedApplications({
         branchId: user.branch_id.toString(),
@@ -146,15 +145,16 @@ export function BranchManagerRejectedTable() {
   )
 }
 
-export function GeneralRejectedTable(branchId: { branchId: string }) {
+export function GeneralRejectedTable() {
   const user = useAuthUser()
   const auth = useAuthSession()
 
   const applications = useQuery({
-    queryKey: ['application-status'],
+    queryKey: ['general-rejected-applications'],
     queryFn: () =>
       fetchRejectedApplications({
-        branchId: branchId.branchId,
+        institutionId: user.institution_id.toString(),
+        branchId: user.branch_id.toString(),
         userId: user.id.toString(),
         role: auth.role,
       }),
@@ -173,10 +173,10 @@ export function GeneralRejectedTable(branchId: { branchId: string }) {
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
+          <TableHead>Branch</TableHead>
           <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Action</TableHead>
-          {/* <TableHead className="text-right">Actions</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -184,13 +184,17 @@ export function GeneralRejectedTable(branchId: { branchId: string }) {
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
+            <TableCell>{loan.branch}</TableCell>
             <TableCell>{loan.loan_officer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
             <TableCell className="text-right">
               <Button asChild variant="link">
                 <Link
                   to="/app/loans/rejected/$loanId/$branchId"
-                  params={{ loanId: loan.id, branchId: branchId.branchId }}
+                  params={{
+                    loanId: loan.id,
+                    branchId: user.branch_id.toString(),
+                  }}
                 >
                   view
                 </Link>

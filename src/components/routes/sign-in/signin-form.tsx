@@ -92,7 +92,7 @@ export function SigninForm() {
         />
         <Button
           type="submit"
-          className="w-full bg-[#6C63FF] hover:bg-[#6C63FF]/90"
+          className="w-full bg-[#3F3D56] hover:bg-[#3F3D56]/90"
         >
           Continue
         </Button>

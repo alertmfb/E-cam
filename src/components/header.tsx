@@ -56,10 +56,20 @@ export function AppHeader() {
         </div>
         <div className="flex items-end gap-3">
           <div className="flex flex-col">
-            <p className="font-medium">{user?.name}</p>
+            <div className="flex items-center gap-2">
+              <p className="font-medium">{user?.name}</p>
+            </div>
             <div className="flex items-center gap-2">
               <p className="text-sm">{roles[auth.role]}</p>
-              <p className="text-sm font-medium">{user?.institution_name}</p>
+              {auth.role === 'regional_manager' ? (
+                <p className="text-sm font-semibold">
+                  {user.institution_name.toUpperCase()}
+                </p>
+              ) : (
+                <p className="text-sm font-semibold">
+                  {user.branch_name.toUpperCase()}
+                </p>
+              )}
             </div>
           </div>
           <UserDropdown />

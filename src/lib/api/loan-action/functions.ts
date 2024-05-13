@@ -9,6 +9,7 @@ type ApprovalPayload = z.infer<typeof loanActionSchema>
 type RejectionPayload = z.infer<typeof loanRejectionSchema>
 
 type ApprovalParams = {
+  institutionId?: string
   loanId: string
   role: string
   userId: string
@@ -30,7 +31,7 @@ export const approveLoanApplication = async ({
 }: MutationData) => {
   try {
     const res = await Axios.post(
-      `/loan-application/${params.loanId}/approve?role=${params.role}&branchId=${params.branchId}&loanId=${params.loanId}`,
+      `/loan-application/${params.loanId}/approve?role=${params.role}&branchId=${params.branchId}&loanId=${params.loanId}&institutionId=${params.institutionId}`,
       payload,
       {
         withCredentials: true,

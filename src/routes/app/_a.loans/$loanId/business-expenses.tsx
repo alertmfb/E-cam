@@ -12,18 +12,18 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/business-expenses')(
 )
 
 function BusinessExpenses() {
-  const { loanId } = Route.useParams()
+  const loanId = Route.useParams()
 
   return (
     <div className="w-full flex flex-col gap-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <h1 className="text-2xl font-semibold">Business Expenses</h1>
-        <ApplicationNav loanId={loanId} key="business-expenses" />
+        <ApplicationNav loanId={loanId.loanId} key="business-expenses" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
-        <BusinessExpensesForm loanId={loanId} />
+        <BusinessExpensesForm loanId={loanId.loanId} />
         <h1 className="text-2xl font-semibold">Business Assets</h1>
-        <BusinessAssetsForm loanId={loanId} />
+        <BusinessAssetsForm loanId={loanId.loanId} />
       </main>
     </div>
   )

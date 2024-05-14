@@ -22,8 +22,8 @@ type PendingApplication = Omit<LoanApplication, 'customer_bvn'> & {
 type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
   loan_officer?: string
   branch?: string
-  rm_approval_amount?: string
-  rm_approval_comment?: string
+  institution?: string
+  final_approval?: string
 }
 
 type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
@@ -33,17 +33,23 @@ type SingleStatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
   reg_status: string
   reg_approval_amount: string
   reg_approval_comment: string
+  final_approval?: string
+  final_approval_amount?: string
+  final_approval_comment?: string
 }
 
 type RejectedApplcation = PendingApplication & {
   loan_amount: string
   customer_name: string
   branch?: string
+  institution?: string
   loan_officer?: string
   bm_status: string
   bm_rejection_comment: string
   reg_status: string
   reg_rejection_comment: string
+  final_approval?: string
+  final_rejection_comment?: string
 }
 
 type CreateApplicationData = {
@@ -158,6 +164,26 @@ export const getLoanApplicationStatusById = async ({
   }
 }
 
+export const getExecLoanApplicationStatusById = async ({
+  userId,
+  role,
+  loanId,
+}: Partial<QueryParams> & {
+  loanId: string
+}): Promise<SingleStatusApplication> => {
+  try {
+    const res = await Axios.get(
+      `/loan-application/branch/exec/status/${loanId}?role=${role}&userId=${userId}&institutionId=exec`,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
+
 // TODO: change the return type for this function
 export const getLoanApplicationStatus = async ({
   institutionId,
@@ -197,7 +223,24 @@ export const fetchRejectedApplications = async ({
   }
 }
 
-// TODO: Change the return type for this function
+export const getExecRejectedApplicationById = async ({
+  userId,
+  role,
+  loanId,
+}: Partial<QueryParams> & { loanId: string }): Promise<RejectedApplcation> => {
+  try {
+    const res = await Axios.get(
+      `/loan-application/rejected/${loanId}?role=${role}&userId=${userId}&branchId=exec&institutionId=exec`,
+      {
+        withCredentials: true,
+      }
+    )
+    return res.data
+  } catch (e) {
+    throw new Error(`response error: ${e}`)
+  }
+}
+
 export const getRejectedApplicationById = async ({
   institutionId,
   branchId,

@@ -38,7 +38,7 @@ export function SigninForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { data, error } = await supabase.auth.signInWithPassword(values)
     if (data.session) {
-      navigate({ to: '/app/dashboard' })
+      navigate({ to: '/app/dashboard', replace: true })
     }
 
     if (error) {
@@ -60,6 +60,7 @@ export function SigninForm() {
             <option value="loan_officer">Loan Officer</option>
             <option value="branch_manager">Branch Manager</option>
             <option value="regional_manager">Regional Manager</option>
+            <option value="executive">Executive</option>
             {/* <option value="relationship_manager">Relationship Manager</option> */}
           </select>
         </FormItem>

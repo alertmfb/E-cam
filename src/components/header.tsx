@@ -19,6 +19,7 @@ const roles = {
   relationship_manager: 'Relationship Manager',
   branch_manager: 'Branch Manager',
   regional_manager: 'Regional Manager',
+  executive: 'Executive',
 }
 
 export function Header() {
@@ -63,11 +64,11 @@ export function AppHeader() {
               <p className="text-sm">{roles[auth.role]}</p>
               {auth.role === 'regional_manager' ? (
                 <p className="text-sm font-semibold">
-                  {user.institution_name.toUpperCase()}
+                  {user?.institution_name?.toUpperCase()}
                 </p>
               ) : (
                 <p className="text-sm font-semibold">
-                  {user.branch_name.toUpperCase()}
+                  {user?.branch_name?.toUpperCase()}
                 </p>
               )}
             </div>

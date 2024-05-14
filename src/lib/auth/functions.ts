@@ -6,6 +6,7 @@ export type Role =
   | 'branch_manager'
   | 'relationship_manager'
   | 'regional_manager'
+  | 'executive'
 
 type QueryParams = {
   role: Role

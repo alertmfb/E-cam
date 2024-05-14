@@ -55,9 +55,10 @@ export function LoanActionForm(loanId: { loanId: string }) {
     addMutation.mutate({
       payload: values,
       params: {
-        institutionId: user.institution_id.toString(),
+        institutionId:
+          role !== 'executive' ? user.institution_id.toString() : '',
         loanId: loanId.loanId,
-        branchId: user.branch_id.toString(),
+        branchId: role !== 'executive' ? user.branch_id.toString() : '',
         role: role,
         userId: user.id.toString(),
       },
@@ -134,7 +135,10 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
       form.reset()
       navigate({
         to: '/app/loans/rejected/$loanId/$branchId',
-        params: { loanId: loanId.loanId, branchId: user.branch_id.toString() },
+        params: {
+          loanId: loanId.loanId,
+          branchId: role !== 'executive' ? user.branch_id.toString() : 'exec',
+        },
       })
     },
   })
@@ -144,7 +148,7 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
       payload: values,
       params: {
         loanId: loanId.loanId,
-        branchId: user.branch_id.toString(),
+        branchId: role !== 'executive' ? user.branch_id.toString() : 'exec',
         role: role,
         userId: user.id.toString(),
       },

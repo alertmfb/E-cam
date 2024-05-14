@@ -23,6 +23,9 @@ export function RejectedApplicationsTable() {
     case 'branch_manager': {
       return <BranchManagerRejectedTable />
     }
+    case 'executive': {
+      return <ExecutiveRejectedTable />
+    }
     default: {
       return <GeneralRejectedTable />
     }
@@ -184,7 +187,7 @@ export function GeneralRejectedTable() {
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
-            <TableCell>{loan.branch}</TableCell>
+            <TableCell>{loan.branch?.toUpperCase()}</TableCell>
             <TableCell>{loan.loan_officer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
             <TableCell className="text-right">
@@ -194,6 +197,64 @@ export function GeneralRejectedTable() {
                   params={{
                     loanId: loan.id,
                     branchId: user.branch_id.toString(),
+                  }}
+                >
+                  view
+                </Link>
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
+export function ExecutiveRejectedTable() {
+  const user = useAuthUser()
+  const auth = useAuthSession()
+
+  const applications = useQuery({
+    queryKey: ['general-rejected-applications'],
+    queryFn: () =>
+      fetchRejectedApplications({
+        institutionId: 'exec',
+        branchId: 'exec',
+        userId: user.id.toString(),
+        role: auth.role,
+      }),
+  })
+
+  return (
+    <Table>
+      <TableCaption>Loan applications you have rejected</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">SN</TableHead>
+          <TableHead>Customer Name</TableHead>
+          <TableHead>Institution</TableHead>
+          <TableHead>Branch</TableHead>
+          <TableHead>Loan Officer</TableHead>
+          <TableHead>Application Date</TableHead>
+          <TableHead className="text-right">Action</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {applications.data?.map((loan, idx) => (
+          <TableRow key={loan.id}>
+            <TableCell className="font-medium">{idx + 1}</TableCell>
+            <TableCell>{loan.customer_name}</TableCell>
+            <TableCell>{loan.institution}</TableCell>
+            <TableCell>{loan.branch}</TableCell>
+            <TableCell>{loan.loan_officer_name}</TableCell>
+            <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
+            <TableCell className="text-right">
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/rejected/$loanId/$branchId"
+                  params={{
+                    loanId: loan.id,
+                    branchId: 'exec',
                   }}
                 >
                   view

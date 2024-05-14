@@ -10,7 +10,7 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/family-expenses')({
 })
 
 function FamilyExpenses() {
-  const { loanId } = Route.useParams()
+  const { loanId } = Route.useParams() as { loanId: string }
 
   return (
     <div className="w-full flex flex-col gap-3">
@@ -19,10 +19,10 @@ function FamilyExpenses() {
         <ApplicationNav loanId={loanId} key="family-expenses" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
-        <FamilyExpensesForm loanId={loanId}/>
+        <FamilyExpensesForm loanId={loanId} />
         <h1 className="text-2xl font-semibold">Family Assets</h1>
 
-        <FamilyAssetsForm loanId={loanId}/>
+        <FamilyAssetsForm loanId={loanId} />
       </main>
     </div>
   )

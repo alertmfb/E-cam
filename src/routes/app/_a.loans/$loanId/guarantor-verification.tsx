@@ -9,7 +9,7 @@ export const Route = createFileRoute(
 })
 
 function GuarantorVerification() {
-  const { loanId } = Route.useParams()
+  const { loanId } = Route.useParams() as { loanId: string }
 
   return (
     <div className="w-full flex flex-col gap-3">

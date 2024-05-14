@@ -11,7 +11,7 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/reference')({
 })
 
 function Reference() {
-  const { loanId } = Route.useParams()
+  const { loanId } = Route.useParams() as { loanId: string }
 
   return (
     <div className="w-full flex flex-col gap-3">

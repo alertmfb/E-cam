@@ -8,7 +8,10 @@ export const Route = createFileRoute(
 })
 
 function RejectedLoan() {
-  const { loanId, branchId } = Route.useParams()
+  const { loanId, branchId } = Route.useParams() as {
+    loanId: string
+    branchId: string
+  }
 
   return (
     <div className="w-full flex flex-col px-4 gap-3 pt-10">

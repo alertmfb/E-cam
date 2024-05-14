@@ -13,7 +13,7 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
 })
 
 function LoanData() {
-  const { loanId } = Route.useParams()
+  const { loanId } = Route.useParams() as { loanId: string }
   return (
     <div className="w-full flex flex-col px-4 gap-3 py-10">
       <h1 className="text-xl font-semibold">Loan Data</h1>

@@ -6,7 +6,10 @@ export const Route = createFileRoute('/app/_a/loans/status/$loanId/$branchId')({
 })
 
 function StatusId() {
-  const { loanId, branchId } = Route.useParams()
+  const { loanId, branchId } = Route.useParams() as {
+    loanId: string
+    branchId: string
+  }
 
   return (
     <div className="w-full flex flex-col px-4 gap-3 pt-10">

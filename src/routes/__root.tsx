@@ -1,10 +1,11 @@
 import { AuthProvider } from '@/lib/auth/auth-provider'
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
+import { Role } from '@/lib/auth/functions'
 
 type Session = {
   access_token: string
   email: string
-  role: 'loan_officer' | 'relationship_manager'
+  role: Role
 }
 
 interface MyRouterContext {

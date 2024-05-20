@@ -59,7 +59,7 @@ function GeneralStatusData({
   })
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+    <div className="w-full flex flex-col items-center gap-8 py-4 flex-wrap flex-auto">
       <Card className="w-full shadow-md">
         <CardHeader>
           <CardTitle>Branch Manager</CardTitle>
@@ -202,7 +202,7 @@ function ExecutiveStatusData({ loanId }: { loanId: string }) {
   })
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+    <div className="w-full flex flex-col items-center gap-8 py-4 flex-wrap flex-auto">
       <Card className="w-full shadow-md">
         <CardHeader>
           <CardTitle>Branch Manager</CardTitle>

@@ -58,7 +58,6 @@ export function LoanOfficerRejectedTable() {
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
-          <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
@@ -68,7 +67,6 @@ export function LoanOfficerRejectedTable() {
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
-            <TableCell>{loan.loan_officer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
             <TableCell className="text-right">
               <Button asChild variant="link">

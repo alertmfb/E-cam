@@ -20,6 +20,7 @@ type PendingApplication = Omit<LoanApplication, 'customer_bvn'> & {
 }
 
 type StatusApplication = Omit<LoanApplication, 'customer_bvn'> & {
+  status?: string
   loan_officer?: string
   branch?: string
   institution?: string

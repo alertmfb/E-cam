@@ -40,11 +40,14 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { createClientInfo, fetchBvn } from '@/lib/api/client-info/functions'
 
 import { useNavigate } from '@tanstack/react-router'
+import { useAuthUser } from '@/lib/auth/hooks'
 
 type LoanId = { loanId: string }
 
 export function ClientInfoForm(loanId: LoanId) {
+  const { branch_id } = useAuthUser()
   const navigate = useNavigate()
+
   const form = useForm<z.infer<typeof ciS>>({
     resolver: zodResolver(ciS),
     defaultValues: {
@@ -115,10 +118,8 @@ export function ClientInfoForm(loanId: LoanId) {
   function handleZonificationCheck(clientLocation: string) {
     setBusinessLocation(clientLocation)
     const n = getZoneNumber(clientLocation)
-    setZoneColor(getZoneColor(3, n))
+    setZoneColor(getZoneColor(branch_id, n))
   }
-
-  // TODO: Fetch BVN from here
 
   const { data: bvn, fetchStatus } = useQuery({
     queryKey: ['bvn'],
@@ -1063,7 +1064,11 @@ export function ClientInfoForm(loanId: LoanId) {
             </SectionInputContainer>
           </FormSection>
         </div>
-        <Button type="submit" className="w-32 self-end">
+        <Button
+          type="submit"
+          className="w-32 self-end"
+          disabled={zoneColor === 'bg-red-500' || zoneColor === 'bg-white'}
+        >
           Save
         </Button>
       </form>

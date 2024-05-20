@@ -29,6 +29,7 @@ function Layout() {
     queryKey: ['find-userrr'],
     queryFn: () => findUser({ email: auth.email, role: role }),
     enabled: !user?.email,
+    retry: false,
   })
 
   // this ran because the enabled property was set to true

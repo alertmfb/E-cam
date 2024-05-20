@@ -121,6 +121,7 @@ export function BranchManagerStatusTable() {
           <TableHead>Customer Name</TableHead>
           <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
+          <TableHead>Status</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -131,6 +132,7 @@ export function BranchManagerStatusTable() {
             <TableCell>{loan.customer_name}</TableCell>
             <TableCell>{loan.loan_officer}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
+            <TableCell>{loan.status}</TableCell>
 
             <TableCell className="text-right">
               <Button asChild variant="link">
@@ -184,6 +186,7 @@ export function GeneralStatusTable() {
           <TableHead>Branch</TableHead>
           <TableHead>Loan Officer</TableHead>
           <TableHead>Application Date</TableHead>
+          <TableHead>Status</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -195,6 +198,7 @@ export function GeneralStatusTable() {
             <TableCell>{loan.branch}</TableCell>
             <TableCell>{loan.loan_officer}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
+            <TableCell>{loan.status}</TableCell>
 
             <TableCell className="text-right">
               <Button asChild variant="link">
@@ -283,7 +287,10 @@ export function ExecutiveStatusTable() {
               </Button>
               {loan.final_approval === 'approved' && (
                 <Button asChild variant="link">
-                  <a href="/template.docx" download="Offer Letter Template">
+                  <a
+                    href="/template.docx"
+                    download={loan.customer_name + ' offer letter'}
+                  >
                     download letter
                   </a>
                 </Button>

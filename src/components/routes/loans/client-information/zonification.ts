@@ -1,7 +1,7 @@
 const branches = {
-  1: 'IDUMAGBO',
+  1: 'EBUTE-METTA',
   2: 'IDUMOTA',
-  3: 'EBUTE-METTA',
+  3: 'IDUMAGBO',
   4: 'MUSHIN',
   5: 'AGEGE',
   6: 'IKORODU',
@@ -49,7 +49,7 @@ const locations = {
   'IDIMU ROAD': 9,
   'ISOLO ROAD': 4,
   'AMU MARKET MUSHIN': 4,
-  'EBUTE-METTA': 3,
+  'EBUTE-METTA': 1,
   YABA: 3,
   'LAGOS ISLAND': 1,
   AJAH: 1,

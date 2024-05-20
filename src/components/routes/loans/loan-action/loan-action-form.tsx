@@ -46,7 +46,10 @@ export function LoanActionForm(loanId: { loanId: string }) {
       form.reset()
       navigate({
         to: '/app/loans/status/$loanId/$branchId',
-        params: { loanId: loanId.loanId, branchId: user.branch_id.toString() },
+        params: {
+          loanId: loanId.loanId,
+          branchId: role !== 'executive' ? user.branch_id.toString() : 'exec',
+        },
       })
     },
   })

@@ -69,6 +69,15 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                   Guarantor's Info
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/document"
+                  params={{ loanId: loanId }}
+                >
+                  Document Upload
+                </Link>
+              </DropdownMenuItem>
               {/* <DropdownMenuItem>
                 <Link
                   to="/app/loans/$loanId/pictoral-evidence"
@@ -143,6 +152,17 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             Guarantors' Info
           </Link>
         </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/document"
+            params={{ loanId: loanId }}
+          >
+            Document Upload
+          </Link>
+        </BreadcrumbItem>
+
         {/* <BreadcrumbSeparator /> */}
         {/* <BreadcrumbItem>
           <Link

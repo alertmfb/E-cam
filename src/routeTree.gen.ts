@@ -27,6 +27,7 @@ import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
 import { Route as AppALoansLoanIdGuarantorVerificationImport } from './routes/app/_a.loans/$loanId/guarantor-verification'
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
+import { Route as AppALoansLoanIdDocumentImport } from './routes/app/_a.loans/$loanId/document'
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
@@ -121,6 +122,11 @@ const AppALoansLoanIdFamilyExpensesRoute =
     getParentRoute: () => AppARoute,
   } as any)
 
+const AppALoansLoanIdDocumentRoute = AppALoansLoanIdDocumentImport.update({
+  path: '/loans/$loanId/document',
+  getParentRoute: () => AppARoute,
+} as any)
+
 const AppALoansLoanIdDataRoute = AppALoansLoanIdDataImport.update({
   path: '/loans/$loanId/data',
   getParentRoute: () => AppARoute,
@@ -213,6 +219,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdDataImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/$loanId/document': {
+      preLoaderRoute: typeof AppALoansLoanIdDocumentImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/$loanId/family-expenses': {
       preLoaderRoute: typeof AppALoansLoanIdFamilyExpensesImport
       parentRoute: typeof AppAImport
@@ -281,6 +291,7 @@ export const routeTree = rootRoute.addChildren([
       AppALoansLoanIdBusinessExpensesRoute,
       AppALoansLoanIdClientInformationRoute,
       AppALoansLoanIdDataRoute,
+      AppALoansLoanIdDocumentRoute,
       AppALoansLoanIdFamilyExpensesRoute,
       AppALoansLoanIdGuarantorVerificationRoute,
       AppALoansLoanIdGuarantorsInfoRoute,

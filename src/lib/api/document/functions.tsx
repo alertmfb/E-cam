@@ -47,13 +47,12 @@ export function constructUrl(assetName: string) {
 }
 
 export const getFileName = async ({
-  params,
-}: Pick<UploadData, 'params'>): Promise<FileResponse> => {
+  loanId,
+}: Pick<UploadData['params'], 'loanId'>): Promise<FileResponse> => {
   try {
-    const res = await Axios.get(
-      `/loan-application/${params.loanId}/get-file?role=${params.role}&branchId=${params.branchId}&loanId=${params.loanId}&institutionId=${params.institutionId}`,
-      { withCredentials: true }
-    )
+    const res = await Axios.get(`/loan-application/${loanId}/get-file`, {
+      withCredentials: true,
+    })
     return res.data
   } catch (e) {
     throw new Error(`response error: ${e}`)

@@ -1,4 +1,5 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
+import { UploadData } from '@/components/routes/loans/document/upload-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
   LoanActionForm,
@@ -21,6 +22,7 @@ function LoanData() {
         <ClientInfoData LoanId={loanId} />
         <GuarantorInfoData LoanId={loanId} />
         <ReferenceData loanId={loanId} />
+        <UploadData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

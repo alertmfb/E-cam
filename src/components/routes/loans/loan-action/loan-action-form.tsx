@@ -91,24 +91,25 @@ export function LoanActionForm(loanId: { loanId: string }) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="approval_comment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Comment</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="w-96"
-                        placeholder="details"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </SectionInputContainer>
+            <FormField
+              control={form.control}
+              name="approval_comment"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Comment</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="w-full"
+                      placeholder="details"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button type="submit" className="w-fit">
               Process
             </Button>
@@ -172,11 +173,11 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
                 control={form.control}
                 name="rejection_comment"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>Rejection Reasons/comments</FormLabel>
                     <FormControl>
                       <Textarea
-                        className="w-96"
+                        className="w-full"
                         placeholder="details"
                         {...field}
                       />

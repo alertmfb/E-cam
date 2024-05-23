@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
 import {
   Card,
   CardContent,
@@ -10,12 +9,28 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
+import { constructUrl, getFileName } from '@/lib/api/document/functions'
+import { Button } from '@/components/ui/button'
 
-export function UploadData(loanId: { LoanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
-
+export function UploadData({ loanId }: { loanId: string }) {
   const [content, setContent] = useState(false)
+
+  const { data, fetchStatus } = useQuery({
+    queryKey: ['excel-document'],
+    queryFn: () => getFileName({ loanId }),
+  })
+
+  if (fetchStatus === 'fetching') {
+    return <div>Loading...</div>
+  }
+
+  if (!data) {
+    return <div>Fetch Error</div>
+  }
+
+  const filename = data.file_name
+
+  const url = constructUrl(filename)
 
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
@@ -26,19 +41,23 @@ export function UploadData(loanId: { LoanId: string }) {
         >
           <CardTitle className="text-xl flex items-center gap-3 justify-between">
             {' '}
-            <div>Client Information</div>
+            <div>Loan Documents</div>
             <ChevronDown />
           </CardTitle>
-          <CardDescription>Details about the client</CardDescription>
+          <CardDescription>
+            Assiociated documents with the application
+          </CardDescription>
         </CardHeader>
 
         {content && (
           <CardContent className="transition ease-in-out fade-in-30 delay-150">
-            <form className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-              <Label>{'file_name'.split('_').join(' ')}</Label>{' '}
-              <Label className="font-normal">
-                <div>{}</div>
-              </Label>
+            <form className="w-full flex flex-col gap-4">
+              <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
+                <Label>1. Excel Sheet</Label>
+                <Button asChild variant="outline">
+                  <a href={url}>Download</a>
+                </Button>
+              </div>
             </form>
           </CardContent>
         )}

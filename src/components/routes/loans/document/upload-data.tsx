@@ -58,6 +58,18 @@ export function UploadData({ loanId }: { loanId: string }) {
                   <a href={url}>Download</a>
                 </Button>
               </div>
+              <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
+                <Label>2. Verification Picture</Label>
+                <Button asChild variant="outline">
+                  <a href={url}>Download</a>
+                </Button>
+              </div>
+              <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
+                <Label>3. Customer's Business place</Label>
+                <Button asChild variant="outline">
+                  <a href={url}>Download</a>
+                </Button>
+              </div>
             </form>
           </CardContent>
         )}

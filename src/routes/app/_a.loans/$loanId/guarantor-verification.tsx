@@ -20,7 +20,6 @@ function GuarantorVerification() {
         <ApplicationNavB loanId={loanId} key="reference" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
-        {/* <h1 className="text-xl font-semibold"></h1> */}
         <GuarantorVerificationForm />
       </main>
     </div>

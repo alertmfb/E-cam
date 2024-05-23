@@ -10,6 +10,18 @@ import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
 export function UploadForm({ loanId }: { loanId: string }) {
+  return (
+    <div className="w-full flex flex-col items-start gap-5 pb-6">
+      <div className="w-full grid grid-rows-1 grid-cols-2 gap-4">
+        <VerificationPicUploadForm loanId={loanId} />
+        <CustomerBusinessUploadForm loanId={loanId} />
+      </div>
+      <SheetUploadForm loanId={loanId} />
+    </div>
+  )
+}
+
+function SheetUploadForm({ loanId }: { loanId: string }) {
   const { branch_id } = useAuthUser()
   const [file, setFile] = useState<File>()
   const navigate = useNavigate()
@@ -51,10 +63,12 @@ export function UploadForm({ loanId }: { loanId: string }) {
 
   return (
     <form
-      className="flex flex-col items-start gap-8"
+      className="w-full flex flex-col items-start gap-8 border rounded-lg p-6 shadow-md"
       onSubmit={(e) => handleUpload(e)}
     >
-      <Label className="text-xl">
+      <Label className="text-xl">CAM Sheet Upload.</Label>
+
+      <Label className="text-base">
         Download the excel template, update it with the customer's information,
         rename the file, then upload it.
       </Label>
@@ -85,6 +99,65 @@ export function UploadForm({ loanId }: { loanId: string }) {
           className="hidden"
           onChange={(e) => handleFileChange(e)}
         />
+        <Button
+          type="submit"
+          variant="outline"
+          className="bg-blue-700 text-white flex items-center gap-2"
+        >
+          <CloudUpload /> Upload File
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function VerificationPicUploadForm({ loanId }: { loanId: string }) {
+  // TODO: Set on success to alert 'uploaded'
+  return (
+    <form className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg">
+      <Label className="text-xl">Verification Picture Upload</Label>
+
+      <div className="flex flex-col items-start justify-center gap-4">
+        <Button asChild variant="secondary">
+          <Label
+            htmlFor="file"
+            className="cursor-pointer flex items-center gap-2 text-base"
+          >
+            <SquareMousePointer /> select file to upload
+          </Label>
+        </Button>
+        <div className="text-base font-semibold">{}</div>
+        <Input type="file" id="file" className="hidden" />
+        <Button
+          type="submit"
+          variant="outline"
+          className="bg-blue-700 text-white flex items-center gap-2"
+        >
+          <CloudUpload /> Upload File
+        </Button>
+      </div>
+    </form>
+  )
+}
+
+function CustomerBusinessUploadForm({ loanId }: { loanId: string }) {
+  // TODO: Set on success to alert 'uploaded'
+
+  return (
+    <form className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg">
+      <Label className="text-xl">Customer Business Upload</Label>
+
+      <div className="flex flex-col items-start justify-center gap-4">
+        <Button asChild variant="secondary">
+          <Label
+            htmlFor="file"
+            className="cursor-pointer flex items-center gap-2 text-base"
+          >
+            <SquareMousePointer /> select file to upload
+          </Label>
+        </Button>
+        <div className="text-base font-semibold">{}</div>
+        <Input type="file" id="file" className="hidden" />
         <Button
           type="submit"
           variant="outline"

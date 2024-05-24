@@ -22,6 +22,7 @@ import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomp
 import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/status/index'
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
+import { Route as AppALoansLoanIdVerificationPictureImport } from './routes/app/_a.loans/$loanId/verification-picture'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
@@ -29,6 +30,7 @@ import { Route as AppALoansLoanIdGuarantorVerificationImport } from './routes/ap
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
 import { Route as AppALoansLoanIdDocumentImport } from './routes/app/_a.loans/$loanId/document'
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
+import { Route as AppALoansLoanIdCustomerBusinessImport } from './routes/app/_a.loans/$loanId/customer-business'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 import { Route as AppALoansStatusLoanIdIndexImport } from './routes/app/_a.loans/status/$loanId/index'
@@ -93,6 +95,12 @@ const AppALoansPendingIndexRoute = AppALoansPendingIndexImport.update({
   getParentRoute: () => AppARoute,
 } as any)
 
+const AppALoansLoanIdVerificationPictureRoute =
+  AppALoansLoanIdVerificationPictureImport.update({
+    path: '/loans/$loanId/verification-picture',
+    getParentRoute: () => AppARoute,
+  } as any)
+
 const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
   path: '/loans/$loanId/reference',
   getParentRoute: () => AppARoute,
@@ -131,6 +139,12 @@ const AppALoansLoanIdDataRoute = AppALoansLoanIdDataImport.update({
   path: '/loans/$loanId/data',
   getParentRoute: () => AppARoute,
 } as any)
+
+const AppALoansLoanIdCustomerBusinessRoute =
+  AppALoansLoanIdCustomerBusinessImport.update({
+    path: '/loans/$loanId/customer-business',
+    getParentRoute: () => AppARoute,
+  } as any)
 
 const AppALoansLoanIdClientInformationRoute =
   AppALoansLoanIdClientInformationImport.update({
@@ -215,6 +229,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdClientInformationImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/$loanId/customer-business': {
+      preLoaderRoute: typeof AppALoansLoanIdCustomerBusinessImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/$loanId/data': {
       preLoaderRoute: typeof AppALoansLoanIdDataImport
       parentRoute: typeof AppAImport
@@ -241,6 +259,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/reference': {
       preLoaderRoute: typeof AppALoansLoanIdReferenceImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/verification-picture': {
+      preLoaderRoute: typeof AppALoansLoanIdVerificationPictureImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/pending/': {
@@ -290,6 +312,7 @@ export const routeTree = rootRoute.addChildren([
       AppADashboardIndexRoute,
       AppALoansLoanIdBusinessExpensesRoute,
       AppALoansLoanIdClientInformationRoute,
+      AppALoansLoanIdCustomerBusinessRoute,
       AppALoansLoanIdDataRoute,
       AppALoansLoanIdDocumentRoute,
       AppALoansLoanIdFamilyExpensesRoute,
@@ -297,6 +320,7 @@ export const routeTree = rootRoute.addChildren([
       AppALoansLoanIdGuarantorsInfoRoute,
       AppALoansLoanIdPictoralEvidenceRoute,
       AppALoansLoanIdReferenceRoute,
+      AppALoansLoanIdVerificationPictureRoute,
       AppALoansPendingIndexRoute,
       AppALoansRejectedIndexRoute,
       AppALoansStatusIndexRoute,

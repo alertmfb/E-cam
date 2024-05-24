@@ -4,7 +4,6 @@ import { Label } from '@/components/ui/label'
 import { saveFileName, uploadFile } from '@/lib/api/document/functions'
 import { CloudUpload, DownloadCloud, SquareMousePointer } from 'lucide-react'
 import React, { useState } from 'react'
-import { constructUrl } from '@/lib/api/document/functions'
 import { useAuthUser } from '@/lib/auth/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
@@ -12,18 +11,14 @@ import { useNavigate } from '@tanstack/react-router'
 export function UploadForm({ loanId }: { loanId: string }) {
   return (
     <div className="w-full flex flex-col items-start gap-5 pb-6">
-      <div className="w-full grid grid-rows-1 grid-cols-2 gap-4">
-        <VerificationPicUploadForm loanId={loanId} />
-        <CustomerBusinessUploadForm loanId={loanId} />
-      </div>
-      <SheetUploadForm loanId={loanId} />
+      <SheetUploadForm loanId={loanId} key="su" />
     </div>
   )
 }
 
-function SheetUploadForm({ loanId }: { loanId: string }) {
+const SheetUploadForm = ({ loanId }: { loanId: string }) => {
   const { branch_id } = useAuthUser()
-  const [file, setFile] = useState<File>()
+  const [file2, setFile2] = useState<File>()
   const navigate = useNavigate()
 
   const fileMutation = useMutation({
@@ -33,17 +28,18 @@ function SheetUploadForm({ loanId }: { loanId: string }) {
     },
   })
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleSheetChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
       throw new Error('No file found')
     }
-
-    setFile(e.target.files[0]!)
+    const file = e.target.files
+    console.log(file)
+    setFile2(e.target.files[0]!)
   }
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
-    const { data, error } = await uploadFile(file!, loanId.toString())
+    const { data, error } = await uploadFile(file2!, loanId.toString())
 
     if (error) {
       throw new Error('upload failed')
@@ -53,8 +49,6 @@ function SheetUploadForm({ loanId }: { loanId: string }) {
       throw new Error('corrupted file')
     }
 
-    // TODO: Save in db
-    console.log(constructUrl(data?.path))
     fileMutation.mutate({
       filename: data.path,
       params: { branchId: branch_id.toString(), loanId: loanId },
@@ -92,72 +86,13 @@ function SheetUploadForm({ loanId }: { loanId: string }) {
             <SquareMousePointer /> select file to upload
           </Label>
         </Button>
-        <div className="text-base font-semibold">{file && file?.name}</div>
+        <div className="text-base font-semibold">{file2?.name}</div>
         <Input
           type="file"
           id="file"
           className="hidden"
-          onChange={(e) => handleFileChange(e)}
+          onChange={(e) => handleSheetChange(e)}
         />
-        <Button
-          type="submit"
-          variant="outline"
-          className="bg-blue-700 text-white flex items-center gap-2"
-        >
-          <CloudUpload /> Upload File
-        </Button>
-      </div>
-    </form>
-  )
-}
-
-function VerificationPicUploadForm({ loanId }: { loanId: string }) {
-  // TODO: Set on success to alert 'uploaded'
-  return (
-    <form className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg">
-      <Label className="text-xl">Verification Picture Upload</Label>
-
-      <div className="flex flex-col items-start justify-center gap-4">
-        <Button asChild variant="secondary">
-          <Label
-            htmlFor="file"
-            className="cursor-pointer flex items-center gap-2 text-base"
-          >
-            <SquareMousePointer /> select file to upload
-          </Label>
-        </Button>
-        <div className="text-base font-semibold">{}</div>
-        <Input type="file" id="file" className="hidden" />
-        <Button
-          type="submit"
-          variant="outline"
-          className="bg-blue-700 text-white flex items-center gap-2"
-        >
-          <CloudUpload /> Upload File
-        </Button>
-      </div>
-    </form>
-  )
-}
-
-function CustomerBusinessUploadForm({ loanId }: { loanId: string }) {
-  // TODO: Set on success to alert 'uploaded'
-
-  return (
-    <form className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg">
-      <Label className="text-xl">Customer Business Upload</Label>
-
-      <div className="flex flex-col items-start justify-center gap-4">
-        <Button asChild variant="secondary">
-          <Label
-            htmlFor="file"
-            className="cursor-pointer flex items-center gap-2 text-base"
-          >
-            <SquareMousePointer /> select file to upload
-          </Label>
-        </Button>
-        <div className="text-base font-semibold">{}</div>
-        <Input type="file" id="file" className="hidden" />
         <Button
           type="submit"
           variant="outline"

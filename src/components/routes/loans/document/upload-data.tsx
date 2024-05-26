@@ -62,7 +62,7 @@ export function UploadData({ loanId }: { loanId: string }) {
               <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
                 <Label>1. Excel Sheet</Label>
                 <Button asChild variant="outline">
-                  <a href={fileUrl} download>
+                  <a href={fileUrl} download="verification">
                     Download
                   </a>
                 </Button>

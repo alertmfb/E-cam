@@ -9,7 +9,11 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
-import { constructUrl, getFileName } from '@/lib/api/document/functions'
+import {
+  constructUrl,
+  constructImageUrl,
+  getFileName,
+} from '@/lib/api/document/functions'
 import { Button } from '@/components/ui/button'
 
 export function UploadData({ loanId }: { loanId: string }) {
@@ -28,9 +32,12 @@ export function UploadData({ loanId }: { loanId: string }) {
     return <div>Fetch Error</div>
   }
 
-  const filename = data.file_name
+  const fileUrl = constructUrl(data.file_name)
 
-  const url = constructUrl(filename)
+  // TODO: use supaase cli to downnload image assets
+
+  const cbUrl = constructImageUrl(data.customer_business)
+  const vpUrl = constructImageUrl(data.verification_picture)
 
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
@@ -55,19 +62,25 @@ export function UploadData({ loanId }: { loanId: string }) {
               <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
                 <Label>1. Excel Sheet</Label>
                 <Button asChild variant="outline">
-                  <a href={url}>Download</a>
+                  <a href={fileUrl} download>
+                    Download
+                  </a>
                 </Button>
               </div>
               <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
                 <Label>2. Verification Picture</Label>
                 <Button asChild variant="outline">
-                  <a href={url}>Download</a>
+                  <a href={vpUrl} download="customer image">
+                    Download
+                  </a>
                 </Button>
               </div>
               <div className="w-full flex items-center justify-between flex-1 flex-wrap gap-3">
                 <Label>3. Customer's Business place</Label>
                 <Button asChild variant="outline">
-                  <a href={url}>Download</a>
+                  <a href={cbUrl} download="customer image">
+                    Download
+                  </a>
                 </Button>
               </div>
             </form>

@@ -27,6 +27,8 @@ type UploadData = {
 
 type FileResponse = {
   file_name: string
+  verification_picture: string
+  customer_business: string
 }
 
 export async function uploadFile(file: File, loanId: string) {

@@ -32,6 +32,7 @@ import { Route as AppALoansLoanIdDocumentImport } from './routes/app/_a.loans/$l
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
 import { Route as AppALoansLoanIdCustomerBusinessImport } from './routes/app/_a.loans/$loanId/customer-business'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
+import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 import { Route as AppALoansStatusLoanIdIndexImport } from './routes/app/_a.loans/status/$loanId/index'
 import { Route as AppALoansRejectedLoanIdIndexImport } from './routes/app/_a.loans/rejected/$loanId/index'
@@ -152,6 +153,11 @@ const AppALoansLoanIdClientInformationRoute =
     getParentRoute: () => AppARoute,
   } as any)
 
+const AppALoansLoanIdCertRoute = AppALoansLoanIdCertImport.update({
+  path: '/loans/$loanId/cert',
+  getParentRoute: () => AppARoute,
+} as any)
+
 const AppALoansLoanIdBusinessExpensesRoute =
   AppALoansLoanIdBusinessExpensesImport.update({
     path: '/loans/$loanId/business-expenses',
@@ -223,6 +229,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/business-expenses': {
       preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/cert': {
+      preLoaderRoute: typeof AppALoansLoanIdCertImport
       parentRoute: typeof AppAImport
     }
     '/app/_a/loans/$loanId/client-information': {
@@ -311,6 +321,7 @@ export const routeTree = rootRoute.addChildren([
       AppALoansNewRoute,
       AppADashboardIndexRoute,
       AppALoansLoanIdBusinessExpensesRoute,
+      AppALoansLoanIdCertRoute,
       AppALoansLoanIdClientInformationRoute,
       AppALoansLoanIdCustomerBusinessRoute,
       AppALoansLoanIdDataRoute,

@@ -51,6 +51,13 @@ export async function uploadImage(
   return { data, error }
 }
 
+export async function downloadImage(imageName: string) {
+  const { data, error } = await supabase.storage
+    .from(IMAGE_BUCKET_NAME)
+    .download(imageName)
+  return { data, error }
+}
+
 export const saveFileName = async ({
   filename,
   params,

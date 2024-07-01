@@ -9,7 +9,7 @@ export const Route = createFileRoute('/app/_a/loans/new')({
 
 function Application() {
   return (
-    <div className="w-full flex flex-col gap-3">
+    <div className="container w-full flex flex-col gap-3">
       <div className="flex items-center justify-between flex-1 flex-wrap">
         <h1 className="text-2xl font-semibold">New Loan Application</h1>
         <Link to="/app/dashboard">

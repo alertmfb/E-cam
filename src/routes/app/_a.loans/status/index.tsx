@@ -41,7 +41,7 @@ function Status() {
   // }
 
   return (
-    <div className="w-full flex flex-col px-4 gap-3 pt-10">
+    <div className="container w-full flex flex-col px-4 gap-3 pt-10">
       <div className="flex gap-3 items-center justify-between">
         <h1 className="text-xl font-semibold">Loan application status</h1>
         {/* {role === 'regional_manager' && (

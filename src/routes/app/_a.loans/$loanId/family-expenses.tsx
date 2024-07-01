@@ -13,7 +13,7 @@ function FamilyExpenses() {
   const { loanId } = Route.useParams() as { loanId: string }
 
   return (
-    <div className="w-full flex flex-col gap-3">
+    <div className="container w-full flex flex-col gap-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <h1 className="text-2xl font-semibold">Family Expenses</h1>
         <ApplicationNav loanId={loanId} key="family-expenses" />

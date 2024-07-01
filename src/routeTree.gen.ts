@@ -24,6 +24,7 @@ import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rej
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
 import { Route as AppALoansLoanIdVerificationPictureImport } from './routes/app/_a.loans/$loanId/verification-picture'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
+import { Route as AppALoansLoanIdProfitLossImport } from './routes/app/_a.loans/$loanId/profit-loss'
 import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
 import { Route as AppALoansLoanIdGuarantorVerificationImport } from './routes/app/_a.loans/$loanId/guarantor-verification'
@@ -34,6 +35,7 @@ import { Route as AppALoansLoanIdCustomerBusinessImport } from './routes/app/_a.
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
+import { Route as AppALoansLoanIdBImport } from './routes/app/_a.loans/$loanId/_b'
 import { Route as AppALoansStatusLoanIdIndexImport } from './routes/app/_a.loans/status/$loanId/index'
 import { Route as AppALoansRejectedLoanIdIndexImport } from './routes/app/_a.loans/rejected/$loanId/index'
 import { Route as AppALoansStatusLoanIdBranchIdImport } from './routes/app/_a.loans/status/$loanId/$branchId'
@@ -43,6 +45,7 @@ import { Route as AppALoansPendingLoanIdClientInfoImport } from './routes/app/_a
 // Create Virtual Routes
 
 const AppImport = createFileRoute('/app')()
+const AppALoansLoanIdImport = createFileRoute('/app/_a/loans/$loanId')()
 
 // Create/Update Routes
 
@@ -64,6 +67,11 @@ const IndexRoute = IndexImport.update({
 const AppARoute = AppAImport.update({
   id: '/_a',
   getParentRoute: () => AppRoute,
+} as any)
+
+const AppALoansLoanIdRoute = AppALoansLoanIdImport.update({
+  path: '/loans/$loanId',
+  getParentRoute: () => AppARoute,
 } as any)
 
 const AppADashboardIndexRoute = AppADashboardIndexImport.update({
@@ -98,71 +106,81 @@ const AppALoansPendingIndexRoute = AppALoansPendingIndexImport.update({
 
 const AppALoansLoanIdVerificationPictureRoute =
   AppALoansLoanIdVerificationPictureImport.update({
-    path: '/loans/$loanId/verification-picture',
-    getParentRoute: () => AppARoute,
+    path: '/verification-picture',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
-  path: '/loans/$loanId/reference',
-  getParentRoute: () => AppARoute,
+  path: '/reference',
+  getParentRoute: () => AppALoansLoanIdRoute,
+} as any)
+
+const AppALoansLoanIdProfitLossRoute = AppALoansLoanIdProfitLossImport.update({
+  path: '/profit-loss',
+  getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
 const AppALoansLoanIdPictoralEvidenceRoute =
   AppALoansLoanIdPictoralEvidenceImport.update({
-    path: '/loans/$loanId/pictoral-evidence',
-    getParentRoute: () => AppARoute,
+    path: '/pictoral-evidence',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdGuarantorsInfoRoute =
   AppALoansLoanIdGuarantorsInfoImport.update({
-    path: '/loans/$loanId/guarantors-info',
-    getParentRoute: () => AppARoute,
+    path: '/guarantors-info',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdGuarantorVerificationRoute =
   AppALoansLoanIdGuarantorVerificationImport.update({
-    path: '/loans/$loanId/guarantor-verification',
-    getParentRoute: () => AppARoute,
+    path: '/guarantor-verification',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdFamilyExpensesRoute =
   AppALoansLoanIdFamilyExpensesImport.update({
-    path: '/loans/$loanId/family-expenses',
-    getParentRoute: () => AppARoute,
+    path: '/family-expenses',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdDocumentRoute = AppALoansLoanIdDocumentImport.update({
-  path: '/loans/$loanId/document',
-  getParentRoute: () => AppARoute,
+  path: '/document',
+  getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
 const AppALoansLoanIdDataRoute = AppALoansLoanIdDataImport.update({
-  path: '/loans/$loanId/data',
-  getParentRoute: () => AppARoute,
+  path: '/data',
+  getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
 const AppALoansLoanIdCustomerBusinessRoute =
   AppALoansLoanIdCustomerBusinessImport.update({
-    path: '/loans/$loanId/customer-business',
-    getParentRoute: () => AppARoute,
+    path: '/customer-business',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdClientInformationRoute =
   AppALoansLoanIdClientInformationImport.update({
-    path: '/loans/$loanId/client-information',
-    getParentRoute: () => AppARoute,
+    path: '/client-information',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
 const AppALoansLoanIdCertRoute = AppALoansLoanIdCertImport.update({
-  path: '/loans/$loanId/cert',
-  getParentRoute: () => AppARoute,
+  path: '/cert',
+  getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
 const AppALoansLoanIdBusinessExpensesRoute =
   AppALoansLoanIdBusinessExpensesImport.update({
-    path: '/loans/$loanId/business-expenses',
-    getParentRoute: () => AppARoute,
+    path: '/business-expenses',
+    getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
+
+const AppALoansLoanIdBRoute = AppALoansLoanIdBImport.update({
+  id: '/_b',
+  getParentRoute: () => AppALoansLoanIdRoute,
+} as any)
 
 const AppALoansStatusLoanIdIndexRoute = AppALoansStatusLoanIdIndexImport.update(
   {
@@ -227,53 +245,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppADashboardIndexImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/loans/$loanId': {
+      preLoaderRoute: typeof AppALoansLoanIdImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/loans/$loanId/_b': {
+      preLoaderRoute: typeof AppALoansLoanIdBImport
+      parentRoute: typeof AppALoansLoanIdRoute
+    }
     '/app/_a/loans/$loanId/business-expenses': {
       preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/cert': {
       preLoaderRoute: typeof AppALoansLoanIdCertImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/client-information': {
       preLoaderRoute: typeof AppALoansLoanIdClientInformationImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/customer-business': {
       preLoaderRoute: typeof AppALoansLoanIdCustomerBusinessImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/data': {
       preLoaderRoute: typeof AppALoansLoanIdDataImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/document': {
       preLoaderRoute: typeof AppALoansLoanIdDocumentImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/family-expenses': {
       preLoaderRoute: typeof AppALoansLoanIdFamilyExpensesImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/guarantor-verification': {
       preLoaderRoute: typeof AppALoansLoanIdGuarantorVerificationImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/guarantors-info': {
       preLoaderRoute: typeof AppALoansLoanIdGuarantorsInfoImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/pictoral-evidence': {
       preLoaderRoute: typeof AppALoansLoanIdPictoralEvidenceImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
+    '/app/_a/loans/$loanId/profit-loss': {
+      preLoaderRoute: typeof AppALoansLoanIdProfitLossImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/reference': {
       preLoaderRoute: typeof AppALoansLoanIdReferenceImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/verification-picture': {
       preLoaderRoute: typeof AppALoansLoanIdVerificationPictureImport
-      parentRoute: typeof AppAImport
+      parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/pending/': {
       preLoaderRoute: typeof AppALoansPendingIndexImport
@@ -320,18 +350,21 @@ export const routeTree = rootRoute.addChildren([
       AppALoansIncompleteRoute,
       AppALoansNewRoute,
       AppADashboardIndexRoute,
-      AppALoansLoanIdBusinessExpensesRoute,
-      AppALoansLoanIdCertRoute,
-      AppALoansLoanIdClientInformationRoute,
-      AppALoansLoanIdCustomerBusinessRoute,
-      AppALoansLoanIdDataRoute,
-      AppALoansLoanIdDocumentRoute,
-      AppALoansLoanIdFamilyExpensesRoute,
-      AppALoansLoanIdGuarantorVerificationRoute,
-      AppALoansLoanIdGuarantorsInfoRoute,
-      AppALoansLoanIdPictoralEvidenceRoute,
-      AppALoansLoanIdReferenceRoute,
-      AppALoansLoanIdVerificationPictureRoute,
+      AppALoansLoanIdRoute.addChildren([
+        AppALoansLoanIdBusinessExpensesRoute,
+        AppALoansLoanIdCertRoute,
+        AppALoansLoanIdClientInformationRoute,
+        AppALoansLoanIdCustomerBusinessRoute,
+        AppALoansLoanIdDataRoute,
+        AppALoansLoanIdDocumentRoute,
+        AppALoansLoanIdFamilyExpensesRoute,
+        AppALoansLoanIdGuarantorVerificationRoute,
+        AppALoansLoanIdGuarantorsInfoRoute,
+        AppALoansLoanIdPictoralEvidenceRoute,
+        AppALoansLoanIdProfitLossRoute,
+        AppALoansLoanIdReferenceRoute,
+        AppALoansLoanIdVerificationPictureRoute,
+      ]),
       AppALoansPendingIndexRoute,
       AppALoansRejectedIndexRoute,
       AppALoansStatusIndexRoute,

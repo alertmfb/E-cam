@@ -53,7 +53,7 @@ function Layout() {
     <AuthProvider>
       <div>
         <AppHeader />
-        <div className="container mx-auto mt-4">
+        <div className="mx-auto mt-4">
           <Outlet />
         </div>
       </div>

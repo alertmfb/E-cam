@@ -9,13 +9,87 @@ import {
   TableHeader,
 } from '@/components/ui/table'
 import type { InventoryData } from '@/lib/api/profit-loss/schema'
-import { rows, updateCell } from '@/lib/api/profit-loss/schema'
+import { calculateTotal } from '@/lib/api/profit-loss/schema'
+import { useState } from 'react'
 
 export const Inventory = () => {
+  const [rrows, setRows] = useState([
+    {
+      item: '',
+      quantity: 0,
+      value: 0,
+      sellingPrice: 0,
+      costPrice: 0,
+      profit: 0,
+      margin: 0,
+      wM: 0,
+    },
+    {
+      item: '',
+      quantity: 0,
+      value: 0,
+      sellingPrice: 0,
+      costPrice: 0,
+      profit: 0,
+      margin: 0,
+      wM: 0,
+    },
+  ])
+
+  const wm: number[] = []
+
+  function changeCell(
+    idx: number,
+    value: string | number,
+    cell: keyof InventoryData
+  ) {
+    setRows((prev) =>
+      prev.map((obj, i) => (i === idx ? { ...obj, [cell]: value } : obj))
+    )
+    updateValue(idx)
+    updateProfit(idx)
+    updateMargin(idx)
+  }
+
+  function updateValue(idx: number) {
+    setRows((prev) =>
+      prev.map((obj, i) =>
+        i === idx ? { ...obj, value: obj.quantity * obj.costPrice } : obj
+      )
+    )
+  }
+
+  function updateProfit(idx: number) {
+    setRows((prev) =>
+      prev.map((obj, i) =>
+        i === idx ? { ...obj, profit: obj.sellingPrice - obj.costPrice } : obj
+      )
+    )
+  }
+
+  function updateMargin(idx: number) {
+    setRows((prev) =>
+      prev.map((obj, i) =>
+        i === idx
+          ? {
+              ...obj,
+              margin:
+                ((obj.sellingPrice - obj.costPrice) / obj.sellingPrice) * 100,
+            }
+          : obj
+      )
+    )
+  }
+
+  function pushWm(value: number): number {
+    wm.push(parseFloat(value.toFixed(2)))
+    return value
+  }
+
   return (
     <div className="w-full space-y-4 py-3">
       <Table className="border">
-        <TableHeader className="bg-purple-50 text-center border">
+        <TableHeader className="bg-purple-100 text-center border">
           <TableHead className="text-gray-800 text-center border">
             Item
           </TableHead>
@@ -42,14 +116,14 @@ export const Inventory = () => {
           </TableHead>
         </TableHeader>
         <TableBody className="">
-          {rows.map((cell, idx) => (
+          {rrows.map((cell, idx) => (
             <TableRow key={idx} className="border">
-              <TableCell className="border" key={idx}>
+              <TableCell className="border" id="item" key={idx}>
                 <Input
                   onChange={(e) =>
-                    updateCell(
-                      e.target.value,
+                    changeCell(
                       idx,
+                      e.target.value,
                       Object.keys(cell)[0] as keyof InventoryData
                     )
                   }
@@ -61,9 +135,9 @@ export const Inventory = () => {
                   type="number"
                   id="quantity"
                   onChange={(e) =>
-                    updateCell(
-                      e.target.value,
+                    changeCell(
                       idx,
+                      parseFloat(e.target.value),
                       Object.keys(cell)[1] as keyof InventoryData
                     )
                   }
@@ -73,13 +147,8 @@ export const Inventory = () => {
                 <Input
                   type="number"
                   id="value"
-                  onChange={(e) =>
-                    updateCell(
-                      e.target.value,
-                      idx,
-                      Object.keys(cell)[2] as keyof InventoryData
-                    )
-                  }
+                  readOnly
+                  value={rrows[idx].value.toString()}
                 />
               </TableCell>
               <TableCell className="border">
@@ -87,9 +156,9 @@ export const Inventory = () => {
                   type="number"
                   id="sp"
                   onChange={(e) =>
-                    updateCell(
-                      e.target.value,
+                    changeCell(
                       idx,
+                      parseFloat(e.target.value),
                       Object.keys(cell)[3] as keyof InventoryData
                     )
                   }
@@ -100,9 +169,9 @@ export const Inventory = () => {
                   type="number"
                   id="cp"
                   onChange={(e) =>
-                    updateCell(
-                      e.target.value,
+                    changeCell(
                       idx,
+                      parseFloat(e.target.value),
                       Object.keys(cell)[4] as keyof InventoryData
                     )
                   }
@@ -112,39 +181,30 @@ export const Inventory = () => {
                 <Input
                   type="number"
                   id="profit"
-                  onChange={(e) =>
-                    updateCell(
-                      e.target.value,
-                      idx,
-                      Object.keys(cell)[5] as keyof InventoryData
-                    )
-                  }
+                  readOnly
+                  value={rrows[idx].profit.toString()}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
                 <Input
                   type="number"
                   id="margin"
-                  onChange={(e) =>
-                    updateCell(
-                      e.target.value,
-                      idx,
-                      Object.keys(cell)[6] as keyof InventoryData
-                    )
-                  }
+                  readOnly
+                  value={rrows[idx].margin.toFixed(2).toString()}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
                 <Input
                   type="number"
                   id="wm"
-                  onChange={(e) =>
-                    updateCell(
-                      e.target.value,
-                      idx,
-                      Object.keys(cell)[7] as keyof InventoryData
-                    )
-                  }
+                  readOnly
+                  value={pushWm(
+                    (rrows[idx].value /
+                      rrows
+                        .map((obj, i) => obj.value)
+                        .reduce((a, c) => a + c)) *
+                      rrows[idx].margin
+                  ).toFixed(2)}
                 />
               </TableCell>
             </TableRow>
@@ -155,33 +215,100 @@ export const Inventory = () => {
               TOTAL:
             </TableCell>
             <TableCell className="border">
-              <Input type="number" id="quantity" />
+              <Input
+                type="number"
+                id="quantity"
+                readOnly
+                value={parseFloat(
+                  calculateTotal(rrows, 'quantity').toString()
+                ).toFixed(2)}
+              />
             </TableCell>
             <TableCell className="border bg-pink-50">
-              <Input type="number" id="value" />
+              <Input
+                type="number"
+                id="value"
+                readOnly
+                value={parseFloat(
+                  calculateTotal(rrows, 'value').toString()
+                ).toFixed(2)}
+              />
             </TableCell>
             <TableCell className="border bg-pink-50">
-              <Input type="number" id="sp" />
+              <Input
+                type="number"
+                id="sp"
+                readOnly
+                value={parseFloat(
+                  calculateTotal(rrows, 'sellingPrice').toString()
+                ).toFixed(2)}
+              />
             </TableCell>
             <TableCell className="border bg-pink-50">
-              <Input type="number" id="cp" />
+              <Input
+                type="number"
+                id="cp"
+                readOnly
+                value={parseFloat(
+                  calculateTotal(rrows, 'costPrice').toString()
+                ).toFixed(2)}
+              />
             </TableCell>
             <TableCell className="border bg-pink-50">
-              <Input type="number" id="profit" />
+              <Input
+                type="number"
+                id="profit"
+                readOnly
+                value={parseFloat(
+                  calculateTotal(rrows, 'profit').toString()
+                ).toFixed(2)}
+              />
             </TableCell>
             <TableCell className="border bg-pink-50">
-              <Input type="number" id="margin" />
+              <Input
+                type="number"
+                id="margin"
+                readOnly
+                value={parseFloat(
+                  calculateTotal(rrows, 'margin').toString()
+                ).toFixed(2)}
+              />
             </TableCell>
             <TableCell className="border bg-pink-50">
-              <Input type="number" id="wm" />
+              <Input
+                type="number"
+                id="wm"
+                readOnly
+                value={parseFloat(
+                  wm.reduce((a, c) => a + c).toString()
+                ).toFixed(2)}
+              />
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
 
-      <Button className="w-full mb-6" onClick={() => console.log(rows)}>
-        Save
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button className="w-full mb-6">Add Row</Button>
+
+        <Button className="w-full mb-6" onClick={() => console.log(rrows)}>
+          View Data
+        </Button>
+
+        <Button
+          className="w-full mb-6"
+          onClick={() => console.log(calculateTotal(rrows, 'value'))}
+        >
+          Total
+        </Button>
+        <Button className="w-full mb-6" onClick={() => console.log(wm)}>
+          WM Total
+        </Button>
+
+        {/* <Button className="w-full mb-6" onClick={() => console.log(rows)}>
+          Save
+        </Button> */}
+      </div>
     </div>
   )
 }

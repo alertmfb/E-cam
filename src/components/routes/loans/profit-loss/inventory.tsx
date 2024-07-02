@@ -36,6 +36,24 @@ export const Inventory = () => {
     },
   ])
 
+  function addRow() {
+    setRows((prev) => [
+      ...prev,
+      ...[
+        {
+          item: '',
+          quantity: 0,
+          value: 0,
+          sellingPrice: 0,
+          costPrice: 0,
+          profit: 0,
+          margin: 0,
+          wM: 0,
+        },
+      ],
+    ])
+  }
+
   const wm: number[] = []
 
   function changeCell(
@@ -74,7 +92,10 @@ export const Inventory = () => {
           ? {
               ...obj,
               margin:
-                ((obj.sellingPrice - obj.costPrice) / obj.sellingPrice) * 100,
+                obj.sellingPrice === 0
+                  ? 0
+                  : ((obj.sellingPrice - obj.costPrice) / obj.sellingPrice) *
+                    100,
             }
           : obj
       )
@@ -289,7 +310,9 @@ export const Inventory = () => {
       </Table>
 
       <div className="flex items-center gap-3">
-        <Button className="w-full mb-6">Add Row</Button>
+        <Button className="w-full mb-6" onClick={() => addRow()}>
+          Add Row
+        </Button>
 
         <Button className="w-full mb-6" onClick={() => console.log(rrows)}>
           View Data

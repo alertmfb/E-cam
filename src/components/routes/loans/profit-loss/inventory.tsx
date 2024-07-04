@@ -8,6 +8,7 @@ import {
   TableCell,
   TableHeader,
 } from '@/components/ui/table'
+import { saveData } from '@/lib/api/profit-loss/functions'
 import type { InventoryData } from '@/lib/api/profit-loss/schema'
 import { calculateTotal } from '@/lib/api/profit-loss/schema'
 import { useState } from 'react'
@@ -24,19 +25,11 @@ export const Inventory = () => {
       margin: 0,
       wM: 0,
     },
-    {
-      item: '',
-      quantity: 0,
-      value: 0,
-      sellingPrice: 0,
-      costPrice: 0,
-      profit: 0,
-      margin: 0,
-      wM: 0,
-    },
   ])
 
-  function addRow() {
+  const wm: number[] = []
+
+  const addRow = () => {
     setRows((prev) => [
       ...prev,
       ...[
@@ -54,13 +47,17 @@ export const Inventory = () => {
     ])
   }
 
-  const wm: number[] = []
+  const removeRow = () => {
+    if (rrows.length === 1) {
+      setRows((prev) => prev.filter((obj, i) => i + 1 !== prev.length))
+    }
+  }
 
-  function changeCell(
+  const changeCell = (
     idx: number,
     value: string | number,
     cell: keyof InventoryData
-  ) {
+  ) => {
     setRows((prev) =>
       prev.map((obj, i) => (i === idx ? { ...obj, [cell]: value } : obj))
     )
@@ -69,7 +66,7 @@ export const Inventory = () => {
     updateMargin(idx)
   }
 
-  function updateValue(idx: number) {
+  const updateValue = (idx: number) => {
     setRows((prev) =>
       prev.map((obj, i) =>
         i === idx ? { ...obj, value: obj.quantity * obj.costPrice } : obj
@@ -77,7 +74,7 @@ export const Inventory = () => {
     )
   }
 
-  function updateProfit(idx: number) {
+  const updateProfit = (idx: number) => {
     setRows((prev) =>
       prev.map((obj, i) =>
         i === idx ? { ...obj, profit: obj.sellingPrice - obj.costPrice } : obj
@@ -85,7 +82,7 @@ export const Inventory = () => {
     )
   }
 
-  function updateMargin(idx: number) {
+  const updateMargin = (idx: number) => {
     setRows((prev) =>
       prev.map((obj, i) =>
         i === idx
@@ -102,7 +99,7 @@ export const Inventory = () => {
     )
   }
 
-  function pushWm(value: number): number {
+  const pushWm = (value: number): number => {
     wm.push(parseFloat(value.toFixed(2)))
     return value
   }
@@ -224,65 +221,67 @@ export const Inventory = () => {
                       rrows
                         .map((obj, i) => obj.value)
                         .reduce((a, c) => a + c)) *
-                      rrows[idx].margin
+                      rrows[idx].margin ===
+                      0
+                      ? 0
+                      : (rrows[idx].value /
+                          rrows
+                            .map((obj, i) => obj.value)
+                            .reduce((a, c) => a + c)) *
+                          rrows[idx].margin
                   ).toFixed(2)}
                 />
               </TableCell>
             </TableRow>
           ))}
 
-          <TableRow className="border">
+          {/* <TableRow className="border">
             <TableCell className="border text-center font-bold">
               TOTAL:
             </TableCell>
             <TableCell className="border">
               <Input
-                type="number"
                 id="quantity"
                 readOnly
                 value={parseFloat(
-                  calculateTotal(rrows, 'quantity').toString()
-                ).toFixed(2)}
+                  calculateTotal(rrows, 'quantity').toFixed(2)
+                ).toLocaleString()}
               />
             </TableCell>
             <TableCell className="border bg-pink-50">
               <Input
-                type="number"
                 id="value"
                 readOnly
                 value={parseFloat(
-                  calculateTotal(rrows, 'value').toString()
-                ).toFixed(2)}
+                  calculateTotal(rrows, 'value').toFixed(2)
+                ).toLocaleString()}
               />
             </TableCell>
             <TableCell className="border bg-pink-50">
               <Input
-                type="number"
                 id="sp"
                 readOnly
                 value={parseFloat(
-                  calculateTotal(rrows, 'sellingPrice').toString()
-                ).toFixed(2)}
+                  calculateTotal(rrows, 'sellingPrice').toFixed(2)
+                ).toLocaleString()}
               />
             </TableCell>
             <TableCell className="border bg-pink-50">
               <Input
-                type="number"
                 id="cp"
                 readOnly
                 value={parseFloat(
-                  calculateTotal(rrows, 'costPrice').toString()
-                ).toFixed(2)}
+                  calculateTotal(rrows, 'costPrice').toFixed(2)
+                ).toLocaleString()}
               />
             </TableCell>
             <TableCell className="border bg-pink-50">
               <Input
-                type="number"
                 id="profit"
                 readOnly
                 value={parseFloat(
-                  calculateTotal(rrows, 'profit').toString()
-                ).toFixed(2)}
+                  calculateTotal(rrows, 'profit').toFixed(2)
+                ).toLocaleString()}
               />
             </TableCell>
             <TableCell className="border bg-pink-50">
@@ -291,7 +290,10 @@ export const Inventory = () => {
                 id="margin"
                 readOnly
                 value={parseFloat(
-                  calculateTotal(rrows, 'margin').toString()
+                  (calculateTotal(rrows, 'margin') / rrows.length === 0
+                    ? 0
+                    : calculateTotal(rrows, 'margin') / rrows.length
+                  ).toString()
                 ).toFixed(2)}
               />
             </TableCell>
@@ -305,32 +307,49 @@ export const Inventory = () => {
                 ).toFixed(2)}
               />
             </TableCell>
+          </TableRow> */}
+          <TableRow className="font-bold">
+            <TableCell>
+              %Average Margin:{' '}
+              {parseFloat(
+                (calculateTotal(rrows, 'margin') / rrows.length === 0
+                  ? 0
+                  : calculateTotal(rrows, 'margin') / rrows.length
+                ).toString()
+              ).toFixed(2)}
+              %
+            </TableCell>
+            <TableCell>
+              %Weighted Margin:{' '}
+              {parseFloat(wm.reduce((a, c) => a + c).toString()).toFixed(2)}%
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
 
-      <div className="flex items-center gap-3">
-        <Button className="w-full mb-6" onClick={() => addRow()}>
-          Add Row
-        </Button>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Button className="w-full" onClick={() => addRow()} variant="outline">
+            Add Row
+          </Button>
+          <Button
+            className="w-full"
+            onClick={() => removeRow()}
+            variant="secondary"
+          >
+            Remove Row
+          </Button>
+        </div>
 
-        <Button className="w-full mb-6" onClick={() => console.log(rrows)}>
-          View Data
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button className=" mb-6" onClick={() => console.log(rrows)}>
+            Log Data
+          </Button>
 
-        <Button
-          className="w-full mb-6"
-          onClick={() => console.log(calculateTotal(rrows, 'value'))}
-        >
-          Total
-        </Button>
-        <Button className="w-full mb-6" onClick={() => console.log(wm)}>
-          WM Total
-        </Button>
-
-        {/* <Button className="w-full mb-6" onClick={() => console.log(rows)}>
-          Save
-        </Button> */}
+          <Button className=" mb-6" onClick={() => saveData({ rrows, wm })}>
+            Save Data
+          </Button>
+        </div>
       </div>
     </div>
   )

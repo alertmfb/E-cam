@@ -7,15 +7,16 @@ type Payload = {
 }
 
 export const saveData = ({ rrows, wm }: Payload) => {
-  console.log(wm)
-  const lastRowIndex = rrows.indexOf(rrows[rrows.length - 1])
+  const lastRow = rrows[rrows.length - 1]
+  const lastRowData = Object.values(lastRow)
 
-  if (wm.length === 0) {
-    console.log('complete the row before you send')
-  }
-
-  if (!wm[lastRowIndex] && wm.length > 0) {
-    console.log('Delete unused rows')
+  if (
+    lastRowData[0] === '' ||
+    lastRowData[1] === 0 ||
+    lastRowData[3] === 0 ||
+    lastRowData[4] === 0
+  ) {
+    console.log('complete rows before submitting')
     return
   }
 
@@ -24,7 +25,4 @@ export const saveData = ({ rrows, wm }: Payload) => {
   })
 
   console.log(rrows)
-
-  // try {
-  // } catch (e) {}
 }

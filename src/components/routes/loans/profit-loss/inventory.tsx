@@ -48,7 +48,7 @@ export const Inventory = () => {
   }
 
   const removeRow = () => {
-    if (rrows.length === 1) {
+    if (rrows.length !== 1) {
       setRows((prev) => prev.filter((obj, i) => i + 1 !== prev.length))
     }
   }
@@ -99,45 +99,52 @@ export const Inventory = () => {
     )
   }
 
-  const pushWm = (value: number): number => {
-    wm.push(parseFloat(value.toFixed(2)))
-    return value
+  const pushWm = (value: number, idx: number): number => {
+    if (isNaN(value)) {
+      wm.push(0)
+    } else {
+      wm.push(parseFloat(value.toFixed(2)))
+    }
+    return wm[idx]
   }
 
   return (
     <div className="w-full space-y-4 py-3">
       <Table className="border">
-        <TableHeader className="bg-purple-100 text-center border">
-          <TableHead className="text-gray-800 text-center border">
-            Item
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Quantity
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Value
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Selling Price
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Cost Price
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Profit
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Margin %
-          </TableHead>
-          <TableHead className="text-gray-800 text-center border">
-            Weighted Margin %
-          </TableHead>
+        <TableHeader>
+          <TableRow className="bg-purple-100 text-center border">
+            <TableHead className="text-gray-800 text-center border">
+              Item
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Quantity
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Value
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Selling Price
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Cost Price
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Profit
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Margin %
+            </TableHead>
+            <TableHead className="text-gray-800 text-center border">
+              Weighted Margin %
+            </TableHead>
+          </TableRow>
         </TableHeader>
         <TableBody className="">
           {rrows.map((cell, idx) => (
             <TableRow key={idx} className="border">
-              <TableCell className="border" id="item" key={idx}>
+              <TableCell className="border" key={idx}>
                 <Input
+                  id={'item' + idx}
                   onChange={(e) =>
                     changeCell(
                       idx,
@@ -151,11 +158,11 @@ export const Inventory = () => {
               <TableCell className="border">
                 <Input
                   type="number"
-                  id="quantity"
+                  id={'quantity' + idx}
                   onChange={(e) =>
                     changeCell(
                       idx,
-                      parseFloat(e.target.value),
+                      parseFloat(e.target.value === '' ? '0' : e.target.value),
                       Object.keys(cell)[1] as keyof InventoryData
                     )
                   }
@@ -164,7 +171,7 @@ export const Inventory = () => {
               <TableCell className="border bg-pink-50">
                 <Input
                   type="number"
-                  id="value"
+                  id={'value' + idx}
                   readOnly
                   value={rrows[idx].value.toString()}
                 />
@@ -172,11 +179,11 @@ export const Inventory = () => {
               <TableCell className="border">
                 <Input
                   type="number"
-                  id="sp"
+                  id={'sp' + idx}
                   onChange={(e) =>
                     changeCell(
                       idx,
-                      parseFloat(e.target.value),
+                      parseFloat(e.target.value === '' ? '0' : e.target.value),
                       Object.keys(cell)[3] as keyof InventoryData
                     )
                   }
@@ -185,11 +192,11 @@ export const Inventory = () => {
               <TableCell className="border">
                 <Input
                   type="number"
-                  id="cp"
+                  id={'cp' + idx}
                   onChange={(e) =>
                     changeCell(
                       idx,
-                      parseFloat(e.target.value),
+                      parseFloat(e.target.value === '' ? '0' : e.target.value),
                       Object.keys(cell)[4] as keyof InventoryData
                     )
                   }
@@ -198,7 +205,7 @@ export const Inventory = () => {
               <TableCell className="border bg-pink-50">
                 <Input
                   type="number"
-                  id="profit"
+                  id={'profit' + idx}
                   readOnly
                   value={rrows[idx].profit.toString()}
                 />
@@ -206,36 +213,30 @@ export const Inventory = () => {
               <TableCell className="border bg-pink-50">
                 <Input
                   type="number"
-                  id="margin"
+                  id={'margin' + idx}
                   readOnly
                   value={rrows[idx].margin.toFixed(2).toString()}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
                 <Input
-                  type="number"
-                  id="wm"
+                  // type="number"
+                  id={'wm' + idx}
                   readOnly
                   value={pushWm(
                     (rrows[idx].value /
                       rrows
                         .map((obj, i) => obj.value)
                         .reduce((a, c) => a + c)) *
-                      rrows[idx].margin ===
-                      0
-                      ? 0
-                      : (rrows[idx].value /
-                          rrows
-                            .map((obj, i) => obj.value)
-                            .reduce((a, c) => a + c)) *
-                          rrows[idx].margin
+                      rrows[idx].margin,
+                    idx
                   ).toFixed(2)}
                 />
               </TableCell>
             </TableRow>
           ))}
 
-          {/* <TableRow className="border">
+          <TableRow className="border">
             <TableCell className="border text-center font-bold">
               TOTAL:
             </TableCell>
@@ -307,7 +308,7 @@ export const Inventory = () => {
                 ).toFixed(2)}
               />
             </TableCell>
-          </TableRow> */}
+          </TableRow>
           <TableRow className="font-bold">
             <TableCell>
               %Average Margin:{' '}
@@ -342,7 +343,7 @@ export const Inventory = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button className=" mb-6" onClick={() => console.log(rrows)}>
+          <Button className=" mb-6" onClick={() => console.log([rrows, wm])}>
             Log Data
           </Button>
 

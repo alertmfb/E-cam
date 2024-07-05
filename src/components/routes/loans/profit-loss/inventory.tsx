@@ -11,9 +11,10 @@ import {
 import { saveData } from '@/lib/api/profit-loss/functions'
 import type { InventoryData } from '@/lib/api/profit-loss/schema'
 import { calculateTotal } from '@/lib/api/profit-loss/schema'
+import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 
-export const Inventory = () => {
+export const Inventory = ({ loanId }: { loanId: string }) => {
   const [rrows, setRows] = useState([
     {
       item: '',
@@ -107,6 +108,13 @@ export const Inventory = () => {
     }
     return wm[idx]
   }
+
+  const addMutation = useMutation({
+    mutationFn: saveData,
+    onSuccess(data) {
+      alert(data)
+    },
+  })
 
   return (
     <div className="w-full space-y-4 py-3">
@@ -343,11 +351,14 @@ export const Inventory = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button className=" mb-6" onClick={() => console.log([rrows, wm])}>
+          {/* <Button className=" mb-6" onClick={() => console.log([rrows, wm])}>
             Log Data
-          </Button>
+          </Button> */}
 
-          <Button className=" mb-6" onClick={() => saveData({ rrows, wm })}>
+          <Button
+            className="mb-6"
+            onClick={() => addMutation.mutate({ rrows, wm, loanId })}
+          >
             Save Data
           </Button>
         </div>

@@ -11,7 +11,7 @@ function ProfitLoss() {
   return (
     <div className="w-full mx-auto px-6 xl:px-20 flex flex-col gap-4">
       <div className="text-2xl font-bold">Inventory:</div>
-      <Inventory />
+      <Inventory loanId={loanId} />
     </div>
   )
 }

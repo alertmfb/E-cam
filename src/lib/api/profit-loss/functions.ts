@@ -18,8 +18,7 @@ export const saveData = async ({ rrows, wm, loanId }: Payload) => {
       lastRowData[3] === 0 ||
       lastRowData[4] === 0
     ) {
-      console.log('complete rows before submitting')
-      return
+      return 'Complete rows before submitting'
     }
 
     rrows.forEach((row, idx) => {

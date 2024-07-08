@@ -43,7 +43,6 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
     if (lastSaved) {
       setRows(lastSaved)
       setIsLast(true)
-      console.log(lastSaved[0].item)
     }
   }
 
@@ -135,7 +134,11 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
 
   return (
     <div className="w-full space-y-4 py-3">
-      {lastSaved && <Button onClick={() => loadPrev()}>Load</Button>}
+      {lastSaved && (
+        <Button onClick={() => loadPrev()} variant={'secondary'}>
+          Load Previously Saved
+        </Button>
+      )}
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-purple-100 text-center border">

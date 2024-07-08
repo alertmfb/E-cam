@@ -39,3 +39,19 @@ export const saveData = async ({ rrows, wm, loanId }: Payload) => {
     console.error(e)
   }
 }
+
+export const getLastSaved = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<Payload['rrows'] | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/pl/inventory?loanId=${loanId}`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}

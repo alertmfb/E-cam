@@ -8,13 +8,17 @@ import {
   TableCell,
   TableHeader,
 } from '@/components/ui/table'
-import { saveData } from '@/lib/api/profit-loss/functions'
+import { getLastSaved, saveData } from '@/lib/api/profit-loss/functions'
+import { useToast } from '@/components/ui/use-toast'
 import type { InventoryData } from '@/lib/api/profit-loss/schema'
 import { calculateTotal } from '@/lib/api/profit-loss/schema'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export const Inventory = ({ loanId }: { loanId: string }) => {
+  // Fetch last saved on mount
+  const [isLast, setIsLast] = useState(false)
+
   const [rrows, setRows] = useState([
     {
       item: '',
@@ -29,6 +33,19 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
   ])
 
   const wm: number[] = []
+
+  const { data: lastSaved, isFetched } = useQuery({
+    queryKey: ['last'],
+    queryFn: () => getLastSaved({ loanId }),
+  })
+
+  const loadPrev = () => {
+    if (lastSaved) {
+      setRows(lastSaved)
+      setIsLast(true)
+      console.log(lastSaved[0].item)
+    }
+  }
 
   const addRow = () => {
     setRows((prev) => [
@@ -118,6 +135,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
 
   return (
     <div className="w-full space-y-4 py-3">
+      {lastSaved && <Button onClick={() => loadPrev()}>Load</Button>}
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-purple-100 text-center border">
@@ -160,6 +178,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[0] as keyof InventoryData
                     )
                   }
+                  value={isLast ? rrows[idx].item : ''}
                 />
               </TableCell>
 
@@ -174,6 +193,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[1] as keyof InventoryData
                     )
                   }
+                  value={isLast ? rrows[idx].quantity : '0'}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
@@ -195,6 +215,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[3] as keyof InventoryData
                     )
                   }
+                  value={isLast ? rrows[idx].sellingPrice : '0'}
                 />
               </TableCell>
               <TableCell className="border">
@@ -208,6 +229,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[4] as keyof InventoryData
                     )
                   }
+                  value={isLast ? rrows[idx].costPrice : '0'}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
@@ -355,6 +377,9 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
             Log Data
           </Button> */}
 
+          <Button className="mb-6" onClick={() => console.log(rrows, wm)}>
+            Log Data
+          </Button>
           <Button
             className="mb-6"
             onClick={() => addMutation.mutate({ rrows, wm, loanId })}

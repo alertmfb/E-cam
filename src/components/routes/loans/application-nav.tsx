@@ -182,31 +182,97 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             Document Upload
           </Link>
         </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <BreadcrumbEllipsis className="cursor-pointer" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/profit-loss"
+                params={{ loanId: loanId }}
+              >
+                Profit & Loss
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
 
-        {/* <BreadcrumbSeparator /> */}
-        {/* <BreadcrumbItem>
+export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <BreadcrumbEllipsis className="cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/document"
+                  params={{ loanId: loanId }}
+                >
+                  Document Upload
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/customer-business"
+                  params={{ loanId: loanId }}
+                >
+                  Customer Biz
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/verification-picture"
+                  params={{ loanId: loanId }}
+                >
+                  Verification Pic
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/guarantors-info"
+                  params={{ loanId: loanId }}
+                >
+                  Guarantor Info
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/pictoral-evidence"
+            to="/app/loans/$loanId/profit-loss"
             params={{ loanId: loanId }}
           >
-            Pictoral Evidence
+            Stock Pledge
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/guarantor-verification"
-            params={{ loanId }}
+            to="/app/loans/$loanId/profit-loss"
+            params={{ loanId: loanId }}
           >
-            Guarantors biz ver..
+            Collateral Pledge
           </Link>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <Link>Visit Report</Link>
-        </BreadcrumbItem> */}
       </BreadcrumbList>
     </Breadcrumb>
   )

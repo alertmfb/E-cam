@@ -197,6 +197,24 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
                 Profit & Loss
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/profit-loss"
+                params={{ loanId: loanId }}
+              >
+                Stock Pledge
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/profit-loss"
+                params={{ loanId: loanId }}
+              >
+                Collateral Pledge
+              </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </BreadcrumbList>

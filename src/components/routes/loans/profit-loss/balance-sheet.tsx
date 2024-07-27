@@ -14,7 +14,10 @@ import { useState } from 'react'
 
 export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   const [rows, setRows] = useState<BalanceSheetData[]>(balanceSheet)
+
   let totalTreasury = 0
+  let totalReceivables = 0
+  let totalShortTermAssets = 0
 
   const changeCell = (
     idx: number,
@@ -28,7 +31,17 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
 
   const updateTotalTreasury = (value: number) => {
     totalTreasury += value
-    return value
+    return value.toFixed(2)
+  }
+
+  const updateReceivables = (value: number) => {
+    totalReceivables += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalShortTermAssets = (value: number) => {
+    totalShortTermAssets += value
+    return value.toFixed(2)
   }
 
   return (
@@ -77,7 +90,7 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
             <TableCell className="bg-pink-100">
               <Input
                 type="number"
-                id={'amount'}
+                id={'amount' + 3}
                 readOnly
                 value={updateTotalTreasury(
                   rows[0].amount + rows[1].amount + rows[2].amount
@@ -88,9 +101,57 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
               {rows[3].percentage}
             </TableCell>
           </TableRow>
+
+          <InputRow idx={4} item={rows[4]} changeCell={changeCell} />
+          <InputRow idx={5} item={rows[5]} changeCell={changeCell} />
+
+          <TableRow>
+            <TableCell className="border">{rows[6].name}</TableCell>
+            <TableCell className="bg-pink-100">
+              <Input
+                type="number"
+                id={'amount' + 6}
+                readOnly
+                value={updateReceivables(rows[4].amount + rows[5].amount)}
+              />
+            </TableCell>
+            <TableCell className="border bg-pink-100">
+              {rows[6].percentage}
+            </TableCell>
+          </TableRow>
+
+          <InputRow idx={7} item={rows[7]} changeCell={changeCell} />
+
+          <TableRow>
+            <TableCell className="border">{rows[8].name}</TableCell>
+            <TableCell className="bg-pink-100">
+              <Input
+                type="number"
+                id={'amount' + 8}
+                readOnly
+                value={updateTotalShortTermAssets(
+                  totalTreasury + totalReceivables + rows[7].amount
+                )}
+              />
+            </TableCell>
+            <TableCell className="border bg-pink-100">
+              {rows[8].percentage}
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
-      <Button onClick={() => console.log(rows, totalTreasury)}>Log Data</Button>
+      <Button
+        onClick={() =>
+          console.log(
+            rows,
+            totalTreasury,
+            totalReceivables,
+            totalShortTermAssets
+          )
+        }
+      >
+        Log Data
+      </Button>
     </div>
   )
 }

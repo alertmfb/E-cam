@@ -180,7 +180,8 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[0] as keyof InventoryData
                     )
                   }
-                  value={isLast ? rrows[idx].item : ''}
+                  defaultValue={isLast ? rrows[idx].item : ''}
+                  // value={isLast ? rrows[idx].item : ''}
                 />
               </TableCell>
 
@@ -195,7 +196,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[1] as keyof InventoryData
                     )
                   }
-                  value={isLast ? rrows[idx].quantity : '0'}
+                  defaultValue={isLast ? rrows[idx].quantity : '0'}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
@@ -217,7 +218,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[3] as keyof InventoryData
                     )
                   }
-                  value={isLast ? rrows[idx].sellingPrice : '0'}
+                  defaultValue={isLast ? rrows[idx].sellingPrice : '0'}
                 />
               </TableCell>
               <TableCell className="border">
@@ -231,7 +232,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[4] as keyof InventoryData
                     )
                   }
-                  value={isLast ? rrows[idx].costPrice : '0'}
+                  defaultValue={isLast ? rrows[idx].costPrice : '0'}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">

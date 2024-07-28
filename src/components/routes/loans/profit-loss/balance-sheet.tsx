@@ -8,7 +8,11 @@ import {
   TableCell,
   TableHeader,
 } from '@/components/ui/table'
-import { BalanceSheetData, balanceSheet } from '@/lib/api/profit-loss/schema'
+import {
+  BalanceSheetData,
+  balanceSheet,
+  compileBSData,
+} from '@/lib/api/profit-loss/schema'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
@@ -31,19 +35,6 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
     setRows((prev) =>
       prev.map((obj, i) => (i === idx ? { ...obj, [cell]: value } : obj))
     )
-    updatePercentages(idx)
-  }
-
-  const updatePercentages = (idx: number) => {
-    totalAssets === 0
-      ? setRows((prev) =>
-          prev.map((obj, i) => (i === idx ? { ...obj, percentage: 0 } : obj))
-        )
-      : setRows((prev) =>
-          prev.map((obj, i) =>
-            i === idx ? { ...obj, percentage: obj.amount / totalAssets } : obj
-          )
-        )
   }
 
   const updateTotalTreasury = (value: number) => {
@@ -61,7 +52,7 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
     return value.toFixed(2)
   }
 
-  const updateTotalBusnessFixedAssets = (value: number) => {
+  const updateTotalBusinessFixedAssets = (value: number) => {
     totalBusinessFixedAssets += value
     return value.toFixed(2)
   }
@@ -107,59 +98,29 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           <InputRow idx={1} item={rows[1]} changeCell={changeCell} />
           <InputRow idx={2} item={rows[2]} changeCell={changeCell} />
 
-          <TableRow>
-            <TableCell className="border font-bold">{rows[3].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'amount' + 3}
-                readOnly
-                value={updateTotalTreasury(
-                  rows[0].amount + rows[1].amount + rows[2].amount
-                )}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[3].percentage}
-            </TableCell>
-          </TableRow>
+          <DisplayRow
+            row={rows[3]}
+            value={updateTotalTreasury(
+              rows[0].amount + rows[1].amount + rows[2].amount
+            )}
+          />
 
           <InputRow idx={4} item={rows[4]} changeCell={changeCell} />
           <InputRow idx={5} item={rows[5]} changeCell={changeCell} />
 
-          <TableRow>
-            <TableCell className="border font-bold">{rows[6].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'amount' + 6}
-                readOnly
-                value={updateReceivables(rows[4].amount + rows[5].amount)}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[6].percentage}
-            </TableCell>
-          </TableRow>
+          <DisplayRow
+            row={rows[6]}
+            value={updateReceivables(rows[4].amount + rows[5].amount)}
+          />
 
           <InputRow idx={7} item={rows[7]} changeCell={changeCell} />
 
-          <TableRow>
-            <TableCell className="border font-bold">{rows[8].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'tsta'}
-                readOnly
-                value={updateTotalShortTermAssets(
-                  totalTreasury + totalReceivables + rows[7].amount
-                )}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[8].percentage}
-            </TableCell>
-          </TableRow>
+          <DisplayRow
+            row={rows[8]}
+            value={updateTotalShortTermAssets(
+              totalTreasury + totalReceivables + rows[7].amount
+            )}
+          />
 
           <TableRow>
             <TableCell className="font-bold text-xl text-muted-foreground">
@@ -175,22 +136,13 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           <InputRow idx={9} item={rows[9]} changeCell={changeCell} />
           <InputRow idx={10} item={rows[10]} changeCell={changeCell} />
           <InputRow idx={11} item={rows[11]} changeCell={changeCell} />
-          <TableRow>
-            <TableCell className="border font-bold">{rows[12].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'tbfa'}
-                readOnly
-                value={updateTotalBusnessFixedAssets(
-                  rows[9].amount + rows[10].amount + rows[11].amount
-                )}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[12].percentage}
-            </TableCell>
-          </TableRow>
+
+          <DisplayRow
+            row={rows[12]}
+            value={updateTotalBusinessFixedAssets(
+              rows[9].amount + rows[10].amount + rows[11].amount
+            )}
+          />
 
           <TableRow>
             <TableCell className="font-bold text-lg bg-green-300">
@@ -201,73 +153,63 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           <InputRow idx={13} item={rows[13]} changeCell={changeCell} />
           <InputRow idx={14} item={rows[14]} changeCell={changeCell} />
           <InputRow idx={15} item={rows[15]} changeCell={changeCell} />
-          <TableRow>
-            <TableCell className="border font-bold">{rows[16].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'tffa'}
-                readOnly
-                value={updateTotalFamilyFixedAssets(
-                  rows[13].amount + rows[14].amount + rows[15].amount
-                )}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[16].percentage}
-            </TableCell>
-          </TableRow>
 
-          <TableRow>
-            <TableCell className="border font-bold">{rows[17].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'tfa'}
-                readOnly
-                value={updateTotalFixedAssets(
-                  totalBusinessFixedAssets + totalFamilyFixedAssets
-                )}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[17].percentage}
-            </TableCell>
-          </TableRow>
+          <DisplayRow
+            row={rows[16]}
+            value={updateTotalFamilyFixedAssets(
+              rows[13].amount + rows[14].amount + rows[15].amount
+            )}
+          />
 
-          <TableRow>
-            <TableCell className="border font-bold">{rows[18].name}</TableCell>
-            <TableCell className="bg-pink-100">
-              <Input
-                type="number"
-                id={'ta'}
-                readOnly
-                value={updateTotalAssets(
-                  totalShortTermAssets + totalFixedAssets
-                )}
-              />
-            </TableCell>
-            <TableCell className="border bg-pink-100">
-              {rows[18].percentage}
-            </TableCell>
-          </TableRow>
+          <DisplayRow
+            row={rows[17]}
+            value={updateTotalFixedAssets(
+              totalBusinessFixedAssets + totalFamilyFixedAssets
+            )}
+          />
+
+          <DisplayRow
+            row={rows[18]}
+            value={updateTotalAssets(totalShortTermAssets + totalFixedAssets)}
+          />
         </TableBody>
       </Table>
-      <Button
-        onClick={() =>
-          console.log(
-            rows,
-            totalTreasury,
-            totalReceivables,
-            totalShortTermAssets,
-            totalBusinessFixedAssets,
-            totalFamilyFixedAssets,
-            totalAssets
-          )
-        }
-      >
-        Log Data
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button
+          onClick={() =>
+            console.log(
+              rows,
+              totalTreasury,
+              totalReceivables,
+              totalShortTermAssets,
+              totalBusinessFixedAssets,
+              totalFamilyFixedAssets,
+              totalAssets
+            )
+          }
+        >
+          Log Data
+        </Button>
+        <Button
+          onClick={() =>
+            console.log(
+              compileBSData(
+                rows,
+                totalTreasury,
+                totalReceivables,
+                totalShortTermAssets,
+                totalBusinessFixedAssets,
+                totalFamilyFixedAssets,
+                totalFixedAssets,
+                totalAssets
+              )
+            )
+          }
+          variant={'outline'}
+        >
+          Compile
+        </Button>
+      </div>
     </div>
   )
 }
@@ -305,57 +247,25 @@ const InputRow = ({
           readOnly={readOnly}
         />
       </TableCell>
-      <TableCell className="border bg-pink-100">{item.percentage}</TableCell>
+      <TableCell className="border bg-pink-100"></TableCell>
     </TableRow>
   )
 }
 
 const DisplayRow = ({
-  idx,
-  key,
-  item,
-  arr,
+  row,
+  value,
 }: {
-  idx: number
-  key: keyof BalanceSheetData
-  item: BalanceSheetData
-  arr: BalanceSheetData[]
+  row: BalanceSheetData
+  value: string
 }) => {
   return (
     <TableRow>
-      <TableCell className="border">{item.name}</TableCell>
+      <TableCell className="border font-bold">{row.name}</TableCell>
       <TableCell className="bg-pink-100">
-        {/* <Input
-          type="number"
-          id={'amount' + idx}
-          readOnly
-          value={arr[0].amount + arr[1].amount}
-        /> */}
-        <DisplayRowInput idx={idx} arr={arr} />
+        <Input type="number" id={row.name} readOnly value={value} />
       </TableCell>
-      <TableCell className="border bg-pink-100">{item.percentage}</TableCell>
+      <TableCell className="border bg-pink-100"></TableCell>
     </TableRow>
   )
-}
-
-const DisplayRowInput = ({
-  idx,
-  arr,
-}: {
-  idx: number
-  arr: BalanceSheetData[]
-}) => {
-  switch (idx) {
-    case 3:
-      return (
-        <Input
-          type="number"
-          id={'amount' + idx}
-          readOnly
-          value={arr[0].amount + arr[1].amount}
-        />
-      )
-    default:
-      return <Input />
-  }
 }

@@ -121,3 +121,40 @@ export const balanceSheet = [
     percentage: 0,
   },
 ]
+
+export const compileBSData = (
+  bs: BalanceSheetData[],
+  totalTreasury: number,
+  totalReceivables: number,
+  totalShortTermAssets: number,
+  totalBusinessFixedAssets: number,
+  totalFamilyFixedAssets: number,
+  totalFixedAssets: number,
+  totalAssets: number
+): BalanceSheetData[] => {
+  bs[3].amount = totalTreasury
+  bs[6].amount = totalReceivables
+  bs[8].amount = totalShortTermAssets
+  bs[12].amount = totalBusinessFixedAssets
+  bs[16].amount = totalFamilyFixedAssets
+  bs[17].amount = totalFixedAssets
+  bs[18].amount = totalAssets
+
+  bs.forEach((row) => {
+    if (totalAssets > 0) {
+      const per = Math.round((row.amount / totalAssets) * 100)
+      row.percentage = per
+    }
+  })
+
+  return bs
+}
+
+export type OtherBankData = {
+  bankName: string
+  accName: string
+  accNo: string
+  bal: number
+}
+
+export const compileBD = () => {}

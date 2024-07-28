@@ -1,6 +1,7 @@
 import { ApplicationNavC } from '@/components/routes/loans/application-nav'
 import { BalanceSheet } from '@/components/routes/loans/profit-loss/balance-sheet'
 import { Inventory } from '@/components/routes/loans/profit-loss/inventory'
+import { OtherBank } from '@/components/routes/loans/profit-loss/other-bank'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -26,7 +27,9 @@ function ProfitLoss() {
         <TabsContent value="inventory">
           <Inventory loanId={loanId} />
         </TabsContent>
-        <TabsContent value="bank">Bank</TabsContent>
+        <TabsContent value="bank">
+          <OtherBank loanId={loanId} />
+        </TabsContent>
         <TabsContent value="bs">
           <BalanceSheet loanId={loanId} />
         </TabsContent>

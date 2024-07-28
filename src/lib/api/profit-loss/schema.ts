@@ -70,4 +70,54 @@ export const balanceSheet = [
     amount: 0,
     percentage: 0,
   },
+  {
+    name: 'Equipment and furniture',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Vehicles',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Land and House',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL BUSINESS FIXED ASSETS',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Equipment and furniture',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Vehicles',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Land and House',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL FAMILY FIXED ASSETS',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL FIXED ASSETS',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL ASSETS',
+    amount: 0,
+    percentage: 0,
+  },
 ]

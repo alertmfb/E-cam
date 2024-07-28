@@ -18,6 +18,10 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   let totalTreasury = 0
   let totalReceivables = 0
   let totalShortTermAssets = 0
+  let totalBusinessFixedAssets = 0
+  let totalFamilyFixedAssets = 0
+  let totalFixedAssets = 0
+  let totalAssets = 0
 
   const changeCell = (
     idx: number,
@@ -27,6 +31,19 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
     setRows((prev) =>
       prev.map((obj, i) => (i === idx ? { ...obj, [cell]: value } : obj))
     )
+    updatePercentages(idx)
+  }
+
+  const updatePercentages = (idx: number) => {
+    totalAssets === 0
+      ? setRows((prev) =>
+          prev.map((obj, i) => (i === idx ? { ...obj, percentage: 0 } : obj))
+        )
+      : setRows((prev) =>
+          prev.map((obj, i) =>
+            i === idx ? { ...obj, percentage: obj.amount / totalAssets } : obj
+          )
+        )
   }
 
   const updateTotalTreasury = (value: number) => {
@@ -41,6 +58,26 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
 
   const updateTotalShortTermAssets = (value: number) => {
     totalShortTermAssets += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalBusnessFixedAssets = (value: number) => {
+    totalBusinessFixedAssets += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalFamilyFixedAssets = (value: number) => {
+    totalFamilyFixedAssets += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalFixedAssets = (value: number) => {
+    totalFixedAssets += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalAssets = (value: number) => {
+    totalAssets += value
     return value.toFixed(2)
   }
 
@@ -59,34 +96,19 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
               %
             </TableHead>
           </TableRow>
+          <TableRow>
+            <TableHead className="font-bold text-xl">
+              SHORT-TERM ASSETS
+            </TableHead>
+          </TableRow>
         </TableHeader>
         <TableBody>
-          {/* {balanceSheet.map((item, idx) => (
-            <TableRow key={idx}>
-              <TableCell className="border">{item.name}</TableCell>
-              <TableCell className={`border`}>
-                <Input
-                  id={'item' + idx}
-                  onChange={(e) =>
-                    changeCell(
-                      idx,
-                      parseFloat(e.target.value === '' ? '0' : e.target.value),
-                      Object.keys(item)[1] as keyof BalanceSheetData
-                    )
-                  }
-                />
-              </TableCell>
-              <TableCell className="border bg-pink-100">
-                {item.percentage}
-              </TableCell>
-            </TableRow>
-          ))} */}
           <InputRow idx={0} item={rows[0]} changeCell={changeCell} />
           <InputRow idx={1} item={rows[1]} changeCell={changeCell} />
           <InputRow idx={2} item={rows[2]} changeCell={changeCell} />
 
           <TableRow>
-            <TableCell className="border">{rows[3].name}</TableCell>
+            <TableCell className="border font-bold">{rows[3].name}</TableCell>
             <TableCell className="bg-pink-100">
               <Input
                 type="number"
@@ -106,7 +128,7 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           <InputRow idx={5} item={rows[5]} changeCell={changeCell} />
 
           <TableRow>
-            <TableCell className="border">{rows[6].name}</TableCell>
+            <TableCell className="border font-bold">{rows[6].name}</TableCell>
             <TableCell className="bg-pink-100">
               <Input
                 type="number"
@@ -123,11 +145,11 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           <InputRow idx={7} item={rows[7]} changeCell={changeCell} />
 
           <TableRow>
-            <TableCell className="border">{rows[8].name}</TableCell>
+            <TableCell className="border font-bold">{rows[8].name}</TableCell>
             <TableCell className="bg-pink-100">
               <Input
                 type="number"
-                id={'amount' + 8}
+                id={'tsta'}
                 readOnly
                 value={updateTotalShortTermAssets(
                   totalTreasury + totalReceivables + rows[7].amount
@@ -138,6 +160,97 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
               {rows[8].percentage}
             </TableCell>
           </TableRow>
+
+          <TableRow>
+            <TableCell className="font-bold text-xl text-muted-foreground">
+              FIXED ASSETS
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="font-bold text-lg bg-blue-300">
+              BUSINESS
+            </TableCell>
+          </TableRow>
+          <InputRow idx={9} item={rows[9]} changeCell={changeCell} />
+          <InputRow idx={10} item={rows[10]} changeCell={changeCell} />
+          <InputRow idx={11} item={rows[11]} changeCell={changeCell} />
+          <TableRow>
+            <TableCell className="border font-bold">{rows[12].name}</TableCell>
+            <TableCell className="bg-pink-100">
+              <Input
+                type="number"
+                id={'tbfa'}
+                readOnly
+                value={updateTotalBusnessFixedAssets(
+                  rows[9].amount + rows[10].amount + rows[11].amount
+                )}
+              />
+            </TableCell>
+            <TableCell className="border bg-pink-100">
+              {rows[12].percentage}
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="font-bold text-lg bg-green-300">
+              FAMILY
+            </TableCell>
+          </TableRow>
+
+          <InputRow idx={13} item={rows[13]} changeCell={changeCell} />
+          <InputRow idx={14} item={rows[14]} changeCell={changeCell} />
+          <InputRow idx={15} item={rows[15]} changeCell={changeCell} />
+          <TableRow>
+            <TableCell className="border font-bold">{rows[16].name}</TableCell>
+            <TableCell className="bg-pink-100">
+              <Input
+                type="number"
+                id={'tffa'}
+                readOnly
+                value={updateTotalFamilyFixedAssets(
+                  rows[13].amount + rows[14].amount + rows[15].amount
+                )}
+              />
+            </TableCell>
+            <TableCell className="border bg-pink-100">
+              {rows[16].percentage}
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="border font-bold">{rows[17].name}</TableCell>
+            <TableCell className="bg-pink-100">
+              <Input
+                type="number"
+                id={'tfa'}
+                readOnly
+                value={updateTotalFixedAssets(
+                  totalBusinessFixedAssets + totalFamilyFixedAssets
+                )}
+              />
+            </TableCell>
+            <TableCell className="border bg-pink-100">
+              {rows[17].percentage}
+            </TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell className="border font-bold">{rows[18].name}</TableCell>
+            <TableCell className="bg-pink-100">
+              <Input
+                type="number"
+                id={'ta'}
+                readOnly
+                value={updateTotalAssets(
+                  totalShortTermAssets + totalFixedAssets
+                )}
+              />
+            </TableCell>
+            <TableCell className="border bg-pink-100">
+              {rows[18].percentage}
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
       <Button
@@ -146,7 +259,10 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
             rows,
             totalTreasury,
             totalReceivables,
-            totalShortTermAssets
+            totalShortTermAssets,
+            totalBusinessFixedAssets,
+            totalFamilyFixedAssets,
+            totalAssets
           )
         }
       >

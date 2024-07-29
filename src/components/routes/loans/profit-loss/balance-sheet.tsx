@@ -26,6 +26,11 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   let totalFamilyFixedAssets = 0
   let totalFixedAssets = 0
   let totalAssets = 0
+  let totalShortTermLiabilities = 0
+  let totalLongTermLiabilities = 0
+  let totalLiabilities = 0
+  let totalEquity = 0
+  let totalEquityAndLiabilities = 0
 
   const changeCell = (
     idx: number,
@@ -69,6 +74,29 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
 
   const updateTotalAssets = (value: number) => {
     totalAssets += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalShortTermLiabilities = (value: number) => {
+    totalShortTermLiabilities += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalLongTermLiabilities = (value: number) => {
+    totalLongTermLiabilities += value
+    return value.toFixed(2)
+  }
+
+  const updateTotalLiabilities = (value: number) => {
+    totalLiabilities += value
+    return value.toFixed(2)
+  }
+  const updateTotalEquity = (value: number) => {
+    totalEquity += value
+    return value.toFixed(2)
+  }
+  const updateTotalEquityAndLiabilities = (value: number) => {
+    totalEquityAndLiabilities += value
     return value.toFixed(2)
   }
 
@@ -172,8 +200,62 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
             row={rows[18]}
             value={updateTotalAssets(totalShortTermAssets + totalFixedAssets)}
           />
+
+          <TableRow>
+            <TableCell className="text-lg font-bold">
+              SHORT-TERM LIABILITIES:
+            </TableCell>
+          </TableRow>
+
+          <InputRow idx={19} item={rows[19]} changeCell={changeCell} />
+          <InputRow idx={20} item={rows[20]} changeCell={changeCell} />
+          <InputRow idx={21} item={rows[21]} changeCell={changeCell} />
+          <InputRow idx={22} item={rows[22]} changeCell={changeCell} />
+
+          <DisplayRow
+            row={rows[23]}
+            value={updateTotalShortTermLiabilities(
+              rows[19].amount +
+                rows[20].amount +
+                rows[21].amount +
+                rows[22].amount
+            )}
+          />
+
+          <TableRow>
+            <TableCell className="text-lg font-bold">
+              LONG-TERM LIABILITIES:
+            </TableCell>
+          </TableRow>
+
+          <InputRow idx={24} item={rows[24]} changeCell={changeCell} />
+          <InputRow idx={25} item={rows[25]} changeCell={changeCell} />
+
+          <DisplayRow
+            row={rows[26]}
+            value={updateTotalLongTermLiabilities(
+              rows[24].amount + rows[25].amount
+            )}
+          />
+          <DisplayRow
+            row={rows[27]}
+            value={updateTotalLiabilities(
+              totalShortTermLiabilities + totalLongTermLiabilities
+            )}
+          />
+          <DisplayRow
+            row={rows[28]}
+            value={updateTotalEquity(totalAssets - totalLiabilities)}
+          />
+          <DisplayRow
+            row={rows[29]}
+            value={updateTotalEquityAndLiabilities(
+              totalLiabilities + totalEquity
+            )}
+          />
         </TableBody>
       </Table>
+
       <div className="flex items-center gap-3">
         <Button
           onClick={() =>
@@ -201,7 +283,12 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
                 totalBusinessFixedAssets,
                 totalFamilyFixedAssets,
                 totalFixedAssets,
-                totalAssets
+                totalAssets,
+                totalShortTermLiabilities,
+                totalLongTermLiabilities,
+                totalLiabilities,
+                totalEquity,
+                totalEquityAndLiabilities
               )
             )
           }
@@ -232,11 +319,11 @@ const InputRow = ({
   readOnly?: boolean
 }) => {
   return (
-    <TableRow key={idx}>
-      <TableCell className="border">{item.name}</TableCell>
-      <TableCell className={cn('border', className)}>
+    <TableRow>
+      <TableCell className={cn('border', className)}>{item.name}</TableCell>
+      <TableCell className="border">
         <Input
-          id={'item' + idx}
+          id={item.name + idx}
           onChange={(e) =>
             changeCell(
               idx,

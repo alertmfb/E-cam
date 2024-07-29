@@ -120,6 +120,61 @@ export const balanceSheet = [
     amount: 0,
     percentage: 0,
   },
+  {
+    name: 'Advance received from customers',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Payables (Credit Supplies)',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'ALERT MFB Loan',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Other banks loan (Outstanding loan bal)',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL SHORT-TERM LIABILITIES',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Alert MFB long-term loan',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'Other banks long-term loans',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL LONG-TERM LIABILITIES',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL LIABILITIES',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL EQUITY (TOTAL ASSETS - TOTAL LIABILITIES',
+    amount: 0,
+    percentage: 0,
+  },
+  {
+    name: 'TOTAL EQUITY + LIABILITIES',
+    amount: 0,
+    percentage: 0,
+  },
 ]
 
 export const compileBSData = (
@@ -130,7 +185,12 @@ export const compileBSData = (
   totalBusinessFixedAssets: number,
   totalFamilyFixedAssets: number,
   totalFixedAssets: number,
-  totalAssets: number
+  totalAssets: number,
+  totalShortTermLiabilities: number,
+  totalLongTermLiabilities: number,
+  totalLiabilities: number,
+  totalEquity: number,
+  totalEquityAndLiabilities: number
 ): BalanceSheetData[] => {
   bs[3].amount = totalTreasury
   bs[6].amount = totalReceivables
@@ -139,6 +199,11 @@ export const compileBSData = (
   bs[16].amount = totalFamilyFixedAssets
   bs[17].amount = totalFixedAssets
   bs[18].amount = totalAssets
+  bs[23].amount = totalShortTermLiabilities
+  bs[26].amount = totalLongTermLiabilities
+  bs[27].amount = totalLiabilities
+  bs[28].amount = totalEquity
+  bs[29].amount = totalEquityAndLiabilities
 
   bs.forEach((row) => {
     if (totalAssets > 0) {

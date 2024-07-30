@@ -19,7 +19,6 @@ import { useState } from 'react'
 
 export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   const [rows, setRows] = useState<BalanceSheetData[]>(balanceSheet)
-  const [hasSaved, setHasSaved] = useState(false)
 
   let totalTreasury = 0
   let totalReceivables = 0
@@ -38,7 +37,6 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   const loadSaved = () => {
     if (lastSaved.data) {
       setRows(lastSaved.data)
-      setHasSaved(true)
     }
   }
 

@@ -23,6 +23,7 @@ import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/statu
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
 import { Route as AppALoansLoanIdVerificationPictureImport } from './routes/app/_a.loans/$loanId/verification-picture'
+import { Route as AppALoansLoanIdStockPledgeImport } from './routes/app/_a.loans/$loanId/stock-pledge'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdProfitLossImport } from './routes/app/_a.loans/$loanId/profit-loss'
 import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
@@ -32,6 +33,7 @@ import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.lo
 import { Route as AppALoansLoanIdDocumentImport } from './routes/app/_a.loans/$loanId/document'
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
 import { Route as AppALoansLoanIdCustomerBusinessImport } from './routes/app/_a.loans/$loanId/customer-business'
+import { Route as AppALoansLoanIdColPledgeImport } from './routes/app/_a.loans/$loanId/col-pledge'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
@@ -110,6 +112,13 @@ const AppALoansLoanIdVerificationPictureRoute =
     getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
+const AppALoansLoanIdStockPledgeRoute = AppALoansLoanIdStockPledgeImport.update(
+  {
+    path: '/stock-pledge',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any,
+)
+
 const AppALoansLoanIdReferenceRoute = AppALoansLoanIdReferenceImport.update({
   path: '/reference',
   getParentRoute: () => AppALoansLoanIdRoute,
@@ -159,6 +168,11 @@ const AppALoansLoanIdCustomerBusinessRoute =
     path: '/customer-business',
     getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
+
+const AppALoansLoanIdColPledgeRoute = AppALoansLoanIdColPledgeImport.update({
+  path: '/col-pledge',
+  getParentRoute: () => AppALoansLoanIdRoute,
+} as any)
 
 const AppALoansLoanIdClientInformationRoute =
   AppALoansLoanIdClientInformationImport.update({
@@ -265,6 +279,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdClientInformationImport
       parentRoute: typeof AppALoansLoanIdImport
     }
+    '/app/_a/loans/$loanId/col-pledge': {
+      preLoaderRoute: typeof AppALoansLoanIdColPledgeImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
     '/app/_a/loans/$loanId/customer-business': {
       preLoaderRoute: typeof AppALoansLoanIdCustomerBusinessImport
       parentRoute: typeof AppALoansLoanIdImport
@@ -299,6 +317,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/reference': {
       preLoaderRoute: typeof AppALoansLoanIdReferenceImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
+    '/app/_a/loans/$loanId/stock-pledge': {
+      preLoaderRoute: typeof AppALoansLoanIdStockPledgeImport
       parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/verification-picture': {
@@ -354,6 +376,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdBusinessExpensesRoute,
         AppALoansLoanIdCertRoute,
         AppALoansLoanIdClientInformationRoute,
+        AppALoansLoanIdColPledgeRoute,
         AppALoansLoanIdCustomerBusinessRoute,
         AppALoansLoanIdDataRoute,
         AppALoansLoanIdDocumentRoute,
@@ -363,6 +386,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdPictoralEvidenceRoute,
         AppALoansLoanIdProfitLossRoute,
         AppALoansLoanIdReferenceRoute,
+        AppALoansLoanIdStockPledgeRoute,
         AppALoansLoanIdVerificationPictureRoute,
       ]),
       AppALoansPendingIndexRoute,

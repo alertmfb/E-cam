@@ -50,13 +50,13 @@ function Layout() {
   }
 
   return (
-    <AuthProvider>
-      <div>
-        <AppHeader />
-        <div className="mx-auto mt-4">
-          <Outlet />
-        </div>
+    <div>
+      <AppHeader />
+      <div className="mx-auto mt-4">
+        <Outlet />
       </div>
-    </AuthProvider>
+    </div>
+    // <AuthProvider>
+    // </AuthProvider>
   )
 }

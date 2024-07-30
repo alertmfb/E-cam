@@ -287,6 +287,16 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
             to="/app/loans/$loanId/profit-loss"
             params={{ loanId: loanId }}
           >
+            Profit & Loss
+          </Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/stock-pledge"
+            params={{ loanId: loanId }}
+          >
             Stock Pledge
           </Link>
         </BreadcrumbItem>
@@ -294,7 +304,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/profit-loss"
+            to="/app/loans/$loanId/col-pledge"
             params={{ loanId: loanId }}
           >
             Collateral Pledge

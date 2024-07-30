@@ -7,7 +7,7 @@ import {
 } from './schema'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
-type Payload = {
+export type InventoryPayload = {
   rrows: InventoryData[]
   wm: number[]
   loanId?: string
@@ -23,7 +23,7 @@ type OBPayload = {
   loanId?: string
 }
 
-export const saveData = async ({ rrows, wm, loanId }: Payload) => {
+export const saveData = async ({ rrows, wm, loanId }: InventoryPayload) => {
   try {
     const lastRow = rrows[rrows.length - 1]
     const lastRowData = Object.values(lastRow)
@@ -59,7 +59,7 @@ export const getLastSaved = async ({
   loanId,
 }: {
   loanId: string
-}): Promise<Payload['rrows'] | undefined> => {
+}): Promise<InventoryPayload['rrows'] | undefined> => {
   try {
     const response = await Axios.get(
       `/loan-application/pl/inventory?loanId=${loanId}`,

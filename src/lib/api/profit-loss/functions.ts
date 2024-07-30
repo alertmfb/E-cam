@@ -1,9 +1,15 @@
 import { Axios } from '@/lib/axios'
-import { InventoryData } from './schema'
+import { BalanceSheetData, InventoryData, balanceSheet } from './schema'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 type Payload = {
   rrows: InventoryData[]
   wm: number[]
+  loanId?: string
+}
+
+type BSPayload = {
+  data: BalanceSheetData[]
   loanId?: string
 }
 
@@ -53,4 +59,57 @@ export const getLastSaved = async ({
   } catch (e) {
     console.error(e)
   }
+}
+
+const sendBalanceSheet = async ({ data, loanId }: BSPayload) => {
+  try {
+    const response = await Axios.post(
+      `/loan-application/pl/balance-sheet?loanId=${loanId}`,
+      {
+        balanceSheet: data,
+      },
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useSendBS = () => {
+  const sendMut = useMutation({
+    mutationFn: sendBalanceSheet,
+    onSuccess(data) {
+      if (data) {
+        alert('Saved')
+      }
+    },
+  })
+
+  return sendMut
+}
+
+const getBalanceSheet = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<BalanceSheetData[] | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/pl/balance-sheet?loanId=${loanId}`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGetBS = (loanId: string) => {
+  const bsQry = useQuery({
+    queryKey: ['bsData'],
+    queryFn: () => getBalanceSheet({ loanId }),
+  })
+
+  return bsQry
 }

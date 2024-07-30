@@ -8,6 +8,7 @@ import {
   TableCell,
   TableHeader,
 } from '@/components/ui/table'
+import { useGetBS, useSendBS } from '@/lib/api/profit-loss/functions'
 import {
   BalanceSheetData,
   balanceSheet,
@@ -18,6 +19,7 @@ import { useState } from 'react'
 
 export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   const [rows, setRows] = useState<BalanceSheetData[]>(balanceSheet)
+  const [hasSaved, setHasSaved] = useState(false)
 
   let totalTreasury = 0
   let totalReceivables = 0
@@ -31,6 +33,14 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   let totalLiabilities = 0
   let totalEquity = 0
   let totalEquityAndLiabilities = 0
+
+  const lastSaved = useGetBS(loanId)
+  const loadSaved = () => {
+    if (lastSaved.data) {
+      setRows(lastSaved.data)
+      setHasSaved(true)
+    }
+  }
 
   const changeCell = (
     idx: number,
@@ -91,17 +101,46 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
     totalLiabilities += value
     return value.toFixed(2)
   }
+
   const updateTotalEquity = (value: number) => {
     totalEquity += value
     return value.toFixed(2)
   }
+
   const updateTotalEquityAndLiabilities = (value: number) => {
     totalEquityAndLiabilities += value
     return value.toFixed(2)
   }
 
+  const bs = useSendBS()
+  const submit = () => {
+    bs.mutate({
+      data: compileBSData(
+        rows,
+        totalTreasury,
+        totalReceivables,
+        totalShortTermAssets,
+        totalBusinessFixedAssets,
+        totalFamilyFixedAssets,
+        totalFixedAssets,
+        totalAssets,
+        totalShortTermLiabilities,
+        totalLongTermLiabilities,
+        totalLiabilities,
+        totalEquity,
+        totalEquityAndLiabilities
+      ),
+      loanId,
+    })
+  }
+
   return (
     <div className="w-full space-y-4 py-3">
+      {lastSaved && (
+        <Button onClick={() => loadSaved()} variant={'secondary'}>
+          Load Previously Saved
+        </Button>
+      )}
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-purple-100 text-center border">
@@ -296,6 +335,7 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
         >
           Compile
         </Button>
+        <Button onClick={() => submit()}>Save</Button>
       </div>
     </div>
   )
@@ -332,6 +372,7 @@ const InputRow = ({
             )
           }
           readOnly={readOnly}
+          value={item.amount}
         />
       </TableCell>
       <TableCell className="border bg-pink-100"></TableCell>

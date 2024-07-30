@@ -1,5 +1,10 @@
 import { Axios } from '@/lib/axios'
-import { BalanceSheetData, InventoryData, balanceSheet } from './schema'
+import {
+  BalanceSheetData,
+  InventoryData,
+  OtherBankData,
+  balanceSheet,
+} from './schema'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
 type Payload = {
@@ -10,6 +15,11 @@ type Payload = {
 
 type BSPayload = {
   data: BalanceSheetData[]
+  loanId?: string
+}
+
+type OBPayload = {
+  data: OtherBankData[]
   loanId?: string
 }
 
@@ -112,4 +122,59 @@ export const useGetBS = (loanId: string) => {
   })
 
   return bsQry
+}
+
+const sendOtherBalances = async ({ data, loanId }: OBPayload) => {
+  try {
+    const response = await Axios.post(
+      `/loan-application/pl/other-bank?loanId=${loanId}`,
+      {
+        otherBalances: data,
+      },
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useSendOB = () => {
+  const obMut = useMutation({
+    mutationFn: sendOtherBalances,
+    onSuccess(data) {
+      if (data) {
+        alert(data)
+      } else {
+        alert('Failed to save')
+      }
+    },
+  })
+
+  return obMut
+}
+
+const getOtherBalances = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<OtherBankData[] | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/pl/other-bank?loanId=${loanId}`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGetOB = (loanId: string) => {
+  const obQry = useQuery({
+    queryKey: ['otherBankData'],
+    queryFn: () => getOtherBalances({ loanId }),
+  })
+
+  return obQry
 }

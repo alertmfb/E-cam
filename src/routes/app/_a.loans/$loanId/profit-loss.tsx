@@ -18,7 +18,7 @@ function ProfitLoss() {
         <h1 className="text-xl font-semibold">Profit & Loss</h1>
         <ApplicationNavC loanId={loanId} key="reference" />
       </div>
-      <Tabs defaultValue="bs" className="w-full">
+      <Tabs defaultValue="inventory" className="w-full">
         <TabsList>
           <TabsTrigger value="inventory">Inventory</TabsTrigger>
           <TabsTrigger value="bank">Bank/Other IMF Balances</TabsTrigger>

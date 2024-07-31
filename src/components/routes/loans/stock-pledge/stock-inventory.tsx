@@ -8,14 +8,12 @@ import {
   TableCell,
   TableHeader,
 } from '@/components/ui/table'
-import { saveData } from '@/lib/api/profit-loss/functions'
 import type { InventoryData } from '@/lib/api/profit-loss/schema'
 import { calculateTotal } from '@/lib/api/profit-loss/schema'
 import {
   usePrevStockInventory,
   useSaveStockInventory,
 } from '@/lib/api/stock-pledge/functions'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 export const StockInventory = ({ loanId }: { loanId: string }) => {

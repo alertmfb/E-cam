@@ -363,7 +363,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
         </TableBody>
       </Table>
 
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3 flex-1 flex-wrap">
         <div className="flex items-center gap-3">
           <Button className="w-full" onClick={() => addRow()} variant="outline">
             Add Row
@@ -378,15 +378,11 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* <Button className=" mb-6" onClick={() => console.log([rrows, wm])}>
-            Log Data
-          </Button> */}
-
-          <Button className="mb-6" onClick={() => console.log(rrows, wm)}>
+          <Button className="" onClick={() => console.log(rrows, wm)}>
             Log Data
           </Button>
           <Button
-            className="mb-6"
+            className=""
             onClick={() => addMutation.mutate({ rrows, wm, loanId })}
           >
             Save Data

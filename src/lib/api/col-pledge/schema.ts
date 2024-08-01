@@ -119,3 +119,24 @@ export const calculateColTotal = (
 
   return total
 }
+
+export type CompleteCollateralData = {
+  table: CollateralPledgeData[]
+  loanAmount: number
+  cashCollateral: number
+  stock: number
+}
+
+export const compileCollateralData = (
+  data: CollateralPledgeData[],
+  loanAmount: number,
+  cashCollateral: number,
+  stock: number
+): CompleteCollateralData => {
+  return {
+    table: data,
+    loanAmount,
+    cashCollateral,
+    stock,
+  }
+}

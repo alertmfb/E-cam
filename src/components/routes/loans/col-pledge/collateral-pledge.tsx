@@ -9,15 +9,17 @@ import {
   TableHeader,
   TableFooter,
 } from '@/components/ui/table'
+import { usePrevColData, useSaveColData } from '@/lib/api/col-pledge/functions'
 import {
   CollateralPledgeData,
   calculateColTotal,
   collateralPledge,
+  compileCollateralData,
 } from '@/lib/api/col-pledge/schema'
 import { Label } from '@radix-ui/react-dropdown-menu'
 import { useState } from 'react'
 
-export const CollateralPledge = () => {
+export const CollateralPledge = ({ loanId }: { loanId: string }) => {
   const [rows, setRows] = useState<CollateralPledgeData[]>(collateralPledge)
   const [loanAmount, setLoanAmount] = useState<number>(0)
   const [cashCollateral, setCashCollateral] = useState<number>(0)
@@ -25,6 +27,16 @@ export const CollateralPledge = () => {
 
   const MOVABLE_DEPRE = 0.35
   const IMMOVABLE_DEPRE = 0.3
+
+  const { data: prevData } = usePrevColData(loanId)
+  const loadPrev = () => {
+    if (prevData) {
+      setRows(prevData.table)
+      setLoanAmount(prevData.loanAmount)
+      setCashCollateral(prevData.cashCollateral)
+      setStock(prevData.stock)
+    }
+  }
 
   const updateCell = (
     idx: number,
@@ -78,9 +90,23 @@ export const CollateralPledge = () => {
     )
   }
 
+  const saveData = useSaveColData()
+
+  const submit = () => {
+    saveData.mutate({
+      data: compileCollateralData(rows, loanAmount, cashCollateral, stock),
+      loanId: loanId,
+    })
+  }
+
   return (
     <div className="w-full space-y-4 py-3">
-      <div className="flex justify-between gap-3 text-xl font-bold">
+      {prevData && (
+        <Button onClick={() => loadPrev()} variant={'secondary'}>
+          Load Previously Saved
+        </Button>
+      )}
+      <div className="flex items-center justify-between gap-3 text-xl font-bold flex-1 flex-wrap">
         Movable
         <div className="p-2 bg-gray-100 rounded-md">
           <span className="text-purple-500">%DEPRECIATION</span>{' '}
@@ -95,10 +121,13 @@ export const CollateralPledge = () => {
                 parseFloat(e.target.value === '' ? '0' : e.target.value)
               )
             }
+            value={loanAmount === 0 ? '' : loanAmount}
             className="w-32 text-sm font-normal placeholder:text-sm placeholder:font-normal"
           />
         </div>
       </div>
+
+      {/* Movable Collateral Table */}
 
       <Table className="border">
         <TableHeader className="h-20 p-2 bg-purple-100">
@@ -274,6 +303,8 @@ export const CollateralPledge = () => {
           {IMMOVABLE_DEPRE * 100}
         </div>
       </div>
+
+      {/* Immovable Collateral Table */}
 
       <Table className="border">
         <TableHeader className="h-20 p-2 bg-purple-100">
@@ -477,6 +508,7 @@ export const CollateralPledge = () => {
         </TableHeader>
         <TableBody>
           {/* 1 */}
+
           <TableRow>
             <TableCell>1</TableCell>
             <TableCell>MOVABLE</TableCell>
@@ -496,7 +528,9 @@ export const CollateralPledge = () => {
               %
             </TableCell>
           </TableRow>
+
           {/* 2 */}
+
           <TableRow>
             <TableCell>2</TableCell>
             <TableCell>IMMOVABLE</TableCell>
@@ -516,7 +550,9 @@ export const CollateralPledge = () => {
               %
             </TableCell>
           </TableRow>
+
           {/* 3 */}
+
           <TableRow>
             <TableCell>3</TableCell>
             <TableCell>CASH COLLATERAL</TableCell>
@@ -604,9 +640,13 @@ export const CollateralPledge = () => {
         </TableHeader>
       </Table>
 
-      <Button variant="secondary" onClick={() => console.log(rows)}>
-        Log Data
-      </Button>
+      <div className="flex items-center justify-between">
+        <Button variant="secondary" onClick={() => console.log(rows)}>
+          Log Data
+        </Button>
+
+        <Button onClick={() => submit()}>Save</Button>
+      </div>
     </div>
   )
 }

@@ -15,7 +15,7 @@ function ColPledge() {
         <h1 className="text-xl font-semibold">Collateral Pledge</h1>
         <ApplicationNavC loanId={loanId} key="reference" />
       </div>
-      <CollateralPledge />
+      <CollateralPledge loanId={loanId} />
     </div>
   )
 }

@@ -209,7 +209,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             <DropdownMenuItem asChild>
               <Link
                 activeProps={{ className: 'text-black font-semibold' }}
-                to="/app/loans/$loanId/profit-loss"
+                to="/app/loans/$loanId/stock-pledge"
                 params={{ loanId: loanId }}
               >
                 Stock Pledge
@@ -218,7 +218,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             <DropdownMenuItem asChild>
               <Link
                 activeProps={{ className: 'text-black font-semibold' }}
-                to="/app/loans/$loanId/profit-loss"
+                to="/app/loans/$loanId/col-pledge"
                 params={{ loanId: loanId }}
               >
                 Collateral Pledge

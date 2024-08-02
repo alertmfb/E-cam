@@ -1,5 +1,5 @@
 import { beS, baS } from '@/components/routes/loans/business-expenses/beSchema'
-import { Role } from '@/lib/auth/functions'
+import { Role } from '@/lib/auth'
 import { Axios } from '@/lib/axios'
 import { z } from 'zod'
 

@@ -1,5 +1,5 @@
 import { Header } from '@/components/header'
-import { SigninForm } from '@/components/routes/sign-in/signin-form'
+// import { SigninForm } from '@/components/routes/sign-in/signin-form'
 import { Navigate, createFileRoute } from '@tanstack/react-router'
 import signinB from '../assets/signinB.svg'
 import { useAuthSession } from '@/lib/auth/hooks'
@@ -23,7 +23,7 @@ function SignIn() {
           <div className="w-full flex gap-6 items-center justify-around flex-wrap-reverse flex-1">
             <img src={signinB} alt="sign in img" />
             <div className="border p-12 rounded-lg shadow-lg">
-              <SigninForm />
+              {/* <SigninForm /> */}
             </div>
           </div>
         </div>

@@ -29,11 +29,11 @@ import {
   createFamilyAsset,
 } from '@/lib/api/famiy-expenses/functions'
 import { useMutation } from '@tanstack/react-query'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 
 export function FamilyExpensesForm({ loanId }: { loanId: string }) {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const form = useForm<z.infer<typeof feS>>({
     resolver: zodResolver(feS),
@@ -55,9 +55,9 @@ export function FamilyExpensesForm({ loanId }: { loanId: string }) {
   function onSubmit(values: z.infer<typeof feS>) {
     addMutation.mutate({
       payload: values,
-      role: auth.role,
-      branchId: user.branch_id.toString(),
-      userId: user.id.toString(),
+      role: role,
+      branchId: branch_id.toString(),
+      userId: userId!,
       loanId: loanId,
     })
   }
@@ -155,8 +155,8 @@ export function FamilyExpensesForm({ loanId }: { loanId: string }) {
 }
 
 export function FamilyAssetsForm({ loanId }: { loanId: string }) {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const form = useForm<z.infer<typeof faS>>({
     resolver: zodResolver(faS),
@@ -177,9 +177,9 @@ export function FamilyAssetsForm({ loanId }: { loanId: string }) {
   function onSubmit(values: z.infer<typeof faS>) {
     addMutation.mutate({
       payload: values,
-      role: auth.role,
-      branchId: user.branch_id.toString(),
-      userId: user.id.toString(),
+      role: role,
+      branchId: branch_id.toString(),
+      userId: userId!,
       loanId: loanId,
     })
   }

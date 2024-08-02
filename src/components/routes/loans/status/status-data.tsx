@@ -14,7 +14,7 @@ import {
   getExecLoanApplicationStatusById,
   getLoanApplicationStatusById,
 } from '@/lib/api/loan-application/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 
 export function StatusData({
   loanId,
@@ -23,7 +23,7 @@ export function StatusData({
   loanId: string
   branchId: string
 }) {
-  const { role } = useAuthSession()
+  const { role } = useUser()
 
   switch (role) {
     case 'executive': {
@@ -43,18 +43,18 @@ function GeneralStatusData({
   loanId: string
   branchId: string
 }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role, institution_id } = useUser()
 
   const { data: loan } = useQuery({
     queryKey: ['single-status'],
     queryFn: () =>
       getLoanApplicationStatusById({
-        institutionId: user.institution_id.toString(),
+        institutionId: institution_id.toString(),
         branchId: branchId,
         loanId: loanId,
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       }),
   })
 
@@ -188,8 +188,8 @@ function GeneralStatusData({
 }
 
 function ExecutiveStatusData({ loanId }: { loanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role } = useUser()
 
   const { data: loan } = useQuery({
     queryKey: ['single-status'],
@@ -197,7 +197,7 @@ function ExecutiveStatusData({ loanId }: { loanId: string }) {
       getExecLoanApplicationStatusById({
         loanId: loanId,
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       }),
   })
 

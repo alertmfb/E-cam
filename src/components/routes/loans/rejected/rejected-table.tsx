@@ -9,12 +9,12 @@ import {
 } from '@/components/ui/table'
 import { useQuery } from '@tanstack/react-query'
 import { fetchRejectedApplications } from '@/lib/api/loan-application/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useAuthSession, useAuthUser, useUser } from '@/lib/auth/hooks'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
 export function RejectedApplicationsTable() {
-  const { role } = useAuthSession()
+  const { role } = useUser()
 
   switch (role) {
     case 'loan_officer': {
@@ -33,24 +33,24 @@ export function RejectedApplicationsTable() {
 }
 
 export function LoanOfficerRejectedTable() {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const applications = useQuery({
     queryKey: ['lo-rejected-applications'],
     queryFn: () =>
       fetchRejectedApplications({
-        branchId: user.branch_id.toString(),
-        userId: user.id.toString(),
-        role: auth.role,
+        branchId: branch_id.toString(),
+        userId: userId!,
+        role: role,
       }),
   })
   return (
     <Table>
       <TableCaption>
-        {auth.role === 'loan_officer'
+        {role === 'loan_officer'
           ? 'These are your loan applications rejected from other officials'
-          : auth.role === 'relationship_manager'
+          : role === 'relationship_manager'
             ? 'The are the rejected loan applications for your branch'
             : ''}
       </TableCaption>
@@ -74,7 +74,7 @@ export function LoanOfficerRejectedTable() {
                   to="/app/loans/rejected/$loanId/$branchId"
                   params={{
                     loanId: loan.id,
-                    branchId: user.branch_id.toString(),
+                    branchId: branch_id.toString(),
                   }}
                 >
                   view
@@ -88,24 +88,24 @@ export function LoanOfficerRejectedTable() {
   )
 }
 export function BranchManagerRejectedTable() {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const applications = useQuery({
     queryKey: ['bm-rejected-applications'],
     queryFn: () =>
       fetchRejectedApplications({
-        branchId: user.branch_id.toString(),
-        userId: user.id.toString(),
-        role: auth.role,
+        branchId: branch_id.toString(),
+        userId: userId!,
+        role: role,
       }),
   })
   return (
     <Table>
       <TableCaption>
-        {auth.role === 'loan_officer'
+        {role === 'loan_officer'
           ? 'These are your loan applications rejected from other officials'
-          : auth.role === 'relationship_manager'
+          : role === 'relationship_manager'
             ? 'The are the rejected loan applications for your branch'
             : ''}
       </TableCaption>
@@ -132,7 +132,7 @@ export function BranchManagerRejectedTable() {
                   to="/app/loans/rejected/$loanId/$branchId"
                   params={{
                     loanId: loan.id,
-                    branchId: user.branch_id.toString(),
+                    branchId: branch_id.toString(),
                   }}
                 >
                   view
@@ -147,26 +147,26 @@ export function BranchManagerRejectedTable() {
 }
 
 export function GeneralRejectedTable() {
-  const user = useAuthUser()
-  const auth = useAuthSession()
+  const { userId } = useAuth()
+  const { role, branch_id, institution_id } = useUser()
 
   const applications = useQuery({
     queryKey: ['general-rejected-applications'],
     queryFn: () =>
       fetchRejectedApplications({
-        institutionId: user.institution_id.toString(),
-        branchId: user.branch_id.toString(),
-        userId: user.id.toString(),
-        role: auth.role,
+        institutionId: institution_id.toString(),
+        branchId: branch_id.toString(),
+        userId: userId!,
+        role: role,
       }),
   })
 
   return (
     <Table>
       <TableCaption>
-        {auth.role === 'loan_officer'
+        {role === 'loan_officer'
           ? 'These are your loan applications rejected from other officials'
-          : auth.role === 'relationship_manager'
+          : role === 'relationship_manager'
             ? 'The are the rejected loan applications for your branch'
             : ''}
       </TableCaption>
@@ -194,7 +194,7 @@ export function GeneralRejectedTable() {
                   to="/app/loans/rejected/$loanId/$branchId"
                   params={{
                     loanId: loan.id,
-                    branchId: user.branch_id.toString(),
+                    branchId: branch_id.toString(),
                   }}
                 >
                   view
@@ -209,8 +209,8 @@ export function GeneralRejectedTable() {
 }
 
 export function ExecutiveRejectedTable() {
-  const user = useAuthUser()
-  const auth = useAuthSession()
+  const { userId } = useAuth()
+  const { role } = useUser()
 
   const applications = useQuery({
     queryKey: ['general-rejected-applications'],
@@ -218,8 +218,8 @@ export function ExecutiveRejectedTable() {
       fetchRejectedApplications({
         institutionId: 'exec',
         branchId: 'exec',
-        userId: user.id.toString(),
-        role: auth.role,
+        userId: userId!,
+        role: role,
       }),
   })
 

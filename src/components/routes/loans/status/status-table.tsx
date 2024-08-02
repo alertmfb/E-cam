@@ -11,10 +11,10 @@ import { useQuery } from '@tanstack/react-query'
 import { getLoanApplicationStatus } from '@/lib/api/loan-application/functions'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 
 export function ApplicationStatusTable() {
-  const { role } = useAuthSession()
+  const { role } = useUser()
 
   switch (role) {
     case 'loan_officer': {
@@ -33,15 +33,15 @@ export function ApplicationStatusTable() {
 }
 
 export function LoanOfficerStatusTable() {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const applications = useQuery({
     queryKey: ['application-status'],
     queryFn: () =>
       getLoanApplicationStatus({
-        branchId: user.branch_id.toString(),
-        userId: user.id.toString(),
+        branchId: branch_id.toString()!,
+        userId: userId!,
         role: role,
       }),
   })
@@ -80,7 +80,7 @@ export function LoanOfficerStatusTable() {
                   to="/app/loans/status/$loanId/$branchId"
                   params={{
                     loanId: loan.id,
-                    branchId: user.branch_id.toString(),
+                    branchId: branch_id.toString(),
                   }}
                 >
                   view approvals
@@ -95,15 +95,15 @@ export function LoanOfficerStatusTable() {
 }
 
 export function BranchManagerStatusTable() {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const applications = useQuery({
     queryKey: ['application-status'],
     queryFn: () =>
       getLoanApplicationStatus({
-        branchId: user.branch_id.toString(),
-        userId: user.id.toString(),
+        branchId: branch_id.toString(),
+        userId: userId!,
         role: role,
       }),
   })
@@ -145,7 +145,7 @@ export function BranchManagerStatusTable() {
                   to="/app/loans/status/$loanId/$branchId"
                   params={{
                     loanId: loan.id,
-                    branchId: user.branch_id.toString(),
+                    branchId: branch_id.toString(),
                   }}
                 >
                   view approvals
@@ -160,8 +160,8 @@ export function BranchManagerStatusTable() {
 }
 
 export function GeneralStatusTable() {
-  const { institution_id, branch_id, id } = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { institution_id, branch_id, role } = useUser()
 
   const applications = useQuery({
     queryKey: ['application-status-id'],
@@ -169,7 +169,7 @@ export function GeneralStatusTable() {
       getLoanApplicationStatus({
         institutionId: institution_id.toString(),
         branchId: branch_id.toString(),
-        userId: id.toString(),
+        userId: userId!,
         role: role,
       }),
   })
@@ -223,16 +223,16 @@ export function GeneralStatusTable() {
 }
 
 export function ExecutiveStatusTable() {
-  const { id } = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role } = useUser()
 
   const applications = useQuery({
     queryKey: ['application-status-id'],
     queryFn: () =>
       getLoanApplicationStatus({
-        institutionId: id.toString(),
-        branchId: id.toString(),
-        userId: id.toString(),
+        institutionId: userId!,
+        branchId: userId!,
+        userId: userId!,
         role: role,
       }),
   })
@@ -280,7 +280,7 @@ export function ExecutiveStatusTable() {
               <Button asChild variant="link">
                 <Link
                   to="/app/loans/status/$loanId/$branchId"
-                  params={{ loanId: loan.id, branchId: id.toString() }}
+                  params={{ loanId: loan.id, branchId: userId! }}
                 >
                   view approvals
                 </Link>

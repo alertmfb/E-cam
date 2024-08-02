@@ -40,12 +40,12 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { createClientInfo, fetchBvn } from '@/lib/api/client-info/functions'
 
 import { useNavigate } from '@tanstack/react-router'
-import { useAuthUser } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 
 type LoanId = { loanId: string }
 
 export function ClientInfoForm(loanId: LoanId) {
-  const { branch_id } = useAuthUser()
+  const { branch_id } = useUser()
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof ciS>>({

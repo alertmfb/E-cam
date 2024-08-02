@@ -14,7 +14,7 @@ import {
   getExecRejectedApplicationById,
   getRejectedApplicationById,
 } from '@/lib/api/loan-application/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 // import { Button } from '@/components/ui/button'
 
 export function RejectedData({
@@ -24,7 +24,7 @@ export function RejectedData({
   loanId: string
   branchId: string
 }) {
-  const { role } = useAuthSession()
+  const { role } = useUser()
 
   switch (role) {
     case 'executive': {
@@ -44,18 +44,18 @@ function GeneralRejectedData({
   loanId: string
   branchId: string
 }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role, institution_id } = useUser()
 
   const { data: loan } = useQuery({
     queryKey: ['rejected-data'],
     queryFn: () =>
       getRejectedApplicationById({
-        institutionId: user.institution_id.toString(),
+        institutionId: institution_id,
         branchId: branchId,
         loanId: loanId,
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       }),
   })
 
@@ -126,8 +126,8 @@ function GeneralRejectedData({
 }
 
 function ExecutiveRejectedData({ loanId }: { loanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { userId } = useAuth()
+  const { role } = useUser()
 
   const { data: loan } = useQuery({
     queryKey: ['rejected-data'],
@@ -135,7 +135,7 @@ function ExecutiveRejectedData({ loanId }: { loanId: string }) {
       getExecRejectedApplicationById({
         loanId: loanId,
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       }),
   })
 

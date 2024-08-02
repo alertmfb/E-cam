@@ -1,7 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo.png'
 import { Avatar, AvatarFallback } from './ui/avatar'
-import { signOut } from '@/lib/auth/functions'
 import { User, LogOut } from 'lucide-react'
 import {
   DropdownMenu,
@@ -11,10 +10,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useNavigate } from '@tanstack/react-router'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useSignOut, useUser } from '@/lib/auth/hooks'
+import { Role } from '@/lib/auth'
 
-const roles = {
+const roles: Record<Role, string> = {
   loan_officer: 'Loan Officer',
   relationship_manager: 'Relationship Manager',
   branch_manager: 'Branch Manager',
@@ -44,8 +43,7 @@ export function Header() {
 }
 
 export function AppHeader() {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { role, name, institution_name, branch_name } = useUser()
 
   return (
     <header className="border-b sticky top-0 w-full bg-white z-10">
@@ -58,17 +56,17 @@ export function AppHeader() {
         <div className="flex items-end gap-3">
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <p className="font-medium">{user?.name}</p>
+              <p className="font-medium">{name}</p>
             </div>
             <div className="flex items-center gap-2">
-              <p className="text-sm">{roles[auth.role]}</p>
-              {auth.role === 'regional_manager' ? (
+              <p className="text-sm">{roles[role]}</p>
+              {role === 'regional_manager' ? (
                 <p className="text-sm font-semibold">
-                  {user?.institution_name?.toUpperCase()}
+                  {institution_name?.toUpperCase()}
                 </p>
               ) : (
                 <p className="text-sm font-semibold">
-                  {user?.branch_name?.toUpperCase()}
+                  {branch_name?.toUpperCase()}
                 </p>
               )}
             </div>
@@ -81,7 +79,8 @@ export function AppHeader() {
 }
 
 function UserDropdown() {
-  const navigate = useNavigate()
+  const signOut = useSignOut()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -97,7 +96,7 @@ function UserDropdown() {
         <DropdownMenuItem
           className="cursor-pointer flex items-center gap-3"
           onClick={() => {
-            signOut(), navigate({ to: '/sign-in' })
+            signOut.mutate()
           }}
         >
           <LogOut />

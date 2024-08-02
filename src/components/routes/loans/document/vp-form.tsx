@@ -9,12 +9,12 @@ import {
 } from '@/lib/api/document/functions'
 import { CloudUpload, DownloadCloud, SquareMousePointer } from 'lucide-react'
 import React, { useState } from 'react'
-import { useAuthUser } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
 export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
-  const { branch_id } = useAuthUser()
+  const { branch_id } = useUser()
   const [file, setFile] = useState<File>()
 
   const fileMutation = useMutation({

@@ -11,18 +11,14 @@ import { Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { getIncompleteApplications } from '@/lib/api/loan-application/functions'
 import { Button } from '@/components/ui/button'
-import type { UserResponse } from '@/lib/auth/functions'
+import { useAuth } from '@/lib/auth/hooks'
 
 export function IncompleteTable() {
-  let user: UserResponse
-
-  if (typeof window !== 'undefined' && window.localStorage) {
-    user = JSON.parse(localStorage.getItem('user')!) as UserResponse
-  }
+  const { userId } = useAuth()
 
   const { data: loanApp, fetchStatus } = useQuery({
     queryKey: ['incomplete-loan-applications'],
-    queryFn: () => getIncompleteApplications({ id: user?.id.toString() }),
+    queryFn: () => getIncompleteApplications({ id: userId! }),
   })
 
   if (fetchStatus === 'fetching') {

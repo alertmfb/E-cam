@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const formSchema = z.object({
+const signInSchema = z.object({
   email: z
     .string()
     .min(3, { message: 'not a valid email' })
@@ -11,4 +11,4 @@ const formSchema = z.object({
     .max(22, { message: 'password too long' }),
 })
 
-export { formSchema }
+export { signInSchema }

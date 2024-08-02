@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CardFooter } from '@/components/ui/card'
 import { Link, Navigate } from '@tanstack/react-router'
 import { Activity, Banknote, ListTodo, PlusCircle, SquareX } from 'lucide-react'
-import { useAuthSession } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 
 export function DashboardUi() {
-  const { role } = useAuthSession()
+  const { role } = useUser()
 
   switch (role) {
     case 'loan_officer': {
@@ -24,7 +24,7 @@ export function DashboardUi() {
       return <ExecutiveUi />
     }
     default: {
-      return <Navigate to="/sign-in" />
+      return <Navigate to="/" />
     }
   }
 }

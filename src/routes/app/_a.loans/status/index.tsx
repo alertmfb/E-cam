@@ -10,7 +10,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // } from '@/components/ui/dropdown-menu'
 // import { Button } from '@/components/ui/button'
 // import { ChevronDown } from 'lucide-react'
-import { useAuthSession } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 
 // const branches = {
 //   one: '1',
@@ -22,7 +22,7 @@ export const Route = createFileRoute('/app/_a/loans/status/')({
 })
 
 function Status() {
-  const { role } = useAuthSession()
+  const { role } = useUser()
   // const { institution_id } = useAuthUser()
 
   // const { data: br, fetchStatus } = useQuery({

@@ -16,10 +16,10 @@ import {
   uploadFile,
 } from '@/lib/api/document/functions'
 import { Button } from '@/components/ui/button'
-import { useAuthSession } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 
 export function UploadData({ loanId }: { loanId: string }) {
-  const { role } = useAuthSession()
+  const { role } = useUser()
   const [content, setContent] = useState(false)
 
   const { data, fetchStatus } = useQuery({

@@ -6,7 +6,7 @@ import {
   LoanRejectionForm,
 } from '@/components/routes/loans/loan-action/loan-action-form'
 import { ReferenceData } from '@/components/routes/loans/references/reference-data'
-import { useAuthSession } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
@@ -30,7 +30,7 @@ function LoanData() {
 }
 
 function Actions(loanId: { loanId: string }) {
-  const { role } = useAuthSession()
+  const { role } = useUser()
 
   if (role === 'loan_officer') {
     return <div></div>

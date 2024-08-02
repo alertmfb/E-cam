@@ -3,7 +3,7 @@ import {
   GuarantorInfoPayload,
   fetchGuarantorInfo,
 } from '@/lib/api/guarantor-info/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 import {
   Card,
   CardContent,
@@ -16,8 +16,8 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
 export function GuarantorInfoData(loanId: { LoanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { role } = useUser()
+  const { userId } = useAuth()
 
   const [content, setContent] = useState(false)
 
@@ -27,7 +27,7 @@ export function GuarantorInfoData(loanId: { LoanId: string }) {
       fetchGuarantorInfo({
         loanId: loanId.LoanId,
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       }),
   })
 

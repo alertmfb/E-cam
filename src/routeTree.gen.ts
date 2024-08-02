@@ -13,7 +13,6 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SignInImport } from './routes/sign-in'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppAImport } from './routes/app/_a'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
@@ -53,11 +52,6 @@ const AppALoansLoanIdImport = createFileRoute('/app/_a/loans/$loanId')()
 
 const AppRoute = AppImport.update({
   path: '/app',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const SignInRoute = SignInImport.update({
-  path: '/sign-in',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -235,10 +229,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/sign-in': {
-      preLoaderRoute: typeof SignInImport
-      parentRoute: typeof rootRoute
-    }
     '/app': {
       preLoaderRoute: typeof AppImport
       parentRoute: typeof rootRoute
@@ -366,7 +356,6 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  SignInRoute,
   AppRoute.addChildren([
     AppARoute.addChildren([
       AppALoansIncompleteRoute,

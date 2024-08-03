@@ -1,28 +1,24 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  saveFileName,
-  saveImageName,
-  uploadFile,
-  uploadImage,
-} from '@/lib/api/document/functions'
-import { CloudUpload, DownloadCloud, SquareMousePointer } from 'lucide-react'
+
+import { CloudUpload, SquareMousePointer } from 'lucide-react'
 import React, { useState } from 'react'
-import { useUser } from '@/lib/auth/hooks'
-import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  PictureOption,
+  useUploadColPicture,
+} from '@/lib/api/verification-picture/functions'
 
 export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
-  const { branch_id } = useUser()
   const [file, setFile] = useState<File>()
-
-  const fileMutation = useMutation({
-    mutationFn: saveImageName,
-    onSuccess: () => {
-      alert('uploaded')
-    },
-  })
+  const [category, setCategory] = useState<PictureOption>('pic_one')
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -31,22 +27,18 @@ export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
     setFile(e.target.files[0])
   }
 
+  const fileUpload = useUploadColPicture()
+
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
-    const { data, error } = await uploadImage(file!, loanId.toString(), 'vp')
 
-    if (error) {
-      throw new Error('upload failed')
-    }
+    const form = new FormData()
+    form.append('picture', file!)
 
-    if (!data) {
-      throw new Error('corrupted file')
-    }
-
-    fileMutation.mutate({
-      filename: data.path,
-      params: { branchId: branch_id.toString(), loanId: loanId },
-      category: 'vp',
+    fileUpload.mutate({
+      picture: form,
+      loanId: loanId,
+      type: category,
     })
   }
 
@@ -56,24 +48,54 @@ export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
         className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg"
         onSubmit={(e) => handleUpload(e)}
       >
-        <Label className="text-xl">Verification Picture Upload</Label>
+        {/* <Label className="text-xl">Verification Picture Upload</Label> */}
 
         <div className="flex flex-col items-start justify-center gap-4">
-          <Button asChild variant="secondary">
-            <Label
-              htmlFor="file"
-              className="cursor-pointer flex items-center gap-2 text-base"
-            >
-              <SquareMousePointer /> select file to upload
-            </Label>
-          </Button>
-          <div className="text-base font-semibold">{file?.name}</div>
-          <Input
-            type="file"
-            id="file"
-            className="hidden"
-            onChange={(e) => handleFileChange(e)}
-          />
+          <div className="flex items-center justify-start gap-5 flex-1 flex-wrap">
+            <div className="flex flex-col gap-3">
+              <h1 className="font-bold">Select File</h1>
+              <Button asChild variant="secondary">
+                <Label
+                  htmlFor="file"
+                  className="cursor-pointer flex items-center gap-2 text-base"
+                >
+                  <SquareMousePointer /> select file to upload
+                </Label>
+              </Button>
+              <Input
+                type="file"
+                id="file"
+                className="hidden"
+                onChange={(e) => handleFileChange(e)}
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 items-start">
+              <h1 className="font-bold">Select Category</h1>
+              <Select
+                onValueChange={(v: PictureOption) => {
+                  setCategory(v)
+                }}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="pic_one">Collateral Picture 1</SelectItem>
+                  <SelectItem value="pic_two">Collateral Picture 2</SelectItem>
+                  <SelectItem value="ver_one">Verification Picture</SelectItem>
+                  <SelectItem value="ver_two">
+                    Customer Business Place
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="text-base font-semibold">
+            Selected File: <span className="text-blue-700">{file?.name}</span>
+          </div>
+
           <Button
             type="submit"
             variant="outline"

@@ -51,7 +51,7 @@ export function CustomerBusinessUploadForm({ loanId }: { loanId: string }) {
         className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg"
         onSubmit={(e) => handleUpload(e)}
       >
-        <Label className="text-xl">Customer Business Upload</Label>
+        {/* <Label className="text-xl">Customer Business Upload</Label> */}
 
         <div className="flex flex-col items-start justify-center gap-4">
           <Button asChild variant="secondary">

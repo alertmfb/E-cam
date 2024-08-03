@@ -75,7 +75,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                   to="/app/loans/$loanId/verification-picture"
                   params={{ loanId: loanId }}
                 >
-                  Verification Pic
+                  Pictoral Evidence
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -84,7 +84,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                   to="/app/loans/$loanId/customer-business"
                   params={{ loanId: loanId }}
                 >
-                  Customer Business
+                  Guarantor's Biz Ver
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -168,7 +168,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             to="/app/loans/$loanId/verification-picture"
             params={{ loanId: loanId }}
           >
-            Verification Pic
+            Pictoral Evidence
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -178,7 +178,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             to="/app/loans/$loanId/customer-business"
             params={{ loanId: loanId }}
           >
-            Business Pic
+            Guarantor's Biz Ver
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -256,7 +256,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
                   to="/app/loans/$loanId/customer-business"
                   params={{ loanId: loanId }}
                 >
-                  Customer Biz
+                  Guarantor's Biz Ver
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -265,7 +265,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
                   to="/app/loans/$loanId/verification-picture"
                   params={{ loanId: loanId }}
                 >
-                  Verification Pic
+                  Pictoral Evidence
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>

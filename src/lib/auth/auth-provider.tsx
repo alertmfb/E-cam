@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from 'react'
-import { supabase } from '@/lib/sb'
 import {
   AuthState,
   ProviderProps,

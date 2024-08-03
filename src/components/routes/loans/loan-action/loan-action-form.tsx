@@ -23,12 +23,12 @@ import {
   approveLoanApplication,
   rejectLoanApplication,
 } from '../../../../lib/api/loan-action/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 import { useNavigate } from '@tanstack/react-router'
 
 export function LoanActionForm(loanId: { loanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { role, branch_id, institution_id } = useUser()
+  const { userId } = useAuth()
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof loanActionSchema>>({
@@ -48,7 +48,7 @@ export function LoanActionForm(loanId: { loanId: string }) {
         to: '/app/loans/status/$loanId/$branchId',
         params: {
           loanId: loanId.loanId,
-          branchId: role !== 'executive' ? user.branch_id.toString() : 'exec',
+          branchId: role !== 'executive' ? branch_id.toString() : 'exec',
         },
       })
     },
@@ -58,12 +58,11 @@ export function LoanActionForm(loanId: { loanId: string }) {
     addMutation.mutate({
       payload: values,
       params: {
-        institutionId:
-          role !== 'executive' ? user.institution_id.toString() : '',
+        institutionId: role !== 'executive' ? institution_id.toString() : '',
         loanId: loanId.loanId,
-        branchId: role !== 'executive' ? user.branch_id.toString() : '',
+        branchId: role !== 'executive' ? branch_id.toString() : '',
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       },
     })
   }
@@ -121,8 +120,8 @@ export function LoanActionForm(loanId: { loanId: string }) {
 }
 
 export function LoanRejectionForm(loanId: { loanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { role, branch_id } = useUser()
+  const { userId } = useAuth()
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof loanRejectionSchema>>({
@@ -141,7 +140,7 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
         to: '/app/loans/rejected/$loanId/$branchId',
         params: {
           loanId: loanId.loanId,
-          branchId: role !== 'executive' ? user.branch_id.toString() : 'exec',
+          branchId: role !== 'executive' ? branch_id.toString() : 'exec',
         },
       })
     },
@@ -152,9 +151,9 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
       payload: values,
       params: {
         loanId: loanId.loanId,
-        branchId: role !== 'executive' ? user.branch_id.toString() : 'exec',
+        branchId: role !== 'executive' ? branch_id.toString() : 'exec',
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       },
     })
   }

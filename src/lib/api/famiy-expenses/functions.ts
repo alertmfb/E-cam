@@ -1,7 +1,7 @@
 import { feS, faS } from '@/components/routes/loans/family-expenses/feSchems'
 import { Axios } from '@/lib/axios'
 import { z } from 'zod'
-import { Role } from '@/lib/auth/functions'
+import { Role } from '@/lib/auth'
 
 type FamilyExpensePayload = z.infer<typeof feS>
 type FamilyExpenseData = {

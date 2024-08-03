@@ -1,6 +1,6 @@
 import { AuthProvider } from '@/lib/auth/auth-provider'
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
-import { Role } from '@/lib/auth/functions'
+import { Role } from '@/lib/auth'
 
 type Session = {
   access_token: string

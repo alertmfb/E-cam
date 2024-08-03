@@ -4,12 +4,12 @@ import { Label } from '@/components/ui/label'
 import { saveImageName, uploadImage } from '@/lib/api/document/functions'
 import { CloudUpload, SquareMousePointer } from 'lucide-react'
 import React, { useState } from 'react'
-import { useAuthUser } from '@/lib/auth/hooks'
+import { useUser } from '@/lib/auth/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
 export function CustomerBusinessUploadForm({ loanId }: { loanId: string }) {
-  const { branch_id } = useAuthUser()
+  const { branch_id } = useUser()
   const [file, setFile] = useState<File>()
 
   const fileMutation = useMutation({

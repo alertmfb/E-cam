@@ -13,5 +13,5 @@ const router = createRouter({ routeTree, context: { auth: undefined! } })
 
 export function InnerApp() {
   const auth = useAuthSession()
-  return <RouterProvider router={router} context={{ auth }} />
+  return <RouterProvider router={router} />
 }

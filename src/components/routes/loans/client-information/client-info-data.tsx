@@ -3,7 +3,7 @@ import {
   ClientInfoPayload,
   fetchClientInfo,
 } from '@/lib/api/client-info/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 import {
   Card,
   CardContent,
@@ -16,8 +16,8 @@ import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 
 export function ClientInfoData(loanId: { LoanId: string }) {
-  const user = useAuthUser()
-  const { role } = useAuthSession()
+  const { role } = useUser()
+  const { userId } = useAuth()
 
   const [content, setContent] = useState(false)
 
@@ -27,7 +27,7 @@ export function ClientInfoData(loanId: { LoanId: string }) {
       fetchClientInfo({
         loanId: loanId.LoanId,
         role: role,
-        userId: user.id.toString(),
+        userId: userId!,
       }),
   })
 

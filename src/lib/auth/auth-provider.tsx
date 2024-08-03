@@ -1,70 +1,42 @@
 import { createContext, useState, useEffect } from 'react'
 import { supabase } from '@/lib/sb'
-import type { Role } from './functions'
+import {
+  AuthState,
+  ProviderProps,
+  Role,
+  TOKEN_NAME,
+  cookies,
+  validateToken,
+} from '.'
+import { Axios } from '../axios'
 export interface Session {
   access_token: string
   email: string
   role: Role
 }
 
-export const AuthContext = createContext<Session | null>(null)
+export const AuthContext = createContext<AuthState | null>(null)
 
-type Props = {
-  children: React.ReactNode
-}
-
-async function checkRole() {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    !JSON.parse(localStorage.getItem('role')!) &&
-      (await supabase.auth.signOut())
-  }
-}
-
-export const AuthProvider = ({ children }: Props) => {
+export const AuthProvider = ({ children }: ProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true)
-
-  // fetch the role from local storage and sign out if not found or null
-  checkRole()
 
   useEffect(() => {
     setLoading(true)
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem(
-          'session_key',
-          JSON.stringify({
-            access_token: session?.access_token,
-            email: session?.user.email,
-          })
-        )
-      }
-    })
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem(
-          'session_key',
-          JSON.stringify({
-            access_token: session?.access_token,
-            email: session?.user.email,
-          })
-        )
-      }
-    })
+    const token = cookies.get(TOKEN_NAME)
+
+    if (token) {
+      Axios.defaults.headers.common = { Authorization: `Bearer ${token}` }
+    }
 
     setLoading(false)
-
-    return () => subscription.unsubscribe()
   }, [])
 
-  const sess = JSON.parse(localStorage.getItem('session_key')!)
-  const role = JSON.parse(localStorage.getItem('role')!)
-  const session: Session = { ...sess, role }
+  const token = cookies.get(TOKEN_NAME)
+  const authState = validateToken(token)
 
   return (
-    <AuthContext.Provider value={{ ...session }}>
+    <AuthContext.Provider value={{ ...authState }}>
       {!loading && children}
     </AuthContext.Provider>
   )

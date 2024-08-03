@@ -29,11 +29,11 @@ import {
   createBusinessAsset,
   createBusinessExpense,
 } from '@/lib/api/business-expenses/functions'
-import { useAuthSession, useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 
 export function BusinessExpensesForm({ loanId }: { loanId: string }) {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const form = useForm<z.infer<typeof beS>>({
     resolver: zodResolver(beS),
@@ -55,10 +55,10 @@ export function BusinessExpensesForm({ loanId }: { loanId: string }) {
   function onSubmit(values: z.infer<typeof beS>) {
     addMutation.mutate({
       payload: values,
-      branchId: user.branch_id.toString(),
+      branchId: branch_id.toString(),
       loanId: loanId,
-      role: auth.role,
-      userId: user.id.toString(),
+      role: role,
+      userId: userId!,
     })
   }
 
@@ -155,8 +155,8 @@ export function BusinessExpensesForm({ loanId }: { loanId: string }) {
 }
 
 export function BusinessAssetsForm({ loanId }: { loanId: string }) {
-  const auth = useAuthSession()
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { role, branch_id } = useUser()
 
   const form = useForm<z.infer<typeof baS>>({
     resolver: zodResolver(baS),
@@ -178,10 +178,10 @@ export function BusinessAssetsForm({ loanId }: { loanId: string }) {
   function onSubmit(values: z.infer<typeof baS>) {
     addMutation.mutate({
       payload: values,
-      branchId: user.branch_id.toString(),
+      branchId: branch_id.toString(),
       loanId: loanId,
-      role: auth.role,
-      userId: user.id.toString(),
+      role: role,
+      userId: userId!,
     })
   }
 

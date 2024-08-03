@@ -19,10 +19,12 @@ import { Button } from '@/components/ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { createLoanApplication } from '@/lib/api/loan-application/functions'
 import { useNavigate } from '@tanstack/react-router'
-import { useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 
 export function LoanApplicationForm() {
-  const user = useAuthUser()
+  const { userId } = useAuth()
+  const { branch_id, institution_id } = useUser()
+
   const navigate = useNavigate()
   const form = useForm<z.infer<typeof laS>>({
     resolver: zodResolver(laS),
@@ -53,9 +55,9 @@ export function LoanApplicationForm() {
   function onSubmit(values: z.infer<typeof laS>) {
     createMutation.mutate({
       payload: values,
-      branchId: user.branch_id.toString(),
-      userId: user.id.toString(),
-      institutionId: user.institution_id.toString(),
+      branchId: branch_id.toString(),
+      userId: userId!,
+      institutionId: institution_id.toString(),
     })
   }
 

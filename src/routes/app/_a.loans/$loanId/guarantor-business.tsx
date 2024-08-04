@@ -2,7 +2,7 @@ import { ApplicationNavB } from '@/components/routes/loans/application-nav'
 import { GuarantorPicUploadForm } from '@/components/routes/loans/document/cb-form'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/_a/loans/$loanId/customer-business')(
+export const Route = createFileRoute('/app/_a/loans/$loanId/guarantor-business')(
   {
     component: CustomerBusiness,
   }

@@ -72,7 +72,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/verification-picture"
+                  to="/app/loans/$loanId/pictoral-evidence"
                   params={{ loanId: loanId }}
                 >
                   Pictoral Evidence
@@ -81,7 +81,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/customer-business"
+                  to="/app/loans/$loanId/guarantor-business"
                   params={{ loanId: loanId }}
                 >
                   Guarantor's Biz Ver
@@ -165,7 +165,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/verification-picture"
+            to="/app/loans/$loanId/pictoral-evidence"
             params={{ loanId: loanId }}
           >
             Pictoral Evidence
@@ -175,7 +175,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/customer-business"
+            to="/app/loans/$loanId/guarantor-business"
             params={{ loanId: loanId }}
           >
             Guarantor's Biz Ver
@@ -253,7 +253,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/customer-business"
+                  to="/app/loans/$loanId/guarantor-business"
                   params={{ loanId: loanId }}
                 >
                   Guarantor's Biz Ver
@@ -262,7 +262,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/verification-picture"
+                  to="/app/loans/$loanId/pictoral-evidence"
                   params={{ loanId: loanId }}
                 >
                   Pictoral Evidence

@@ -1,5 +1,5 @@
 import { ApplicationNavB } from '@/components/routes/loans/application-nav'
-import { CustomerBusinessUploadForm } from '@/components/routes/loans/document/cb-form'
+import { GuarantorPicUploadForm } from '@/components/routes/loans/document/cb-form'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/customer-business')(
@@ -20,7 +20,7 @@ function CustomerBusiness() {
         <ApplicationNavB loanId={loanId} key="reference" />
       </div>
       <main className="flex flex-col items-start h-20 pt-9 gap-5">
-        <CustomerBusinessUploadForm loanId={loanId} />
+        <GuarantorPicUploadForm loanId={loanId} />
       </main>
     </div>
   )

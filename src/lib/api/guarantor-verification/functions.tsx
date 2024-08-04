@@ -9,14 +9,14 @@ type FileUploadParams = {
   type: PictureOption
 }
 
-const uploadColPicture = async ({
+const uploadGraPicture = async ({
   picture,
   loanId,
   type,
 }: FileUploadParams) => {
   try {
     const response = await Axios.post(
-      `/loan-application/col-picture?loanId=${loanId}&type=${type}`,
+      `/loan-application/gra-picture?loanId=${loanId}&type=${type}`,
       picture,
       { withCredentials: true }
     )
@@ -26,9 +26,9 @@ const uploadColPicture = async ({
   }
 }
 
-export const useUploadColPicture = () => {
+export const useUploadGraPicture = () => {
   const upMut = useMutation({
-    mutationFn: uploadColPicture,
+    mutationFn: uploadGraPicture,
     onSettled(data) {
       if (data) {
         alert('Successfully uploaded')

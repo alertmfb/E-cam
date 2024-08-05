@@ -48,24 +48,26 @@ export function GuarantorInfoData(loanId: { LoanId: string }) {
               <div>Guarantor {idx + 1}</div>
               <ChevronDown />
             </CardTitle>
-            <CardDescription>The clients guarantor</CardDescription>
+            <CardDescription>The clients guarantor's data</CardDescription>
           </CardHeader>
           {content && (
             <CardContent>
               <form className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-                {Object.entries(item as GuarantorInfoPayload).map(
-                  (data, idx) => (
+                {Object.entries(item as GuarantorInfoPayload)
+                  .slice(2, Object.entries(item).length - 2)
+                  .map((data, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start justify-between gap-3"
+                      className="flex items-center justify-between gap-3 flex-1 flex-wrap"
                     >
-                      <Label>{data[0].split('_').join(' ')}</Label>{' '}
-                      <Label className="font-normal">
+                      <Label className="capitalize">
+                        {data[0].split('_').join(' ')}
+                      </Label>{' '}
+                      <Label className="font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50">
                         <div>{data[1]?.toString()}</div>
                       </Label>
                     </div>
-                  )
-                )}
+                  ))}
               </form>
             </CardContent>
           )}

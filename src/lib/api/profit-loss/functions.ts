@@ -178,3 +178,33 @@ export const useGetOB = (loanId: string) => {
 
   return obQry
 }
+
+type TotalPLdata = {
+  inventory: InventoryData[]
+  balanceSheet: BalanceSheetData[]
+  otherBalances: OtherBankData[]
+}
+
+const getTotal = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<TotalPLdata | undefined> => {
+  try {
+    const response = await Axios.get(`/loan-application/pl?loanId=${loanId}`, {
+      withCredentials: true,
+    })
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGetPL = (loanId: string) => {
+  const plQry = useQuery({
+    queryKey: ['total-pl'],
+    queryFn: () => getTotal({ loanId }),
+  })
+
+  return plQry.data
+}

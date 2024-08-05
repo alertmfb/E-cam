@@ -21,6 +21,7 @@ import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomp
 import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/status/index'
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
+import { Route as AppALoansLoanIdSubmitImport } from './routes/app/_a.loans/$loanId/submit'
 import { Route as AppALoansLoanIdStockPledgeImport } from './routes/app/_a.loans/$loanId/stock-pledge'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdProfitLossImport } from './routes/app/_a.loans/$loanId/profit-loss'
@@ -96,6 +97,11 @@ const AppALoansRejectedIndexRoute = AppALoansRejectedIndexImport.update({
 const AppALoansPendingIndexRoute = AppALoansPendingIndexImport.update({
   path: '/loans/pending/',
   getParentRoute: () => AppARoute,
+} as any)
+
+const AppALoansLoanIdSubmitRoute = AppALoansLoanIdSubmitImport.update({
+  path: '/submit',
+  getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
 const AppALoansLoanIdStockPledgeRoute = AppALoansLoanIdStockPledgeImport.update(
@@ -295,6 +301,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdStockPledgeImport
       parentRoute: typeof AppALoansLoanIdImport
     }
+    '/app/_a/loans/$loanId/submit': {
+      preLoaderRoute: typeof AppALoansLoanIdSubmitImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
     '/app/_a/loans/pending/': {
       preLoaderRoute: typeof AppALoansPendingIndexImport
       parentRoute: typeof AppAImport
@@ -353,6 +363,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdProfitLossRoute,
         AppALoansLoanIdReferenceRoute,
         AppALoansLoanIdStockPledgeRoute,
+        AppALoansLoanIdSubmitRoute,
       ]),
       AppALoansPendingIndexRoute,
       AppALoansRejectedIndexRoute,

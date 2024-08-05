@@ -87,15 +87,6 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                   Guarantor's Biz Ver
                 </Link>
               </DropdownMenuItem>
-              {/* <DropdownMenuItem asChild>
-                <Link
-                  activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/document"
-                  params={{ loanId: loanId }}
-                >
-                  Document Upload
-                </Link>
-              </DropdownMenuItem> */}
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
@@ -182,16 +173,6 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        {/* <BreadcrumbItem>
-          <Link
-            activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/document"
-            params={{ loanId: loanId }}
-          >
-            Document Upload
-          </Link>
-        </BreadcrumbItem> */}
-        {/* <BreadcrumbSeparator /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <BreadcrumbEllipsis className="cursor-pointer" />
@@ -224,6 +205,15 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
                 Collateral Pledge
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/submit"
+                params={{ loanId: loanId }}
+              >
+                Submit
+              </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </BreadcrumbList>
@@ -241,15 +231,6 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
               <BreadcrumbEllipsis className="cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              {/* <DropdownMenuItem asChild>
-                <Link
-                  activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/document"
-                  params={{ loanId: loanId }}
-                >
-                  Document Upload
-                </Link>
-              </DropdownMenuItem> */}
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
@@ -308,6 +289,16 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
             params={{ loanId: loanId }}
           >
             Collateral Pledge
+          </Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/submit"
+            params={{ loanId: loanId }}
+          >
+            Submit
           </Link>
         </BreadcrumbItem>
       </BreadcrumbList>

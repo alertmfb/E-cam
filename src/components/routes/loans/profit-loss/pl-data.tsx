@@ -212,9 +212,13 @@ const BalanceSheetTable = ({
       <TableBody>
         {balanceSheet.slice(0, 9).map((row, idx) => (
           <TableRow key={idx}>
-            <TableCell>{row.name}</TableCell>
-            <TableCell>{row.amount}</TableCell>
-            <TableCell>{row.percentage}</TableCell>
+            <TableCell className="font-semibold">{row.name}</TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.amount.toFixed(2)}
+            </TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.percentage}%
+            </TableCell>
           </TableRow>
         ))}
 
@@ -223,6 +227,78 @@ const BalanceSheetTable = ({
             FIXED ASSETS
           </TableCell>
         </TableRow>
+
+        <TableRow>
+          <TableCell className="font-bold text-lg bg-blue-300">
+            BUSINESS
+          </TableCell>
+        </TableRow>
+
+        {balanceSheet.slice(9, 13).map((row, idx) => (
+          <TableRow key={idx}>
+            <TableCell className="font-semibold">{row.name}</TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.amount.toFixed(2)}
+            </TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.percentage}%
+            </TableCell>
+          </TableRow>
+        ))}
+
+        <TableRow>
+          <TableCell className="font-bold text-lg bg-green-300">
+            FAMILY
+          </TableCell>
+        </TableRow>
+
+        {balanceSheet.slice(13, 19).map((row, idx) => (
+          <TableRow key={idx}>
+            <TableCell className="font-semibold">{row.name}</TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.amount.toFixed(2)}
+            </TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.percentage}%
+            </TableCell>
+          </TableRow>
+        ))}
+
+        <TableRow>
+          <TableCell className="text-lg font-bold">
+            SHORT-TERM LIABILITIES:
+          </TableCell>
+        </TableRow>
+
+        {balanceSheet.slice(19, 24).map((row, idx) => (
+          <TableRow key={idx}>
+            <TableCell className="font-semibold">{row.name}</TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.amount.toFixed(2)}
+            </TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.percentage}%
+            </TableCell>
+          </TableRow>
+        ))}
+
+        <TableRow>
+          <TableCell className="text-lg font-bold">
+            LONG-TERM LIABILITIES:
+          </TableCell>
+        </TableRow>
+
+        {balanceSheet.slice(24, balanceSheet.length).map((row, idx) => (
+          <TableRow key={idx}>
+            <TableCell className="font-semibold">{row.name}</TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.amount.toFixed(2)}
+            </TableCell>
+            <TableCell className="text-center font-semibold">
+              {row.percentage}%
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   )

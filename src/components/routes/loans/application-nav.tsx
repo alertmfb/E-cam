@@ -87,7 +87,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                   Guarantor's Biz Ver
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              {/* <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
                   to="/app/loans/$loanId/document"
@@ -95,7 +95,7 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
                 >
                   Document Upload
                 </Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
@@ -182,7 +182,7 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        <BreadcrumbItem>
+        {/* <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
             to="/app/loans/$loanId/document"
@@ -190,8 +190,8 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
           >
             Document Upload
           </Link>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
+        </BreadcrumbItem> */}
+        {/* <BreadcrumbSeparator /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <BreadcrumbEllipsis className="cursor-pointer" />
@@ -241,7 +241,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
               <BreadcrumbEllipsis className="cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem asChild>
+              {/* <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
                   to="/app/loans/$loanId/document"
@@ -249,7 +249,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
                 >
                   Document Upload
                 </Link>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}

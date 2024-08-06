@@ -1,6 +1,7 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
 import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
 import { UploadData } from '@/components/routes/loans/document/upload-data'
+import { GuarantorVerificationData } from '@/components/routes/loans/guarantor-verification/gv-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
   LoanActionForm,
@@ -32,6 +33,7 @@ function LoanData() {
         <ColPledgeData loanId={loanId} />
         <ProfitLossData loanId={loanId} />
         <PictoralEvidenceData loanId={loanId} />
+        <GuarantorVerificationData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

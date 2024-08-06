@@ -38,54 +38,74 @@ export const PictoralEvidenceData = ({ loanId }: { loanId: string }) => {
             <form className="w-full flex flex-col gap-3">
               {/* <CollateralPledgeTable colPledge={data} /> */}
               <div className="w-full flex items-center gap-3 flex-1 flex-wrap">
-                <Button variant="outline" className="flex items-center gap-3">
-                  <Eye />
-                  <a
-                    href={data.pic_one}
-                    target="_blank"
-                    rel="nopoener-noreferrer"
-                    className="text-wrap"
+                {data.pic_one && (
+                  <Button
+                    variant="outline"
+                    className="flex items-center justify-start h-fit gap-3"
                   >
-                    Collateral Picture 1
-                  </a>
-                </Button>
-                <Button variant="outline" className="flex items-center gap-3">
-                  <Eye />
-                  <a
-                    href={data.ver_one}
-                    target="_blank"
-                    rel="nopoener-noreferrer"
-                    className="text-wrap"
+                    <Eye className="min-w-10" />
+                    <a
+                      href={data.pic_one}
+                      target="_blank"
+                      rel="nopoener-noreferrer"
+                      className="text-wrap"
+                    >
+                      Collateral Picture 1
+                    </a>
+                  </Button>
+                )}
+                {data.ver_one && (
+                  <Button
+                    variant="outline"
+                    className="flex items-center justify-start h-fit gap-3"
                   >
-                    Verification Picture (Loan Officer and Risk
-                    Supervisor/Superior staff)
-                  </a>
-                </Button>
+                    <Eye className="min-w-10" />
+                    <a
+                      href={data.ver_one}
+                      target="_blank"
+                      rel="nopoener-noreferrer"
+                      className="text-wrap"
+                    >
+                      Verification Picture (Loan Officer and Risk
+                      Supervisor/Superior staff)
+                    </a>
+                  </Button>
+                )}
               </div>
 
               <div className="w-full flex items-center gap-3 flex-1 flex-wrap">
-                <Button variant="outline" className="flex items-center gap-3">
-                  <Eye />
-                  <a
-                    href={data.pic_two}
-                    target="_blank"
-                    rel="nopoener-noreferrer"
-                    className="text-wrap"
+                {data.pic_two && (
+                  <Button
+                    variant="outline"
+                    className="flex items-center justify-start h-fit gap-3"
                   >
-                    Collateral Picture 2
-                  </a>
-                </Button>
-                <Button variant="outline" className="flex items-center gap-3">
-                  <Eye />
-                  <a
-                    href={data.ver_two}
-                    target="_blank"
-                    rel="nopoener-noreferrer"
-                    className="text-wrap"
+                    <Eye className="min-w-10" />
+                    <a
+                      href={data.pic_two}
+                      target="_blank"
+                      rel="nopoener-noreferrer"
+                      className="text-wrap"
+                    >
+                      Collateral Picture 2
+                    </a>
+                  </Button>
+                )}
+                {data.ver_two && (
+                  <Button
+                    variant="outline"
+                    className="flex items-center justify-start h-fit gap-3"
                   >
-                    Customer Business Place (Loan Officer and customer)
-                  </a>
-                </Button>
+                    <Eye className="min-w-10" />
+                    <a
+                      href={data.ver_two}
+                      target="_blank"
+                      rel="nopoener-noreferrer"
+                      className="text-wrap"
+                    >
+                      Customer Business Place (Loan Officer and customer)
+                    </a>
+                  </Button>
+                )}
               </div>
             </form>
           </CardContent>

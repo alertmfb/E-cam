@@ -7,6 +7,7 @@ import {
 } from '@/components/routes/loans/loan-action/loan-action-form'
 import { ProfitLossData } from '@/components/routes/loans/profit-loss/pl-data'
 import { ReferenceData } from '@/components/routes/loans/references/reference-data'
+import { StockPledgeData } from '@/components/routes/loans/stock-pledge/sp-data'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -23,8 +24,9 @@ function LoanData() {
         <ClientInfoData LoanId={loanId} />
         <GuarantorInfoData LoanId={loanId} />
         {/* <ReferenceData loanId={loanId} /> */}
-        <UploadData loanId={loanId} />
+        {/* <UploadData loanId={loanId} /> */}
         <ProfitLossData loanId={loanId} />
+        <StockPledgeData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

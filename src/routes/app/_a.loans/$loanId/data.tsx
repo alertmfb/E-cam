@@ -6,6 +6,7 @@ import {
   LoanActionForm,
   LoanRejectionForm,
 } from '@/components/routes/loans/loan-action/loan-action-form'
+import { PictoralEvidenceData } from '@/components/routes/loans/pictoral-evidence/pe-data'
 import { ProfitLossData } from '@/components/routes/loans/profit-loss/pl-data'
 import { ReferenceData } from '@/components/routes/loans/references/reference-data'
 import { StockPledgeData } from '@/components/routes/loans/stock-pledge/sp-data'
@@ -29,6 +30,8 @@ function LoanData() {
         <ProfitLossData loanId={loanId} />
         <StockPledgeData loanId={loanId} />
         <ColPledgeData loanId={loanId} />
+        <ProfitLossData loanId={loanId} />
+        <PictoralEvidenceData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

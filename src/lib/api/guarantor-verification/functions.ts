@@ -1,5 +1,5 @@
 import { Axios } from '@/lib/axios'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 export type PictureOption = 'pic_one' | 'pic_two' | 'ver_one' | 'ver_two'
 
@@ -39,4 +39,39 @@ export const useUploadGraPicture = () => {
   })
 
   return upMut
+}
+
+type GraPictureResponse = {
+  id: number
+  loan_application_id: number
+  pic_one: string
+  pic_two: string
+  ver_one: string
+  ver_two: string
+  created_at: string
+  updated_at: string
+}
+
+const getGraPicture = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<GraPictureResponse | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/gra-picture?loanId=${loanId}`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGetGraPicture = (loanId: string) => {
+  const colQry = useQuery({
+    queryKey: ['gra-pic-data'],
+    queryFn: () => getGraPicture({ loanId }),
+  })
+  return colQry.data
 }

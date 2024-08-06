@@ -1,4 +1,5 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
+import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
 import { UploadData } from '@/components/routes/loans/document/upload-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
@@ -27,6 +28,7 @@ function LoanData() {
         {/* <UploadData loanId={loanId} /> */}
         <ProfitLossData loanId={loanId} />
         <StockPledgeData loanId={loanId} />
+        <ColPledgeData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

@@ -55,13 +55,15 @@ export function ClientInfoData(loanId: { LoanId: string }) {
         {content && (
           <CardContent className="transition ease-in-out fade-in-30 delay-150">
             <form className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-              {infoArray.map((data, idx) => (
+              {infoArray.slice(2, infoArray.length - 2).map((data, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start justify-between gap-3"
+                  className="flex items-center justify-between gap-3 flex-1 flex-wrap"
                 >
-                  <Label>{data[0].split('_').join(' ')}</Label>{' '}
-                  <Label className="font-normal">
+                  <Label className="capitalize">
+                    {data[0].split('_').join(' ')}
+                  </Label>
+                  <Label className="font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50">
                     <div>{data[1]?.toString()}</div>
                   </Label>
                 </div>

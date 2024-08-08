@@ -1,11 +1,16 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
+import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
 import { UploadData } from '@/components/routes/loans/document/upload-data'
+import { GuarantorVerificationData } from '@/components/routes/loans/guarantor-verification/gv-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
   LoanActionForm,
   LoanRejectionForm,
 } from '@/components/routes/loans/loan-action/loan-action-form'
+import { PictoralEvidenceData } from '@/components/routes/loans/pictoral-evidence/pe-data'
+import { ProfitLossData } from '@/components/routes/loans/profit-loss/pl-data'
 import { ReferenceData } from '@/components/routes/loans/references/reference-data'
+import { StockPledgeData } from '@/components/routes/loans/stock-pledge/sp-data'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -21,8 +26,14 @@ function LoanData() {
       <main className="flex flex-col pt-3 gap-6">
         <ClientInfoData LoanId={loanId} />
         <GuarantorInfoData LoanId={loanId} />
-        <ReferenceData loanId={loanId} />
-        <UploadData loanId={loanId} />
+        {/* <ReferenceData loanId={loanId} /> */}
+        {/* <UploadData loanId={loanId} /> */}
+        <ProfitLossData loanId={loanId} />
+        <StockPledgeData loanId={loanId} />
+        <ColPledgeData loanId={loanId} />
+        <ProfitLossData loanId={loanId} />
+        <PictoralEvidenceData loanId={loanId} />
+        <GuarantorVerificationData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

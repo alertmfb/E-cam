@@ -13,6 +13,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useSignIn } from '@/lib/auth/hooks'
+import { LoaderCircle } from 'lucide-react'
 
 export function SignInForm() {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -63,9 +64,12 @@ export function SignInForm() {
         />
         <Button
           type="submit"
-          className="w-full bg-[#3F3D56] hover:bg-[#3F3D56]/90"
+          className="w-full items-center gap-3 bg-[#3F3D56] hover:bg-[#3F3D56]/90"
         >
-          Sign In
+          Sign In{' '}
+          {signIn.isPending && (
+            <LoaderCircle className="animate-spin w-4 h-4" />
+          )}
         </Button>
       </form>
     </Form>

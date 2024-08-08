@@ -72,28 +72,19 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/verification-picture"
+                  to="/app/loans/$loanId/pictoral-evidence"
                   params={{ loanId: loanId }}
                 >
-                  Verification Pic
+                  Pictoral Evidence
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/customer-business"
+                  to="/app/loans/$loanId/guarantor-business"
                   params={{ loanId: loanId }}
                 >
-                  Customer Business
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/document"
-                  params={{ loanId: loanId }}
-                >
-                  Document Upload
+                  Guarantor's Biz Ver
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -165,30 +156,20 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/verification-picture"
+            to="/app/loans/$loanId/pictoral-evidence"
             params={{ loanId: loanId }}
           >
-            Verification Pic
+            Pictoral Evidence
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/customer-business"
+            to="/app/loans/$loanId/guarantor-business"
             params={{ loanId: loanId }}
           >
-            Business Pic
-          </Link>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <Link
-            activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/document"
-            params={{ loanId: loanId }}
-          >
-            Document Upload
+            Guarantor's Biz Ver
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -224,6 +205,15 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
                 Collateral Pledge
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/submit"
+                params={{ loanId: loanId }}
+              >
+                Submit
+              </Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </BreadcrumbList>
@@ -244,28 +234,19 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/document"
+                  to="/app/loans/$loanId/guarantor-business"
                   params={{ loanId: loanId }}
                 >
-                  Document Upload
+                  Guarantor's Biz Ver
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/customer-business"
+                  to="/app/loans/$loanId/pictoral-evidence"
                   params={{ loanId: loanId }}
                 >
-                  Customer Biz
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link
-                  activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/verification-picture"
-                  params={{ loanId: loanId }}
-                >
-                  Verification Pic
+                  Pictoral Evidence
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -308,6 +289,16 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
             params={{ loanId: loanId }}
           >
             Collateral Pledge
+          </Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/submit"
+            params={{ loanId: loanId }}
+          >
+            Submit
           </Link>
         </BreadcrumbItem>
       </BreadcrumbList>

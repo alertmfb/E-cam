@@ -14,7 +14,7 @@ function RejectedLoan() {
   }
 
   return (
-    <div className="w-full flex flex-col px-4 gap-3 pt-10">
+    <div className="w-full container flex flex-col px-4 gap-3 pt-10">
       <h1 className="text-xl font-semibold">Rejected Details</h1>
       <main className="flex flex-col pt-3">
         <RejectedData loanId={loanId} branchId={branchId} />

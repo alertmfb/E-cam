@@ -19,13 +19,13 @@ function LoanCert() {
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <h1 className="text-2xl font-semibold">Loan Certificate</h1>
       </div>
-      <main className="flex flex-col items-start h-20 pt-9 gap-5">
-        <Button variant="outline" onClick={handlePrint}>
-          Print
-        </Button>
+      <main className="flex flex-col items-start bg-sky-50 rounded-lg gap-5 my-10">
         <div ref={contentRef} className="w-full">
           <Template />
         </div>
+        <Button onClick={handlePrint} className="self-end mr-20 mb-10">
+          Print Offer Letter
+        </Button>
       </main>
     </div>
   )

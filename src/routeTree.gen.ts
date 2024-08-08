@@ -26,6 +26,7 @@ import { Route as AppALoansLoanIdStockPledgeImport } from './routes/app/_a.loans
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
 import { Route as AppALoansLoanIdProfitLossImport } from './routes/app/_a.loans/$loanId/profit-loss'
 import { Route as AppALoansLoanIdPictoralEvidenceImport } from './routes/app/_a.loans/$loanId/pictoral-evidence'
+import { Route as AppALoansLoanIdLoanCertImport } from './routes/app/_a.loans/$loanId/loan-cert'
 import { Route as AppALoansLoanIdGuarantorsInfoImport } from './routes/app/_a.loans/$loanId/guarantors-info'
 import { Route as AppALoansLoanIdGuarantorBusinessImport } from './routes/app/_a.loans/$loanId/guarantor-business'
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
@@ -126,6 +127,11 @@ const AppALoansLoanIdPictoralEvidenceRoute =
     path: '/pictoral-evidence',
     getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
+
+const AppALoansLoanIdLoanCertRoute = AppALoansLoanIdLoanCertImport.update({
+  path: '/loan-cert',
+  getParentRoute: () => AppALoansLoanIdRoute,
+} as any)
 
 const AppALoansLoanIdGuarantorsInfoRoute =
   AppALoansLoanIdGuarantorsInfoImport.update({
@@ -285,6 +291,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdGuarantorsInfoImport
       parentRoute: typeof AppALoansLoanIdImport
     }
+    '/app/_a/loans/$loanId/loan-cert': {
+      preLoaderRoute: typeof AppALoansLoanIdLoanCertImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
     '/app/_a/loans/$loanId/pictoral-evidence': {
       preLoaderRoute: typeof AppALoansLoanIdPictoralEvidenceImport
       parentRoute: typeof AppALoansLoanIdImport
@@ -359,6 +369,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdFamilyExpensesRoute,
         AppALoansLoanIdGuarantorBusinessRoute,
         AppALoansLoanIdGuarantorsInfoRoute,
+        AppALoansLoanIdLoanCertRoute,
         AppALoansLoanIdPictoralEvidenceRoute,
         AppALoansLoanIdProfitLossRoute,
         AppALoansLoanIdReferenceRoute,

@@ -31,10 +31,10 @@ export const Template = () => {
 
       {/* 1st Paragraph */}
       <div className="mt-6 text-justify w-full">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam
-        molestiae laborum quos doloremque eligendi facere, debitis repellendus
-        atque tempore amet fugit vel libero sint dignissimos explicabo dolorum
-        labore inventore laudantium.
+        We refer to your application for a credit facility and are pleased to
+        inform you that Management of ALERT MICROFINANCE BANK LIMITED has
+        approved the granting of your request under the following terms and
+        conditions:
       </div>
 
       {/* List */}

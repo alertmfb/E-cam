@@ -12,7 +12,9 @@ function LoanCert() {
   const { loanId } = Route.useParams() as { loanId: string }
 
   const contentRef = useRef<HTMLDivElement>(null)
-  const handlePrint = useReactToPrint({ content: () => contentRef.current })
+  const handlePrint = useReactToPrint({
+    content: () => contentRef.current,
+  })
 
   return (
     <div className="container w-full flex flex-col gap-3">

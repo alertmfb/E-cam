@@ -1,6 +1,6 @@
 export const Template = () => {
   return (
-    <div className="w-full flex flex-col items-start p-24 border rounded-md">
+    <div className="w-full flex flex-col items-start p-24">
       {/* Title */}
       <span className="font-bold text-xl self-center">OFFER LETTER</span>
 

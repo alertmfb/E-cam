@@ -7,7 +7,7 @@ export const Route = createFileRoute('/app/_a/loans/rejected/')({
 
 function Rejected() {
   return (
-    <div className="w-full flex flex-col px-4 gap-3 pt-10">
+    <div className="w-full container flex flex-col px-4 gap-3 pt-10">
       <div className="flex gap-3 items-center justify-between">
         <h1 className="text-xl font-semibold">Rejected applications</h1>
       </div>

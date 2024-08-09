@@ -15,7 +15,7 @@ export const GuarantorVerificationData = ({ loanId }: { loanId: string }) => {
 
   const data = useGetGraPicture(loanId)
 
-  if (!data) {
+  if (!data?.id) {
     return <div></div>
   }
 

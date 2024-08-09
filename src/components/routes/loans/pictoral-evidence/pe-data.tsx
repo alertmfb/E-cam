@@ -15,7 +15,7 @@ export const PictoralEvidenceData = ({ loanId }: { loanId: string }) => {
 
   const data = useGetColPicture(loanId)
 
-  if (!data) {
+  if (!data?.id) {
     return <div></div>
   }
 

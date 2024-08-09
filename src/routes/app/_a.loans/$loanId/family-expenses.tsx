@@ -3,6 +3,7 @@ import {
   FamilyAssetsForm,
   FamilyExpensesForm,
 } from '@/components/routes/loans/family-expenses/feaForm'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/family-expenses')({
@@ -11,6 +12,12 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/family-expenses')({
 
 function FamilyExpenses() {
   const { loanId } = Route.useParams() as { loanId: string }
+
+  const { role } = useUser()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="container w-full flex flex-col gap-3">

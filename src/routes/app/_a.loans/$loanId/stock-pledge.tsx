@@ -1,5 +1,6 @@
 import { ApplicationNavC } from '@/components/routes/loans/application-nav'
 import { StockInventory } from '@/components/routes/loans/stock-pledge/stock-inventory'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/stock-pledge')({
@@ -8,6 +9,12 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/stock-pledge')({
 
 function StockPledge() {
   const { loanId } = Route.useParams() as { loanId: string }
+
+  const { role } = useUser()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="w-full mx-auto px-6 xl:px-20 flex flex-col gap-4">

@@ -3,6 +3,7 @@ import { BalanceSheet } from '@/components/routes/loans/profit-loss/balance-shee
 import { Inventory } from '@/components/routes/loans/profit-loss/inventory'
 import { OtherBank } from '@/components/routes/loans/profit-loss/other-bank'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/profit-loss')({
@@ -11,6 +12,12 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/profit-loss')({
 
 function ProfitLoss() {
   const { loanId } = Route.useParams() as { loanId: string }
+
+  const { role } = useUser()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="w-full mx-auto px-6 xl:px-20 flex flex-col gap-4">

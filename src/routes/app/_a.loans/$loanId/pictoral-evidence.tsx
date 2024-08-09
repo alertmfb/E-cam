@@ -1,15 +1,22 @@
 import { ApplicationNavB } from '@/components/routes/loans/application-nav'
 import { VerificationPicUploadForm } from '@/components/routes/loans/document/vp-form'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute(
-  '/app/_a/loans/$loanId/pictoral-evidence'
-)({
-  component: VerificationPicture,
-})
+export const Route = createFileRoute('/app/_a/loans/$loanId/pictoral-evidence')(
+  {
+    component: VerificationPicture,
+  }
+)
 
 function VerificationPicture() {
   const { loanId } = Route.useParams() as { loanId: string }
+
+  const { role } = useUser()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="container w-full flex flex-col gap-3">

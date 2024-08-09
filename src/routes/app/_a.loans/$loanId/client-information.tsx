@@ -1,4 +1,5 @@
 import { ClientInfoForm } from '@/components/routes/loans/client-information/client-info-form'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
@@ -9,6 +10,12 @@ export const Route = createFileRoute(
 
 function CustomerInformation() {
   const { loanId } = Route.useParams() as { loanId: string }
+  const { role } = useUser()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
+
   return (
     <div className="container w-full flex flex-col gap-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">

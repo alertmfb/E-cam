@@ -32,7 +32,7 @@ export function RejectedApplicationsTable() {
   }
 }
 
-export function LoanOfficerRejectedTable() {
+const LoanOfficerRejectedTable = () => {
   const { userId } = useAuth()
   const { role, branch_id } = useUser()
 
@@ -87,7 +87,8 @@ export function LoanOfficerRejectedTable() {
     </Table>
   )
 }
-export function BranchManagerRejectedTable() {
+
+const BranchManagerRejectedTable = () => {
   const { userId } = useAuth()
   const { role, branch_id } = useUser()
 
@@ -146,7 +147,7 @@ export function BranchManagerRejectedTable() {
   )
 }
 
-export function GeneralRejectedTable() {
+const GeneralRejectedTable = () => {
   const { userId } = useAuth()
   const { role, branch_id, institution_id } = useUser()
 
@@ -208,7 +209,7 @@ export function GeneralRejectedTable() {
   )
 }
 
-export function ExecutiveRejectedTable() {
+const ExecutiveRejectedTable = () => {
   const { userId } = useAuth()
   const { role } = useUser()
 

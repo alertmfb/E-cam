@@ -24,9 +24,6 @@ export function DashboardUi() {
     case 'regional_manager': {
       return <RegionalManagerUi />
     }
-    case 'relationship_manager': {
-      return <RelationshipManagerUi />
-    }
     case 'executive': {
       return <ExecutiveUi />
     }
@@ -215,7 +212,7 @@ function BranchManagerUi() {
         </Card>
       </Link> */}
 
-      <Link to="/app/loans/rejected">
+      <Link to="/app/loans/approved">
         <Card
           x-chunk="dashboard-01-chunk-0"
           className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
@@ -257,7 +254,25 @@ function RegionalManagerUi() {
         </Card>
       </Link>
 
-      <Link to="/app/loans/rejected">
+      <Link to="/app/loans/approved">
+        <Card
+          x-chunk="dashboard-01-chunk-0"
+          className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Approved</CardTitle>
+            <CircleCheck className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">0</div>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm">Approved applications</p>
+          </CardFooter>
+        </Card>
+      </Link>
+
+      {/* <Link to="/app/loans/rejected">
         <Card
           x-chunk="dashboard-01-chunk-0"
           className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
@@ -273,7 +288,7 @@ function RegionalManagerUi() {
             <p className="text-sm">Rejected applications</p>
           </CardFooter>
         </Card>
-      </Link>
+      </Link> */}
     </div>
   )
 }
@@ -301,7 +316,25 @@ function ExecutiveUi() {
         </Card>
       </Link>
 
-      <Link to="/app/loans/rejected">
+      <Link to="/app/loans/approved">
+        <Card
+          x-chunk="dashboard-01-chunk-0"
+          className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Approved</CardTitle>
+            <CircleCheck className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">0</div>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm">Approved applications</p>
+          </CardFooter>
+        </Card>
+      </Link>
+
+      {/* <Link to="/app/loans/rejected">
         <Card
           x-chunk="dashboard-01-chunk-0"
           className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
@@ -317,7 +350,7 @@ function ExecutiveUi() {
             <p className="text-sm">Rejected applications</p>
           </CardFooter>
         </Card>
-      </Link>
+      </Link> */}
     </div>
   )
 }

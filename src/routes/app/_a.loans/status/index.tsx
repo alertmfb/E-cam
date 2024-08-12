@@ -1,14 +1,11 @@
 import { ApplicationStatusTable } from '@/components/routes/loans/status/status-table'
 import { createFileRoute } from '@tanstack/react-router'
-import { useUser } from '@/lib/auth/hooks'
 
 export const Route = createFileRoute('/app/_a/loans/status/')({
   component: Status,
 })
 
 function Status() {
-  const { role } = useUser()
-
   return (
     <div className="container w-full flex flex-col px-4 gap-3 pt-10">
       <div className="flex gap-3 items-center justify-between">

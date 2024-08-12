@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import logo from '../assets/logo.png'
+import logo from '../assets/logo3.png'
 import { Avatar, AvatarFallback } from './ui/avatar'
 import { User, LogOut } from 'lucide-react'
 import {
@@ -21,38 +21,18 @@ const roles: Record<Role, string> = {
   executive: 'Executive',
 }
 
-export function Header() {
-  return (
-    <header className="border-b">
-      <nav className="container mx-auto flex items-center justify-between py-2">
-        <Link to="/">
-          <img src={logo} alt="" className="w-20" />
-        </Link>
-        <menu className="flex items-center gap-6">
-          <span className="text-sm font-medium cursor-pointer">
-            Documentation
-          </span>
-          <span className="text-sm font-medium cursor-pointer">Feedback</span>
-          <span className="text-sm font-medium cursor-pointer">
-            <Link to="/sign-in">Sign in</Link>
-          </span>
-        </menu>
-      </nav>
-    </header>
-  )
-}
-
 export function AppHeader() {
   const { role, name, institution_name, branch_name } = useUser()
 
   return (
     <header className="border-b sticky top-0 w-full bg-white z-10">
       <nav className="container mx-auto flex items-center justify-between py-2">
-        <div className="flex items-center gap-8">
-          <Link to="/app/dashboard">
-            <img src={logo} alt="" className="w-20" />
-          </Link>
-        </div>
+        <Link to="/app/dashboard">
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="" className="w-8" />
+            <span className="font-semibold text-lg">E-CAM</span>
+          </div>
+        </Link>
         <div className="flex items-end gap-3">
           <div className="flex flex-col">
             <div className="flex items-center gap-2">

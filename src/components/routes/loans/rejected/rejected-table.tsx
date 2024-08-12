@@ -59,7 +59,7 @@ const LoanOfficerRejectedTable = () => {
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
           <TableHead>Application Date</TableHead>
-          <TableHead className="text-right">Action</TableHead>
+          <TableHead className="text-center">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -68,7 +68,7 @@ const LoanOfficerRejectedTable = () => {
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
-            <TableCell className="text-right">
+            <TableCell className="text-center">
               <Button asChild variant="link">
                 <Link
                   to="/app/loans/rejected/$loanId/$branchId"
@@ -78,6 +78,16 @@ const LoanOfficerRejectedTable = () => {
                   }}
                 >
                   view
+                </Link>
+              </Button>
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/$loanId/family-expenses"
+                  params={{
+                    loanId: loan.id,
+                  }}
+                >
+                  edit
                 </Link>
               </Button>
             </TableCell>

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getReferences } from '@/lib/api/references/functions'
-import { useAuthUser } from '@/lib/auth/hooks'
+import { useAuth, useAuthUser, useUser } from '@/lib/auth/hooks'
 import {
   Card,
   CardContent,
@@ -13,23 +13,19 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
 export function ReferenceData({ loanId }: { loanId: string }) {
-  const user = useAuthUser()
+  const { branch_id } = useUser()
+
   const [fr, setFr] = useState(false)
   const [cr, setCr] = useState(false)
   const [nr, setNr] = useState(false)
 
-  const { data, fetchStatus } = useQuery({
+  const { data } = useQuery({
     queryKey: ['references-data'],
-    queryFn: () =>
-      getReferences({ loanId, branchId: user.branch_id.toString() }),
+    queryFn: () => getReferences({ loanId, branchId: branch_id.toString() }),
   })
 
-  if (fetchStatus === 'fetching') {
-    return <div>Loading...</div>
-  }
-
   if (!data) {
-    return
+    return <div></div>
   }
 
   const familyReferences = data.family_references

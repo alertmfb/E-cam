@@ -1,6 +1,5 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
 import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
-import { UploadData } from '@/components/routes/loans/document/upload-data'
 import { GuarantorVerificationData } from '@/components/routes/loans/guarantor-verification/gv-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
@@ -26,8 +25,7 @@ function LoanData() {
       <main className="flex flex-col pt-3 gap-6">
         <ClientInfoData LoanId={loanId} />
         <GuarantorInfoData LoanId={loanId} />
-        {/* <ReferenceData loanId={loanId} /> */}
-        {/* <UploadData loanId={loanId} /> */}
+        <ReferenceData loanId={loanId} />
         <ProfitLossData loanId={loanId} />
         <StockPledgeData loanId={loanId} />
         <ColPledgeData loanId={loanId} />

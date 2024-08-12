@@ -90,6 +90,24 @@ function LoanOfficerUi() {
         </Card>
       </Link>
 
+      <Link to="/app/loans/rejected">
+        <Card
+          x-chunk="dashboard-01-chunk-0"
+          className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Rejected</CardTitle>
+            <Activity className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">0</div>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm">Rejected applications</p>
+          </CardFooter>
+        </Card>
+      </Link>
+
       <Link to="/app/loans/approved">
         <Card
           x-chunk="dashboard-01-chunk-0"
@@ -107,24 +125,6 @@ function LoanOfficerUi() {
           </CardFooter>
         </Card>
       </Link>
-
-      {/* <Link to="/app/loans/rejected">
-        <Card
-          x-chunk="dashboard-01-chunk-0"
-          className="cursor-pointer transform hover:scale-[1.02] ease-in-out duration-700"
-        >
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Rejected</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-white">0</div>
-          </CardContent>
-          <CardFooter>
-            <p className="text-sm">Rejected applications</p>
-          </CardFooter>
-        </Card>
-      </Link> */}
     </div>
   )
 }

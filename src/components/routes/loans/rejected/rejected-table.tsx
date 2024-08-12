@@ -8,8 +8,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useQuery } from '@tanstack/react-query'
-import { fetchRejectedApplications } from '@/lib/api/loan-application/functions'
-import { useAuth, useAuthSession, useAuthUser, useUser } from '@/lib/auth/hooks'
+import { getRejectedApplications } from '@/lib/api/loan-application/functions'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
@@ -39,7 +39,7 @@ const LoanOfficerRejectedTable = () => {
   const applications = useQuery({
     queryKey: ['lo-rejected-applications'],
     queryFn: () =>
-      fetchRejectedApplications({
+      getRejectedApplications({
         branchId: branch_id.toString(),
         userId: userId!,
         role: role,
@@ -95,7 +95,7 @@ const BranchManagerRejectedTable = () => {
   const applications = useQuery({
     queryKey: ['bm-rejected-applications'],
     queryFn: () =>
-      fetchRejectedApplications({
+      getRejectedApplications({
         branchId: branch_id.toString(),
         userId: userId!,
         role: role,
@@ -154,7 +154,7 @@ const GeneralRejectedTable = () => {
   const applications = useQuery({
     queryKey: ['general-rejected-applications'],
     queryFn: () =>
-      fetchRejectedApplications({
+      getRejectedApplications({
         institutionId: institution_id.toString(),
         branchId: branch_id.toString(),
         userId: userId!,
@@ -216,7 +216,7 @@ const ExecutiveRejectedTable = () => {
   const applications = useQuery({
     queryKey: ['general-rejected-applications'],
     queryFn: () =>
-      fetchRejectedApplications({
+      getRejectedApplications({
         institutionId: 'exec',
         branchId: 'exec',
         userId: userId!,

@@ -9,7 +9,10 @@ const rS = z.object({
   business_address: z.string({ required_error: 'this field is required' }),
   marital_status: z.string({ required_error: 'this field is required' }),
   relationship: z.string({ required_error: 'this field is required' }),
-  phone_number: z.string({ required_error: 'this field is required' }),
+  phone_number: z
+    .string({ required_error: 'this field is required' })
+    .min(11, { message: 'Invalid phone number' })
+    .max(11),
   reference_person_comment: z.string({
     required_error: 'this field is required',
   }),

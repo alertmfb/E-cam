@@ -102,7 +102,7 @@ export function BusinessExpensesForm({ loanId }: { loanId: string }) {
                   <FormItem>
                     <FormLabel>Item</FormLabel>
                     <FormControl>
-                      <Input placeholder="Feeding" {...field} />
+                      <Input placeholder="..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,13 +139,10 @@ export function BusinessExpensesForm({ loanId }: { loanId: string }) {
                 )}
               />
             </SectionInputContainer>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-4">
               <Button type="submit" className="w-32 self-start">
                 Add
               </Button>
-              <p className="font-muted-foreground cursor-pointer text-sm">
-                preview
-              </p>
             </div>
           </FormSection>
         </div>
@@ -265,13 +262,10 @@ export function BusinessAssetsForm({ loanId }: { loanId: string }) {
                 )}
               />
             </SectionInputContainer>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-4">
               <Button type="submit" className="w-32 self-start">
                 Add
               </Button>
-              <p className="font-muted-foreground cursor-pointer text-sm">
-                preview
-              </p>
             </div>
           </FormSection>
         </div>

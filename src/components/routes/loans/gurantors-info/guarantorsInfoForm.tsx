@@ -546,7 +546,7 @@ export function GuarantorsInfoForm(loanId: { loanId: string }) {
                 )}
               />
             </SectionInputContainer>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-6">
               <Button type="submit" className="w-32 self-start">
                 Add
               </Button>

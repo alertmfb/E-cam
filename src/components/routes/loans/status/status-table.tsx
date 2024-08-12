@@ -285,16 +285,6 @@ export function ExecutiveStatusTable() {
                   view approvals
                 </Link>
               </Button>
-              {loan.final_approval === 'approved' && (
-                <Button asChild variant="link">
-                  <a
-                    href="/template.docx"
-                    download={loan.customer_name + ' offer letter'}
-                  >
-                    download letter
-                  </a>
-                </Button>
-              )}
             </TableCell>
           </TableRow>
         ))}

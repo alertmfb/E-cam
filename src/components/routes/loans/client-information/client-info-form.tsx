@@ -135,10 +135,6 @@ export function ClientInfoForm(loanId: LoanId) {
     },
   })
 
-  if (fetchStatus === 'fetching') {
-    return <div>Loading...</div>
-  }
-
   if (!bvn) {
     alert('Error: bvn not found')
     navigate({ to: '/app/dashboard' })
@@ -214,9 +210,24 @@ export function ClientInfoForm(loanId: LoanId) {
                     <FormLabel>
                       How did the customer know about Alert?
                     </FormLabel>
-                    <FormControl>
-                      <Input placeholder="" required {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      required
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select which applies" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Referred by alert customer">Referred by alert customer</SelectItem>
+                        <SelectItem value="Through marketing / promotion">Through marketing / promotion</SelectItem>
+                        <SelectItem value="Through ALERT MFB website / social media">Through ALERT MFB website / social media</SelectItem>
+                        <SelectItem value="A walk in customer">A walk in customer</SelectItem>
+                        <SelectItem value="Poached from another MFB">Poached from another MFB</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

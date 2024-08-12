@@ -5,7 +5,10 @@ const ciS = z.object({
   // bvn: z.string().min(11, { message: 'bvn must be 11 digits' }).max(11),
   phone_number: z.string().min(11, { message: 'invalid phone number' }).max(13),
   business_name: z.string({ required_error: 'business name is required' }),
-  nuban_no: z.string({ required_error: 'this field is required' }),
+  nuban_no: z
+    .string({ required_error: 'this field is required' })
+    .min(10, { message: 'invalid account number' })
+    .max(10, { message: 'invalid account number' }),
   business_desc: z.string().min(1).max(500),
   business_address: z.string({
     required_error: 'business address is required',

@@ -27,8 +27,8 @@ function FamilyExpenses() {
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
         <FamilyExpensesForm loanId={loanId} />
-        <h1 className="text-2xl font-semibold">Family Assets</h1>
 
+        <h1 className="text-2xl font-semibold">Family Assets</h1>
         <FamilyAssetsForm loanId={loanId} />
       </main>
     </div>

@@ -52,10 +52,12 @@ export function ReferenceData({ loanId }: { loanId: string }) {
                 {Object.entries(re).map((data, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start justify-between gap-3"
+                    className="flex items-center justify-between gap-3"
                   >
-                    <Label>{data[0].split('_').join(' ')}</Label>{' '}
-                    <Label className="font-normal">
+                    <Label className="capitalize">
+                      {data[0].split('_').join(' ')}
+                    </Label>{' '}
+                    <Label className="font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50">
                       <div>{data[1]?.toString()}</div>
                     </Label>
                   </div>
@@ -83,10 +85,12 @@ export function ReferenceData({ loanId }: { loanId: string }) {
                 {Object.entries(re).map((data, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start justify-between gap-3"
+                    className="flex items-center justify-between gap-3"
                   >
-                    <Label>{data[0].split('_').join(' ')}</Label>{' '}
-                    <Label className="font-normal">
+                    <Label className="capitalize">
+                      {data[0].split('_').join(' ')}
+                    </Label>{' '}
+                    <Label className="font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50">
                       <div>{data[1]?.toString()}</div>
                     </Label>
                   </div>
@@ -116,10 +120,12 @@ export function ReferenceData({ loanId }: { loanId: string }) {
                 {Object.entries(re).map((data, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start justify-between gap-3"
+                    className="flex items-center justify-between gap-3"
                   >
-                    <Label>{data[0].split('_').join(' ')}</Label>{' '}
-                    <Label className="font-normal">
+                    <Label className="capitalize">
+                      {data[0].split('_').join(' ')}
+                    </Label>{' '}
+                    <Label className="font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50">
                       <div>{data[1]?.toString()}</div>
                     </Label>
                   </div>

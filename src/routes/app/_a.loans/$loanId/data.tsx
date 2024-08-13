@@ -38,7 +38,7 @@ function LoanData() {
   )
 }
 
-function Actions(loanId: { loanId: string }) {
+function Actions({ loanId }: { loanId: string }) {
   const { role } = useUser()
 
   if (role === 'loan_officer') {
@@ -47,8 +47,8 @@ function Actions(loanId: { loanId: string }) {
 
   return (
     <>
-      <LoanActionForm loanId={loanId.loanId} />
-      <LoanRejectionForm loanId={loanId.loanId} />
+      <LoanActionForm loanId={loanId} />
+      <LoanRejectionForm loanId={loanId} />
     </>
   )
 }

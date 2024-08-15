@@ -134,22 +134,6 @@ export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
   )
 }
 
-const ViewImageButton = ({
-  url,
-  category,
-}: {
-  url: string
-  category: PictureOption
-}) => {
-  return (
-    <Button variant="link">
-      <a href={url} target="_blank" rel="nopener-noreferrer">
-        View
-      </a>
-    </Button>
-  )
-}
-
 const DataTable = ({ data }: { data: ColPictureResponse }) => {
   return (
     <Table className="w-full">

@@ -1,5 +1,5 @@
 import { Axios } from '@/lib/axios'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export type PictureOption = 'pic_one' | 'pic_two' | 'ver_one' | 'ver_two'
 
@@ -27,11 +27,13 @@ const uploadColPicture = async ({
 }
 
 export const useUploadColPicture = () => {
+  const queryClient = useQueryClient()
   const upMut = useMutation({
     mutationFn: uploadColPicture,
     onSettled(data) {
       if (data) {
         alert('Successfully uploaded')
+        queryClient.invalidateQueries({ queryKey: ['col-pic-data'] })
       } else {
         alert('Failed to upload')
       }

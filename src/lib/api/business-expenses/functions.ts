@@ -115,7 +115,7 @@ export const useGetBusinessExpense = (loanId: string) => {
 
 export const useGetBusinessAsset = (loanId: string) => {
   const feQry = useQuery({
-    queryKey: ['busienss-asset-data'],
+    queryKey: ['business-asset-data'],
     queryFn: () => getBusinessAsset({ loanId }),
   })
 

@@ -41,7 +41,7 @@ export const useUploadColPicture = () => {
   return upMut
 }
 
-type ColPictureResponse = {
+export type ColPictureResponse = {
   id: number
   loan_application_id: number
   pic_one: string

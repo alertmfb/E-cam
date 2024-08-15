@@ -609,9 +609,6 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                 <Button type="submit" className="w-32 self-start">
                   Add
                 </Button>
-                <p className="font-muted-foreground cursor-pointer text-sm">
-                  preview
-                </p>
               </div>
             </FormSection>
           </div>

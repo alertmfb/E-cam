@@ -1,7 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { CloudUpload, SquareMousePointer } from 'lucide-react'
 import React, { useState } from 'react'
 import {
@@ -12,7 +19,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
+  ColPictureResponse,
   PictureOption,
+  useGetColPicture,
   useUploadColPicture,
 } from '@/lib/api/verification-picture/functions'
 
@@ -42,8 +51,24 @@ export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
     })
   }
 
+  const colPictures = useGetColPicture(loanId)
+  const [prev, setPrev] = useState<boolean>(false)
+
+  const displayPrev = () => {
+    setPrev((prev) => !prev)
+  }
+
   return (
     <div className="w-full flex flex-col items-start gap-5 pb-6">
+      {colPictures && (
+        <div className="space-y-3">
+          <Button variant="outline" onClick={displayPrev}>
+            {prev ? 'Hide Saved' : 'Show Saved'}
+          </Button>
+
+          {prev && <DataTable data={colPictures} />}
+        </div>
+      )}
       <form
         className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg"
         onSubmit={(e) => handleUpload(e)}
@@ -106,5 +131,67 @@ export function VerificationPicUploadForm({ loanId }: { loanId: string }) {
         </div>
       </form>
     </div>
+  )
+}
+
+const DataTable = ({ data }: { data: ColPictureResponse }) => {
+  return (
+    <Table className="w-full">
+      <TableHeader>
+        <TableRow>
+          <TableHead>S/N</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>1</TableCell>
+          <TableCell>Collateral Picture 1</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.pic_one} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <TableCell>2</TableCell>
+          <TableCell>Collateral Picture 2</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.pic_two} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <TableCell>3</TableCell>
+          <TableCell>Verification Picture</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.ver_one} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>4</TableCell>
+          <TableCell>Customer Business Place</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.ver_two} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   )
 }

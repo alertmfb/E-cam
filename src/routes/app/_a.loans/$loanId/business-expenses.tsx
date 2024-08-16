@@ -3,6 +3,7 @@ import {
   BusinessAssetsForm,
   BusinessExpensesForm,
 } from '@/components/routes/loans/business-expenses/beaForm'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/business-expenses')(
@@ -13,6 +14,12 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/business-expenses')(
 
 function BusinessExpenses() {
   const loanId = Route.useParams() as { loanId: string }
+
+  const { role } = useUser()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="container w-full flex flex-col gap-3">

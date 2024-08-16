@@ -37,14 +37,18 @@ import {
 } from './zonification'
 import { useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { createClientInfo, fetchBvn } from '@/lib/api/client-info/functions'
+import {
+  createClientInfo,
+  fetchBvn,
+  useUploadClientImage,
+} from '@/lib/api/client-info/functions'
 
 import { useNavigate } from '@tanstack/react-router'
 import { useUser } from '@/lib/auth/hooks'
 
 type LoanId = { loanId: string }
 
-export function ClientInfoForm(loanId: LoanId) {
+export function ClientInfoForm({ loanId }: LoanId) {
   const { branch_id } = useUser()
   const navigate = useNavigate()
 
@@ -123,7 +127,7 @@ export function ClientInfoForm(loanId: LoanId) {
 
   const { data: bvn, fetchStatus } = useQuery({
     queryKey: ['bvn'],
-    queryFn: () => fetchBvn({ loanId: loanId.loanId }),
+    queryFn: () => fetchBvn({ loanId: loanId }),
   })
 
   const addMutation = useMutation({
@@ -134,10 +138,6 @@ export function ClientInfoForm(loanId: LoanId) {
       })
     },
   })
-
-  if (fetchStatus === 'fetching') {
-    return <div>Loading...</div>
-  }
 
   if (!bvn) {
     alert('Error: bvn not found')
@@ -153,7 +153,7 @@ export function ClientInfoForm(loanId: LoanId) {
         running_loan: runningLoan,
         is_client_guarantor: clientGuarantor,
       },
-      loanId: loanId.loanId,
+      loanId: loanId,
     })
   }
 
@@ -214,9 +214,34 @@ export function ClientInfoForm(loanId: LoanId) {
                     <FormLabel>
                       How did the customer know about Alert?
                     </FormLabel>
-                    <FormControl>
-                      <Input placeholder="" required {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      required
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select which applies" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Referred by alert customer">
+                          Referred by alert customer
+                        </SelectItem>
+                        <SelectItem value="Through marketing / promotion">
+                          Through marketing / promotion
+                        </SelectItem>
+                        <SelectItem value="Through ALERT MFB website / social media">
+                          Through ALERT MFB website / social media
+                        </SelectItem>
+                        <SelectItem value="A walk in customer">
+                          A walk in customer
+                        </SelectItem>
+                        <SelectItem value="Poached from another MFB">
+                          Poached from another MFB
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -289,10 +314,15 @@ export function ClientInfoForm(loanId: LoanId) {
                 )}
               />
 
-              <FormItem>
+              <ImageFormItem loanId={loanId} />
+
+              {/* <FormItem>
                 <FormLabel>Customer's Picture</FormLabel>
-                <Input type="file" />
-              </FormItem>
+                <Input
+                  type="file"
+                  onChange={(e) => console.log(e.target.files[0].name)}
+                />
+              </FormItem> */}
             </SectionInputContainer>
           </FormSection>
 
@@ -1091,5 +1121,25 @@ export function SectionInputContainer({
 export function FormSection({ children }: { children?: React.ReactNode }) {
   return (
     <div className="w-full flex flex-col gap-4 pb-4 border-b">{children}</div>
+  )
+}
+
+const ImageFormItem = ({ loanId }: { loanId: string }) => {
+  const upload = useUploadClientImage()
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const form = new FormData()
+      form.append('picture', e.target.files[0])
+
+      upload.mutate({ loanId, image: form })
+    }
+  }
+
+  return (
+    <FormItem>
+      <FormLabel>Customer's Picture</FormLabel>
+      <Input type="file" onChange={(e) => handleFileChange(e)} />
+    </FormItem>
   )
 }

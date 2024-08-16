@@ -1,5 +1,6 @@
 import { laS } from '@/components/routes/loans/loan-application/laSchema'
 import { Axios } from '@/lib/axios'
+import { useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
 type QueryParams = {
@@ -205,7 +206,7 @@ export const getLoanApplicationStatus = async ({
   }
 }
 
-export const fetchRejectedApplications = async ({
+export const getRejectedApplications = async ({
   institutionId,
   branchId,
   userId,
@@ -213,7 +214,7 @@ export const fetchRejectedApplications = async ({
 }: QueryParams): Promise<RejectedApplcation[] | undefined> => {
   try {
     const res = await Axios.get(
-      `/loan-application/branch/${branchId}/rejected?role=${role}&userId=${userId}&institutionId=${institutionId}`,
+      `/loan-application/rejected?role=${role}&userId=${userId}&institutionId=${institutionId}&branchId=${branchId}`,
       {
         withCredentials: true,
       }
@@ -260,4 +261,40 @@ export const getRejectedApplicationById = async ({
   } catch (e) {
     throw new Error(`response error: ${e}`)
   }
+}
+
+type ApprovedApplication = {
+  id: string
+  customer_name: string
+  created_at: string
+  loan_officer_name: string
+  branch: string
+  institution: string
+}
+
+const getApprovedApplications = async ({
+  role,
+  userId,
+  branchId,
+  institutionId,
+}: QueryParams): Promise<ApprovedApplication[] | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/approved?role=${role}&userId=${userId}&branchId=${branchId}&institutionId=${institutionId}`,
+      { withCredentials: true }
+    )
+
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGetApprovedApplications = (params: QueryParams) => {
+  const approvedQry = useQuery({
+    queryKey: ['approved-loans'],
+    queryFn: () => getApprovedApplications(params),
+  })
+
+  return approvedQry.data
 }

@@ -7,74 +7,71 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useQuery } from '@tanstack/react-query'
-import { getRejectedApplications } from '@/lib/api/loan-application/functions'
+import { useGetApprovedApplications } from '@/lib/api/loan-application/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
-export function RejectedApplicationsTable() {
+export const ApprovedApplicationsTable = () => {
   const { role } = useUser()
 
   switch (role) {
     case 'loan_officer': {
-      return <LoanOfficerRejectedTable />
+      return <LoanOfficerApprovedTable />
     }
     case 'branch_manager': {
-      return <BranchManagerRejectedTable />
+      return <BranchManagerApprovedTable />
+    }
+    case 'regional_manager': {
+      return <RegionalManagerApprovedTable />
     }
     case 'executive': {
-      return <ExecutiveRejectedTable />
+      return <ExecutiveApprovedTable />
     }
     default: {
-      return <GeneralRejectedTable />
+      return <div>No Data</div>
     }
   }
 }
 
-const LoanOfficerRejectedTable = () => {
+const LoanOfficerApprovedTable = () => {
   const { userId } = useAuth()
-  const { role, branch_id } = useUser()
+  const { role, branch_id, institution_id } = useUser()
 
-  const applications = useQuery({
-    queryKey: ['lo-rejected-applications'],
-    queryFn: () =>
-      getRejectedApplications({
-        branchId: branch_id.toString(),
-        userId: userId!,
-        role: role,
-      }),
+  const applications = useGetApprovedApplications({
+    userId: userId!,
+    role,
+    branchId: branch_id.toString(),
+    institutionId: institution_id,
   })
+
+  if (!applications) {
+    return <div>...</div>
+  }
+
   return (
     <Table>
-      <TableCaption>
-        {role === 'loan_officer'
-          ? 'These are your loan applications rejected from other officials'
-          : role === 'relationship_manager'
-            ? 'The are the rejected loan applications for your branch'
-            : ''}
-      </TableCaption>
+      <TableCaption></TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
           <TableHead>Application Date</TableHead>
-          <TableHead className="text-center">Action</TableHead>
+          <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {applications.data?.map((loan, idx) => (
+        {applications.map((loan, idx) => (
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
-            <TableCell className="text-center">
+            <TableCell className="text-right">
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/rejected/$loanId/$branchId"
+                  to="/app/loans/$loanId/data"
                   params={{
                     loanId: loan.id,
-                    branchId: branch_id.toString(),
                   }}
                 >
                   view
@@ -82,12 +79,12 @@ const LoanOfficerRejectedTable = () => {
               </Button>
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/$loanId/family-expenses"
+                  to="/app/loans/$loanId/loan-cert"
                   params={{
                     loanId: loan.id,
                   }}
                 >
-                  edit
+                  Offer Letter
                 </Link>
               </Button>
             </TableCell>
@@ -98,40 +95,35 @@ const LoanOfficerRejectedTable = () => {
   )
 }
 
-const BranchManagerRejectedTable = () => {
+const BranchManagerApprovedTable = () => {
   const { userId } = useAuth()
-  const { role, branch_id } = useUser()
+  const { role, branch_id, institution_id } = useUser()
 
-  const applications = useQuery({
-    queryKey: ['bm-rejected-applications'],
-    queryFn: () =>
-      getRejectedApplications({
-        branchId: branch_id.toString(),
-        userId: userId!,
-        role: role,
-      }),
+  const applications = useGetApprovedApplications({
+    userId: userId!,
+    role,
+    branchId: branch_id.toString(),
+    institutionId: institution_id,
   })
+
+  if (!applications) {
+    return <div>...</div>
+  }
+
   return (
     <Table>
-      <TableCaption>
-        {role === 'loan_officer'
-          ? 'These are your loan applications rejected from other officials'
-          : role === 'relationship_manager'
-            ? 'The are the rejected loan applications for your branch'
-            : ''}
-      </TableCaption>
+      <TableCaption></TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
-          <TableHead>Loan Officer</TableHead>
+          <TableHead>Loan Officer Name</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Action</TableHead>
-          {/* <TableHead className="text-right">Actions</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {applications.data?.map((loan, idx) => (
+        {applications.map((loan, idx) => (
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
@@ -140,13 +132,22 @@ const BranchManagerRejectedTable = () => {
             <TableCell className="text-right">
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/rejected/$loanId/$branchId"
+                  to="/app/loans/$loanId/data"
                   params={{
                     loanId: loan.id,
-                    branchId: branch_id.toString(),
                   }}
                 >
                   view
+                </Link>
+              </Button>
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/$loanId/loan-cert"
+                  params={{
+                    loanId: loan.id,
+                  }}
+                >
+                  Offer Letter
                 </Link>
               </Button>
             </TableCell>
@@ -157,58 +158,61 @@ const BranchManagerRejectedTable = () => {
   )
 }
 
-const GeneralRejectedTable = () => {
+const RegionalManagerApprovedTable = () => {
   const { userId } = useAuth()
   const { role, branch_id, institution_id } = useUser()
 
-  const applications = useQuery({
-    queryKey: ['general-rejected-applications'],
-    queryFn: () =>
-      getRejectedApplications({
-        institutionId: institution_id.toString(),
-        branchId: branch_id.toString(),
-        userId: userId!,
-        role: role,
-      }),
+  const applications = useGetApprovedApplications({
+    userId: userId!,
+    role,
+    branchId: branch_id.toString(),
+    institutionId: institution_id,
   })
+
+  if (!applications) {
+    return <div>...</div>
+  }
 
   return (
     <Table>
-      <TableCaption>
-        {role === 'loan_officer'
-          ? 'These are your loan applications rejected from other officials'
-          : role === 'relationship_manager'
-            ? 'The are the rejected loan applications for your branch'
-            : ''}
-      </TableCaption>
+      <TableCaption></TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
           <TableHead>Branch</TableHead>
-          <TableHead>Loan Officer</TableHead>
+          <TableHead>Loan Officer Name</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {applications.data?.map((loan, idx) => (
+        {applications.map((loan, idx) => (
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
-            <TableCell>{loan.branch?.toUpperCase()}</TableCell>
+            <TableCell>{loan.branch}</TableCell>
             <TableCell>{loan.loan_officer_name}</TableCell>
             <TableCell>{new Date(loan.created_at).toDateString()}</TableCell>
             <TableCell className="text-right">
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/rejected/$loanId/$branchId"
+                  to="/app/loans/$loanId/data"
                   params={{
                     loanId: loan.id,
-                    branchId: branch_id.toString(),
                   }}
                 >
                   view
+                </Link>
+              </Button>
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/$loanId/loan-cert"
+                  params={{
+                    loanId: loan.id,
+                  }}
+                >
+                  Offer Letter
                 </Link>
               </Button>
             </TableCell>
@@ -219,37 +223,37 @@ const GeneralRejectedTable = () => {
   )
 }
 
-const ExecutiveRejectedTable = () => {
+const ExecutiveApprovedTable = () => {
   const { userId } = useAuth()
-  const { role } = useUser()
+  const { role, branch_id, institution_id } = useUser()
 
-  const applications = useQuery({
-    queryKey: ['general-rejected-applications'],
-    queryFn: () =>
-      getRejectedApplications({
-        institutionId: 'exec',
-        branchId: 'exec',
-        userId: userId!,
-        role: role,
-      }),
+  const applications = useGetApprovedApplications({
+    userId: userId!,
+    role,
+    branchId: branch_id.toString(),
+    institutionId: institution_id,
   })
+
+  if (!applications) {
+    return <div>...</div>
+  }
 
   return (
     <Table>
-      <TableCaption>Loan applications you have rejected</TableCaption>
+      <TableCaption></TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">SN</TableHead>
           <TableHead>Customer Name</TableHead>
           <TableHead>Institution</TableHead>
           <TableHead>Branch</TableHead>
-          <TableHead>Loan Officer</TableHead>
+          <TableHead>Loan Officer Name</TableHead>
           <TableHead>Application Date</TableHead>
           <TableHead className="text-right">Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {applications.data?.map((loan, idx) => (
+        {applications.map((loan, idx) => (
           <TableRow key={loan.id}>
             <TableCell className="font-medium">{idx + 1}</TableCell>
             <TableCell>{loan.customer_name}</TableCell>
@@ -260,13 +264,22 @@ const ExecutiveRejectedTable = () => {
             <TableCell className="text-right">
               <Button asChild variant="link">
                 <Link
-                  to="/app/loans/rejected/$loanId/$branchId"
+                  to="/app/loans/$loanId/data"
                   params={{
                     loanId: loan.id,
-                    branchId: 'exec',
                   }}
                 >
                   view
+                </Link>
+              </Button>
+              <Button asChild variant="link">
+                <Link
+                  to="/app/loans/$loanId/loan-cert"
+                  params={{
+                    loanId: loan.id,
+                  }}
+                >
+                  Offer Letter
                 </Link>
               </Button>
             </TableCell>

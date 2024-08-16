@@ -5,7 +5,10 @@ const giS = z.object({
   registration_no: z.string({ required_error: 'this field is required' }),
   business_desc: z.string({ required_error: 'this field is required' }),
   monthly_salary: z.string({ required_error: 'this field is required' }),
-  phone_number: z.string({ required_error: 'this field is required' }),
+  phone_number: z
+    .string({ required_error: 'this field is required' })
+    .min(11, { message: 'Invalid Phone Number' })
+    .max(11, { message: 'Invalid Phone Number' }),
   business_address: z.string({ required_error: 'this field is required' }),
   business_landmark: z.string({ required_error: 'this field is required' }),
   //

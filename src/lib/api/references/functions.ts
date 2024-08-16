@@ -1,8 +1,9 @@
 import { rS } from '@/components/routes/loans/references/rSchema'
 import { Axios } from '@/lib/axios'
+import { useQueries, useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
-type ReferencePayload = z.infer<typeof rS>
+export type ReferencePayload = z.infer<typeof rS>
 type ReferenceData = {
   payload: ReferencePayload
   loanId: string
@@ -86,4 +87,36 @@ export const getReferences = async ({
   } catch (e) {
     throw new Error(`response error: ${e}`)
   }
+}
+
+type ReferenceCategory = 'family' | 'commercial' | 'neighbourhood'
+
+const getReferenceByCategory = async ({
+  loanId,
+  category,
+}: {
+  loanId: string
+  category: ReferenceCategory
+}): Promise<ReferencePayload[] | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/reference/${category}?loanId=${loanId}`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useReferenceByCategory = (
+  loanId: string,
+  category: ReferenceCategory
+) => {
+  const rfQry = useQuery({
+    queryKey: [`reference-${category}-data`],
+    queryFn: () => getReferenceByCategory({ loanId, category }),
+  })
+
+  return rfQry
 }

@@ -7,8 +7,8 @@ export const Route = createFileRoute('/app/_a/loans/incomplete')({
 
 function Incomplete() {
   return (
-    <div className="container w-full flex flex-col px-4 gap-5">
-      <h1 className="text-2xl font-semibold">Incomplete</h1>
+    <div className="container w-full flex flex-col px-4 gap-5 pt-10">
+      <h1 className="text-xl font-semibold">Incomplete</h1>
       <IncompleteTable />
     </div>
   )

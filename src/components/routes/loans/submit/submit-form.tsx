@@ -19,7 +19,7 @@ export const SubmitForm = ({ loanId }: { loanId: string }) => {
         <div className="flex flex-col items-start justify-center gap-4">
           <div className="flex items-center justify-start gap-5 flex-1 flex-wrap">
             <div className="flex flex-col gap-3">
-              <h1 className="font-bold text-wrap">
+              <h1 className="font-bold text-wrap text-red-600">
                 Please confirm that you have correctly filled out the necessary
                 information!
               </h1>

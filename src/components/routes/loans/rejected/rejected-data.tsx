@@ -15,7 +15,6 @@ import {
   getRejectedApplicationById,
 } from '@/lib/api/loan-application/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
-// import { Button } from '@/components/ui/button'
 
 export function RejectedData({
   loanId,
@@ -67,18 +66,7 @@ function GeneralRejectedData({
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start justify-between gap-3">
-              <span className="text-sm font-semibold">
-                <Badge
-                  className={loan?.bm_status === 'rejected' ? 'bg-red-600' : ''}
-                >
-                  {loan?.bm_status}
-                </Badge>
-              </span>
-            </div>
-            <div className="w-full flex items-start justify-between gap-3"></div>
-          </form>
+          <form className="w-full flex items-start flex-col gap-6"></form>
         </CardContent>
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
@@ -94,20 +82,7 @@ function GeneralRejectedData({
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start justify-between gap-3">
-              <span className="text-sm font-semibold">
-                <Badge
-                  className={
-                    loan?.reg_status === 'rejected' ? 'bg-red-600' : ''
-                  }
-                >
-                  {loan?.reg_status}
-                </Badge>
-              </span>
-            </div>
-            <div className="w-full flex items-start justify-between gap-3"></div>
-          </form>
+          <form className="w-full flex items-start flex-col gap-6"></form>
         </CardContent>
         <CardFooter className="w-full justify-start">
           <div className="flex flex-col items-start gap-3">
@@ -116,11 +91,6 @@ function GeneralRejectedData({
           </div>
         </CardFooter>
       </Card>
-      {/* {role! === 'loan_officer' && (
-        <div className="w-full flex justify-end pt-4">
-          <Button className="">Edit Application</Button>
-        </div>
-      )} */}
     </div>
   )
 }
@@ -147,18 +117,7 @@ function ExecutiveRejectedData({ loanId }: { loanId: string }) {
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start justify-between gap-3">
-              <span className="text-sm font-semibold">
-                <Badge
-                  className={loan?.bm_status === 'rejected' ? 'bg-red-600' : ''}
-                >
-                  {loan?.bm_status}
-                </Badge>
-              </span>
-            </div>
-            <div className="w-full flex items-start justify-between gap-3"></div>
-          </form>
+          <form className="w-full flex items-start flex-col gap-6"></form>
         </CardContent>
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
@@ -174,20 +133,7 @@ function ExecutiveRejectedData({ loanId }: { loanId: string }) {
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start justify-between gap-3">
-              <span className="text-sm font-semibold">
-                <Badge
-                  className={
-                    loan?.reg_status === 'rejected' ? 'bg-red-600' : ''
-                  }
-                >
-                  {loan?.reg_status}
-                </Badge>
-              </span>
-            </div>
-            <div className="w-full flex items-start justify-between gap-3"></div>
-          </form>
+          <form className="w-full flex items-start flex-col gap-6"></form>
         </CardContent>
         <CardFooter className="w-full justify-start">
           <div className="flex flex-col items-start gap-3">
@@ -204,17 +150,7 @@ function ExecutiveRejectedData({ loanId }: { loanId: string }) {
         </CardHeader>
         <CardContent>
           <form className="w-full flex items-start flex-col gap-6">
-            <div className="w-full flex items-start justify-between gap-3">
-              <span className="text-sm font-semibold">
-                <Badge
-                  className={
-                    loan?.final_approval === 'rejected' ? 'bg-red-600' : ''
-                  }
-                >
-                  {loan?.final_approval}
-                </Badge>
-              </span>
-            </div>
+            <div className="w-full flex items-start justify-between gap-3"></div>
             <div className="w-full flex items-start justify-between gap-3"></div>
           </form>
         </CardContent>

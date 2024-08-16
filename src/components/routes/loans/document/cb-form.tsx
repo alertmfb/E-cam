@@ -1,7 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { CloudUpload, SquareMousePointer } from 'lucide-react'
 import React, { useState } from 'react'
 import {
@@ -12,7 +19,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
+  GraPictureResponse,
   PictureOption,
+  useGetGraPicture,
   useUploadGraPicture,
 } from '@/lib/api/guarantor-verification/functions'
 
@@ -42,8 +51,24 @@ export function GuarantorPicUploadForm({ loanId }: { loanId: string }) {
     })
   }
 
+  const graPictures = useGetGraPicture(loanId)
+  const [prev, setPrev] = useState<boolean>(false)
+
+  const displayPrev = () => {
+    setPrev((prev) => !prev)
+  }
+
   return (
     <div className="w-full flex flex-col items-start gap-5 pb-6">
+      {graPictures && (
+        <div className="space-y-3">
+          <Button variant="outline" onClick={displayPrev}>
+            {prev ? 'Hide Saved' : 'Show Saved'}
+          </Button>
+
+          {prev && <DataTable data={graPictures} />}
+        </div>
+      )}
       <form
         className="w-full flex flex-col items-start gap-8 p-6 shadow-md border rounded-lg"
         onSubmit={(e) => handleUpload(e)}
@@ -112,5 +137,67 @@ export function GuarantorPicUploadForm({ loanId }: { loanId: string }) {
         </div>
       </form>
     </div>
+  )
+}
+
+const DataTable = ({ data }: { data: GraPictureResponse }) => {
+  return (
+    <Table className="w-full">
+      <TableHeader>
+        <TableRow>
+          <TableHead>S/N</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>1</TableCell>
+          <TableCell>Guarantor one business picture</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.pic_one} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <TableCell>2</TableCell>
+          <TableCell>Guarantor two business picture</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.pic_two} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+
+        <TableRow>
+          <TableCell>3</TableCell>
+          <TableCell>Verification Picture one</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.ver_one} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>4</TableCell>
+          <TableCell>Verification picture two</TableCell>
+          <TableCell>
+            <Button variant="link">
+              <a href={data.ver_two} target="_blank" rel="nopener-noreferrer">
+                View
+              </a>
+            </Button>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   )
 }

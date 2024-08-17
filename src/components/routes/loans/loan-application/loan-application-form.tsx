@@ -20,6 +20,7 @@ import { useMutation } from '@tanstack/react-query'
 import { createLoanApplication } from '@/lib/api/loan-application/functions'
 import { useNavigate } from '@tanstack/react-router'
 import { useAuth, useUser } from '@/lib/auth/hooks'
+import { Loader2 } from 'lucide-react'
 
 export function LoanApplicationForm() {
   const { userId } = useAuth()
@@ -103,8 +104,9 @@ export function LoanApplicationForm() {
                 )}
               />
             </SectionInputContainer>
-            <Button type="submit" className="w-32">
+            <Button type="submit" className="w-32 flex items-center gap-3 mt-4">
               Proceed
+              {createMutation.isPending && <Loader2 className="animate-spin" />}
             </Button>
           </FormSection>
         </div>

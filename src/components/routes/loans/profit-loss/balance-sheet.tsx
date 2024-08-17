@@ -293,8 +293,8 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
         </TableBody>
       </Table>
 
-      <div className="flex items-center gap-3">
-        <Button
+      <div className="flex items-center justify-end gap-3">
+        {/* <Button
           onClick={() =>
             console.log(
               rows,
@@ -308,8 +308,8 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           }
         >
           Log Data
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           onClick={() =>
             console.log(
               compileBSData(
@@ -332,8 +332,8 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
           variant={'outline'}
         >
           Compile
-        </Button>
-        <Button onClick={() => submit()}>Save</Button>
+        </Button> */}
+        <Button onClick={() => submit()}>Save Data</Button>
       </div>
     </div>
   )

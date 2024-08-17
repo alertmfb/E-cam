@@ -274,7 +274,7 @@ function ExecutiveUi() {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">1</div>
+            <div className="text-2xl font-bold text-white">O</div>
           </CardContent>
           <CardFooter>
             <p className="text-sm">Pending applications</p>
@@ -292,7 +292,7 @@ function ExecutiveUi() {
             <SquareX className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">0</div>
+            <div className="text-2xl font-bold text-white">A</div>
           </CardContent>
           <CardFooter>
             <p className="text-sm">Rejected applications</p>
@@ -310,7 +310,7 @@ function ExecutiveUi() {
             <CircleCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">0</div>
+            <div className="text-2xl font-bold text-white">B</div>
           </CardContent>
           <CardFooter>
             <p className="text-sm">Approved applications</p>

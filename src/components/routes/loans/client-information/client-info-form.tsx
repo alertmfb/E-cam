@@ -305,15 +305,8 @@ export function ClientInfoForm({ loanId }: LoanId) {
                 )}
               />
 
+              {/* IMAGE UPLOAD */}
               <ImageFormItem loanId={loanId} />
-
-              {/* <FormItem>
-                <FormLabel>Customer's Picture</FormLabel>
-                <Input
-                  type="file"
-                  onChange={(e) => console.log(e.target.files[0].name)}
-                />
-              </FormItem> */}
             </SectionInputContainer>
           </FormSection>
 
@@ -1045,30 +1038,6 @@ export function ClientInfoForm({ loanId }: LoanId) {
             </SectionInputContainer>
           </FormSection>
 
-          {/* <FormSection>
-            <SectionInputContainer>
-              <FormItem>
-                <FormLabel>Loan Officer Name</FormLabel>
-                <FormControl>
-                  <Input
-                    required
-                    placeholder=""
-                    value="Loan Officer"
-                    disabled
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-              <FormItem>
-                <FormLabel>Loan Officer Branch</FormLabel>
-                <FormControl>
-                  <Input placeholder="" value="EBUTE-METTA" disabled />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </SectionInputContainer>
-          </FormSection> */}
-
           <FormSection>
             <SectionInputContainer>
               <FormItem>
@@ -1166,7 +1135,9 @@ const ImageFormItem = ({ loanId }: { loanId: string }) => {
       <FormLabel>Customer's Picture</FormLabel>
       <Input type="file" onChange={(e) => handleFileChange(e)} />
       <FormDescription className="pl-4">
-        Supported formats: <i>png, jpg, jpeg</i>
+        Supported formats: <i className="font-semibold">png, jpg, jpeg</i>
+        <br />
+        Max Size: <i className="font-semibold">2MB</i>
       </FormDescription>
     </FormItem>
   )

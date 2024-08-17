@@ -148,6 +148,8 @@ export function GuarantorPicUploadForm({ loanId }: { loanId: string }) {
           <div className="text-sm">
             Supported Image formats:
             <i className="font-semibold"> png, jpg, jpeg</i>
+            <br />
+            Max Size: <i className="font-semibold">2MB</i>
           </div>
 
           <div className="text-base font-semibold">

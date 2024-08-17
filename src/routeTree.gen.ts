@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppAImport } from './routes/app/_a'
+import { Route as AppAProfileIndexImport } from './routes/app/_a.profile/index'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
 import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
@@ -68,6 +69,11 @@ const AppARoute = AppAImport.update({
 
 const AppALoansLoanIdRoute = AppALoansLoanIdImport.update({
   path: '/loans/$loanId',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppAProfileIndexRoute = AppAProfileIndexImport.update({
+  path: '/profile/',
   getParentRoute: () => AppARoute,
 } as any)
 
@@ -253,6 +259,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppADashboardIndexImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/profile/': {
+      preLoaderRoute: typeof AppAProfileIndexImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/$loanId': {
       preLoaderRoute: typeof AppALoansLoanIdImport
       parentRoute: typeof AppAImport
@@ -369,6 +379,7 @@ export const routeTree = rootRoute.addChildren([
       AppALoansIncompleteRoute,
       AppALoansNewRoute,
       AppADashboardIndexRoute,
+      AppAProfileIndexRoute,
       AppALoansLoanIdRoute.addChildren([
         AppALoansLoanIdBusinessExpensesRoute,
         AppALoansLoanIdCertRoute,

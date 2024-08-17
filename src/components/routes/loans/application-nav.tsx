@@ -22,6 +22,19 @@ export function ApplicationNav({ loanId }: { loanId: string }) {
           <BreadcrumbLink asChild>
             <Link
               activeProps={{ className: 'text-black font-semibold' }}
+              to="/app/loans/$loanId/client-information"
+              params={{ loanId: loanId }}
+            >
+              Client Information
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link
+              activeProps={{ className: 'text-black font-semibold' }}
               to="/app/loans/$loanId/family-expenses"
               params={{ loanId: loanId }}
             >
@@ -136,6 +149,14 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
                   params={{ loanId: loanId }}
                 >
                   Family Expenses
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  to="/app/loans/$loanId/client-information"
+                  params={{ loanId: loanId }}
+                >
+                  Client Information
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

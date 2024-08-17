@@ -125,7 +125,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
     setZoneColor(getZoneColor(branch_id, n))
   }
 
-  const { data: bvn, fetchStatus } = useQuery({
+  const { data: bvn } = useQuery({
     queryKey: ['bvn'],
     queryFn: () => fetchBvn({ loanId: loanId }),
   })
@@ -138,11 +138,6 @@ export function ClientInfoForm({ loanId }: LoanId) {
       })
     },
   })
-
-  if (!bvn) {
-    alert('Error: bvn not found')
-    navigate({ to: '/app/dashboard' })
-  }
 
   function onSubmit(values: z.infer<typeof ciS>) {
     addMutation.mutate({
@@ -177,12 +172,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                   <FormItem>
                     <FormLabel>Phone number</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="091..."
-                        type="number"
-                        required
-                        {...field}
-                      />
+                      <Input placeholder="" type="number" required {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -347,9 +337,21 @@ export function ClientInfoForm({ loanId }: LoanId) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Business Owner Sex</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      required
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="select" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="male">male</SelectItem>
+                        <SelectItem value="female">female</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -1125,10 +1127,32 @@ export function FormSection({ children }: { children?: React.ReactNode }) {
 }
 
 const ImageFormItem = ({ loanId }: { loanId: string }) => {
+  const LIMIT = 2 * 2 ** 20 // 2MB
+  const allowedFormats: Record<string, boolean> = {
+    'image/jpeg': true,
+    'image/png': true,
+    'image/apng': true,
+    'image/webp': true,
+    'image/tiff': true,
+  }
+
   const upload = useUploadClientImage()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      // check size of file
+      const file = e.target.files[0]
+
+      if (file.size > LIMIT) {
+        alert('Image size greater than 2MB')
+        return
+      }
+
+      if (!allowedFormats[file.type]) {
+        alert('Unsupported image format')
+        return
+      }
+
       const form = new FormData()
       form.append('picture', e.target.files[0])
 

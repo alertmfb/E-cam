@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 export const Template = () => {
   // TODO: fetch loan and render template if final approved true
 
@@ -7,7 +9,9 @@ export const Template = () => {
       <span className="font-bold text-xl self-center">OFFER LETTER</span>
 
       {/* Date */}
-      <div className="w-full mt-6 flex justify-end font-bold">30/03/2024</div>
+      <div className="w-full mt-6 flex justify-end font-bold">
+        {format(new Date(), 'dd/MM/yyyy')}
+      </div>
 
       {/* Client name & Address */}
       <div className="w-full mt-3 flex justify-start font-bold">

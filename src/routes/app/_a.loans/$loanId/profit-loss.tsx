@@ -4,7 +4,8 @@ import { Inventory } from '@/components/routes/loans/profit-loss/inventory'
 import { OtherBank } from '@/components/routes/loans/profit-loss/other-bank'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUser } from '@/lib/auth/hooks'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { ArrowLeft } from 'lucide-react'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/profit-loss')({
   component: ProfitLoss,
@@ -15,6 +16,8 @@ function ProfitLoss() {
 
   const { role } = useUser()
 
+  const navigate = useNavigate()
+
   if (role !== 'loan_officer') {
     return <div>Not Found</div>
   }
@@ -22,7 +25,15 @@ function ProfitLoss() {
   return (
     <div className="w-full mx-auto px-6 xl:px-20 flex flex-col gap-4">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
-        <h1 className="text-xl font-semibold">Profit & Loss</h1>
+        <div className="flex items-center gap-3">
+          <ArrowLeft
+            onClick={() =>
+              navigate({ to: '/app/loans/incomplete', replace: true })
+            }
+            className="cursor-pointer"
+          />
+          <h1 className="text-2xl font-semibold">Profit & Loss</h1>
+        </div>
         <ApplicationNavC loanId={loanId} key="reference" />
       </div>
       <Tabs defaultValue="inventory" className="w-full">

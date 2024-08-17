@@ -1,6 +1,7 @@
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -1164,6 +1165,9 @@ const ImageFormItem = ({ loanId }: { loanId: string }) => {
     <FormItem>
       <FormLabel>Customer's Picture</FormLabel>
       <Input type="file" onChange={(e) => handleFileChange(e)} />
+      <FormDescription className="pl-4">
+        Supported formats: <i>png, jpg, jpeg</i>
+      </FormDescription>
     </FormItem>
   )
 }

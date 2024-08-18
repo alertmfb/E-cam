@@ -71,7 +71,7 @@ function GeneralRejectedData({
         <CardFooter>
           <div className="flex flex-col items-start gap-3">
             <Label>Rejection Reason:</Label>
-            <p>{loan?.bm_rejection_comment ?? 'nil'}</p>
+            <p>{loan?.bm_rejection_comment ?? ''}</p>
           </div>
         </CardFooter>
       </Card>
@@ -87,7 +87,23 @@ function GeneralRejectedData({
         <CardFooter className="w-full justify-start">
           <div className="flex flex-col items-start gap-3">
             <Label>Rejection Reason:</Label>
-            <p>{loan?.reg_rejection_comment ?? 'nil'}</p>
+            <p>{loan?.reg_rejection_comment ?? ''}</p>
+          </div>
+        </CardFooter>
+      </Card>
+
+      <Card className="w-full shadow-md">
+        <CardHeader>
+          <CardTitle>Executive</CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form className="w-full flex items-start flex-col gap-6"></form>
+        </CardContent>
+        <CardFooter className="w-full justify-start">
+          <div className="flex flex-col items-start gap-3">
+            <Label>Rejection Reason:</Label>
+            <p>{loan?.final_rejection_comment ?? ''}</p>
           </div>
         </CardFooter>
       </Card>

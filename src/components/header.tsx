@@ -67,7 +67,7 @@ const UserDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="cursor-pointer">
+        <Avatar className="cursor-pointer border">
           {data && <AvatarImage src={data.url} />}
           <AvatarFallback>
             <User />

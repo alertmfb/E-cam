@@ -20,9 +20,7 @@ function RejectedLoan() {
     <div className="w-full container flex flex-col px-4 gap-3 pt-10">
       <div className="flex items-center gap-3">
         <ArrowLeft
-          onClick={() =>
-            navigate({ to: '/app/loans/incomplete', replace: true })
-          }
+          onClick={() => navigate({ to: '/app/loans/rejected', replace: true })}
           className="cursor-pointer"
         />
         <h1 className="text-2xl font-semibold">Rejected Details</h1>

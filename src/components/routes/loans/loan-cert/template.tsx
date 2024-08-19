@@ -1,7 +1,68 @@
-import { format } from 'date-fns'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { useOfferLetterData } from '@/lib/api/offer-letter/functions'
+import { format, differenceInCalendarMonths } from 'date-fns'
+import { toWords } from 'number-to-words'
+import { useState } from 'react'
+
+const returnSex = (
+  sex: string,
+  maritalStatus: string,
+  address?: boolean
+): string => {
+  switch (sex) {
+    case 'male':
+      if (!address) {
+        return 'MR'
+      } else {
+        return 'Sir'
+      }
+    case 'female':
+      if (!address) {
+        if (maritalStatus !== 'single') {
+          return 'MRS'
+        } else {
+          return 'MS'
+        }
+      } else {
+        return 'Ma'
+      }
+    default:
+      return ''
+  }
+}
+
+const formatLoanAmount = (amount: string): string => {
+  return '₦' + parseFloat(amount).toLocaleString()
+}
+
+const calculateTenure = ({
+  disbursementDate,
+  maturityDate,
+}: {
+  disbursementDate: Date
+  maturityDate: Date
+}) => {
+  return differenceInCalendarMonths(maturityDate, disbursementDate)
+}
 
 export const Template = ({ loanId }: { loanId: string }) => {
   // TODO: fetch loan and render template if final approved true
+
+  const { data } = useOfferLetterData(loanId)
+  const [repaymentPattern, setRepaymentPattern] = useState<number>(0)
+  const [totalLoanRepayment, settotalLoanRepayment] = useState<number>(0)
+
+  const [open, setOpen] = useState(false)
+
+  if (!data) {
+    return <div></div>
+  }
 
   return (
     <div className="w-full flex flex-col items-start p-12 font-['tinos']">
@@ -10,29 +71,33 @@ export const Template = ({ loanId }: { loanId: string }) => {
 
       {/* Date */}
       <div className="w-full mt-6 flex justify-end font-bold">
-        {format(new Date(), 'dd/MM/yyyy')}
+        {/* {format(new Date(), 'dd/MM/yyyy')} */}
+        {data.disbursement_date &&
+          format(new Date(data.disbursement_date), 'dd/MM/yyyy')}
       </div>
 
-      {/* Client name & Address */}
+      {/* Client Business & Address */}
       <div className="w-full mt-3 flex justify-start font-bold">
-        CLIENT BUSINESS NAME
+        {data.business_name}
       </div>
       <div className="w-72 text-left text-wrap justify-start">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur
-        distinctio alias, esse est ducimus veniam facilis neque nemo.
+        {data.business_address}
       </div>
 
       {/* Attention */}
       <div className="font-bold mt-6">
-        ATTENTION: MR SURNAME FIRSTNAME OTHERNAME
+        ATTENTION: {returnSex(data.sex, data.marital_status)} {data.name}
       </div>
 
       {/* Dear Sir/Ma */}
-      <div className="mt-6">Dear Sir,</div>
+      <div className="mt-6">
+        Dear {returnSex(data.sex, data.marital_status, true)},
+      </div>
 
       {/* Offer of credit facility */}
       <div className="font-bold mt-6 underline">
-        OFFER OF CREDIT FACILITY: LOAN AMOUNT
+        OFFER OF CREDIT FACILITY:{' '}
+        {data.new_loan_amount && formatLoanAmount(data.new_loan_amount)}
       </div>
 
       {/* 1st Paragraph */}
@@ -54,7 +119,7 @@ export const Template = ({ loanId }: { loanId: string }) => {
         {/* item 2 */}
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Borrower:</span>
-          <span className="w-2/3 font-bold">CLIENT BUSINESS NAME</span>
+          <span className="w-2/3 font-bold">{data.business_name}</span>
         </div>
 
         {/* item 3 */}
@@ -66,33 +131,55 @@ export const Template = ({ loanId }: { loanId: string }) => {
         {/* item 4 */}
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Facility Amount:</span>
-          <span className="w-2/3 font-bold">
-            NXX, XXX, XXX.XX (XX Million Naira only)
+          <span className="w-2/3 font-bold capitalize">
+            {data.new_loan_amount &&
+              formatLoanAmount(data.new_loan_amount) +
+                ' ' +
+                '(' +
+                toWords(data.new_loan_amount) +
+                ' Naira Only' +
+                ')'}
           </span>
         </div>
 
         {/* item 5 */}
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Collecion Date:</span>
-          <span className="w-2/3 font-bold">30/03/2024</span>
+          <span className="w-2/3 font-bold">
+            {data.disbursement_date &&
+              format(new Date(data.disbursement_date), 'dd/MM/yyyy')}
+          </span>
         </div>
 
         {/* item 6 */}
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Expiry Date:</span>
-          <span className="w-2/3 font-bold">30/04/2025</span>
+          <span className="w-2/3 font-bold">
+            {data.maturity_date &&
+              format(new Date(data.maturity_date), 'dd/MM/yyyy')}
+          </span>
         </div>
 
         {/* item 7 */}
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Purpose:</span>
-          <span className="w-2/3 font-bold">AUGMENT WORKING CAPITAL</span>
+          <span className="w-2/3 font-bold uppercase">
+            {data.loan_purpose && data.loan_purpose}
+          </span>
         </div>
 
         {/* item 8 */}
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Tenor:</span>
-          <span className="w-2/3 font-bold">x Months</span>
+          <span className="w-2/3 font-bold">
+            {' '}
+            {data.disbursement_date &&
+              calculateTenure({
+                disbursementDate: new Date(data.disbursement_date),
+                maturityDate: new Date(data.maturity_date),
+              })}{' '}
+            Months
+          </span>
         </div>
 
         {/* item 9 */}
@@ -121,9 +208,28 @@ export const Template = ({ loanId }: { loanId: string }) => {
 
         {/* item 12 */}
         <div className="flex w-[40rem] justify-between">
-          <span className="w-1/3">Repayment Pattern:</span>
+          <Dialog>
+            <DialogTrigger>
+              <span className="w-1/3 cursor-pointer font-bold">
+                Repayment Pattern:
+              </span>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>Set Repayment Pattern</DialogHeader>
+              <Input
+                type="number"
+                onChange={(e) =>
+                  setRepaymentPattern(parseFloat(e.target.value ?? 0))
+                }
+              />
+            </DialogContent>
+          </Dialog>
           <span className="w-2/3 text-balance">
-            Monthly repayment of Nx, xxx, xxx (Amount in words Only)
+            Monthly repayment of{' '}
+            <span className="font-bold capitalize">
+              ₦{repaymentPattern.toLocaleString()}{' '}
+              <span>({toWords(repaymentPattern)} Naira Only)</span>
+            </span>
             <span className="text-red-600 font-bold">
               {' '}
               See repayment plan for detail
@@ -133,17 +239,35 @@ export const Template = ({ loanId }: { loanId: string }) => {
 
         {/* item 13 */}
         <div className="flex w-[40rem] justify-between">
-          <span className="w-1/3">Total Loan Repayment:</span>
-          <span className="w-2/3 text-balance">
-            Nxx, xxx, xxx.xx (Amount in words Only),
+          <Dialog>
+            <DialogTrigger>
+              <span className="w-1/3 cursor-pointer font-bold">
+                Total Loan Repayment:
+              </span>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>Set Total Loan Repayment</DialogHeader>
+              <Input
+                type="number"
+                onChange={(e) =>
+                  settotalLoanRepayment(parseFloat(e.target.value ?? 0))
+                }
+              />
+            </DialogContent>
+          </Dialog>
+          <span className="w-2/3 text-balance font-bold capitalize">
+            N{totalLoanRepayment.toLocaleString()} (
+            {toWords(totalLoanRepayment)} Naira Only),
           </span>
         </div>
 
         {/* item 14 */}
         <div className="flex w-[40rem] justify-between">
-          <span className="w-1/3 text-red-600 text-bold">Moratorium:</span>
+          <span className="w-1/3 text-red-600 text-bold font-bold">
+            Moratorium:
+          </span>
           <span className="w-2/3 text-balance text-red-600 font-bold">
-            Nxx, xxx, xxx.xx (Amount in words Only),
+            Not Applicable (N/A), and stated where applicable
           </span>
         </div>
       </div>

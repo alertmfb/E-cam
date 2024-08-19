@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
 import { Template } from '@/components/routes/loans/loan-cert/template'
 import { ArrowLeft } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/loan-cert')({
   component: LoanCert,
@@ -32,7 +33,11 @@ function LoanCert() {
           <h1 className="text-2xl font-semibold">Loan Certificate</h1>
         </div>
       </div>
-      <main className="flex flex-col items-start bg-sky-50 rounded-lg gap-5 my-10">
+      <div className="mt-4 text-lg font-bold">
+        Click on "Repayment Pattern:" and "Total Loan Repayment:" to set
+        accordingly
+      </div>
+      <main className="flex flex-col items-start bg-sky-50 rounded-lg gap-5 mt-4 mb-10">
         <div ref={contentRef} className="w-full">
           <Template loanId={loanId} />
         </div>

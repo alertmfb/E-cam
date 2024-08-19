@@ -85,8 +85,8 @@ export const Template = ({ loanId }: { loanId: string }) => {
       </div>
 
       {/* Attention */}
-      <div className="font-bold mt-6">
-        ATTENTION: {returnSex(data.sex, data.marital_status)} {data.name}
+      <div className="font-bold mt-6 uppercase">
+        ATTENTION: {returnSex(data.sex, data.marital_status)}. {data.name}
       </div>
 
       {/* Dear Sir/Ma */}

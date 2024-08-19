@@ -34,7 +34,7 @@ function LoanCert() {
       </div>
       <main className="flex flex-col items-start bg-sky-50 rounded-lg gap-5 my-10">
         <div ref={contentRef} className="w-full">
-          <Template />
+          <Template loanId={loanId} />
         </div>
         <Button onClick={handlePrint} className="self-end mr-20 mb-10">
           Print Offer Letter

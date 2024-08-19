@@ -1,10 +1,10 @@
 import { format } from 'date-fns'
 
-export const Template = () => {
+export const Template = ({ loanId }: { loanId: string }) => {
   // TODO: fetch loan and render template if final approved true
 
   return (
-    <div className="w-full flex flex-col items-start p-12">
+    <div className="w-full flex flex-col items-start p-12 font-['tinos']">
       {/* Title */}
       <span className="font-bold text-xl self-center">OFFER LETTER</span>
 
@@ -99,7 +99,7 @@ export const Template = () => {
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Interest Rate:</span>
           <span className="w-2/3 font-bold">
-            x.x% flat per month on straight line Basis
+            2.2% flat per month on straight line Basis
           </span>
         </div>
 
@@ -107,7 +107,7 @@ export const Template = () => {
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Insurance Fee:</span>
           <span className="w-2/3 font-bold">
-            x% of the disbursed amount payable upfromt
+            2% of the disbursed amount payable upfromt
           </span>
         </div>
 
@@ -115,7 +115,7 @@ export const Template = () => {
         <div className="flex w-[40rem] justify-between">
           <span className="w-1/3">Management Fee:</span>
           <span className="w-2/3 font-bold">
-            x% of the disbursed amount payable upfront
+            1% of the disbursed amount payable upfront
           </span>
         </div>
 

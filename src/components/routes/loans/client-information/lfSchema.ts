@@ -64,9 +64,9 @@ const ciS = z.object({
     .string({ required_error: 'this field is required' })
     .optional()
     .or(z.literal('')),
-  disbursement_date: z.date().optional(),
+  disbursement_date: z.date(),
   // TODO: make this exactly +x days from disbursement date
-  maturity_date: z.date().optional(),
+  maturity_date: z.date(),
   running_loan_duration: z
     .string({
       required_error: 'loan duration is required',

@@ -32,6 +32,8 @@ export const useUploadVisitReport = () => {
       if (data) {
         qc.invalidateQueries({ queryKey: ['visit-report-data'] })
         alert('Uploaded')
+      } else {
+        alert('Failed to save')
       }
     },
   })

@@ -1,5 +1,6 @@
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
 import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
+import { CommitteeDecisionData } from '@/components/routes/loans/committee-decision/committee-decision-data'
 import { GuarantorVerificationData } from '@/components/routes/loans/guarantor-verification/gv-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
@@ -34,6 +35,7 @@ function LoanData() {
         <PictoralEvidenceData loanId={loanId} />
         <GuarantorVerificationData loanId={loanId} />
         <VisitReportData loanId={loanId} />
+        <CommitteeDecisionData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

@@ -68,7 +68,7 @@ export const VisitReportForm = ({
             <TableHead className="border text-black">
               LOCATION COORDINATE (Google)
             </TableHead>
-            <TableHead className="border">REMARK</TableHead>
+            <TableHead className="border text-black">REMARK</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -114,9 +114,7 @@ export const VisitReportForm = ({
           Log
         </Button> */}
 
-        <Button variant={'outline'} onClick={upload}>
-          Save
-        </Button>
+        <Button onClick={upload}>Save</Button>
       </div>
     </div>
   )

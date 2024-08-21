@@ -331,7 +331,7 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
             <DropdownMenuItem asChild>
               <Link
                 activeProps={{ className: 'text-black font-semibold' }}
-                to="/app/loans/$loanId/submit"
+                to="/app/loans/$loanId/committee-decision"
                 params={{ loanId: loanId }}
               >
                 Committee's Decision
@@ -406,7 +406,7 @@ export const ApplicationNavD = ({ loanId }: { loanId: string }) => {
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/submit"
+            to="/app/loans/$loanId/committee-decision"
             params={{ loanId: loanId }}
           >
             Committee Decision

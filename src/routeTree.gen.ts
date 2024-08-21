@@ -35,6 +35,7 @@ import { Route as AppALoansLoanIdGuarantorBusinessImport } from './routes/app/_a
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
 import { Route as AppALoansLoanIdDocumentImport } from './routes/app/_a.loans/$loanId/document'
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
+import { Route as AppALoansLoanIdCommitteeDecisionImport } from './routes/app/_a.loans/$loanId/committee-decision'
 import { Route as AppALoansLoanIdColPledgeImport } from './routes/app/_a.loans/$loanId/col-pledge'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
@@ -181,6 +182,12 @@ const AppALoansLoanIdDataRoute = AppALoansLoanIdDataImport.update({
   getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
+const AppALoansLoanIdCommitteeDecisionRoute =
+  AppALoansLoanIdCommitteeDecisionImport.update({
+    path: '/committee-decision',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any)
+
 const AppALoansLoanIdColPledgeRoute = AppALoansLoanIdColPledgeImport.update({
   path: '/col-pledge',
   getParentRoute: () => AppALoansLoanIdRoute,
@@ -295,6 +302,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdColPledgeImport
       parentRoute: typeof AppALoansLoanIdImport
     }
+    '/app/_a/loans/$loanId/committee-decision': {
+      preLoaderRoute: typeof AppALoansLoanIdCommitteeDecisionImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
     '/app/_a/loans/$loanId/data': {
       preLoaderRoute: typeof AppALoansLoanIdDataImport
       parentRoute: typeof AppALoansLoanIdImport
@@ -397,6 +408,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdCertRoute,
         AppALoansLoanIdClientInformationRoute,
         AppALoansLoanIdColPledgeRoute,
+        AppALoansLoanIdCommitteeDecisionRoute,
         AppALoansLoanIdDataRoute,
         AppALoansLoanIdDocumentRoute,
         AppALoansLoanIdFamilyExpensesRoute,

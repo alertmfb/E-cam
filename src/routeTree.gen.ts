@@ -23,6 +23,7 @@ import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/statu
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
 import { Route as AppALoansApprovedIndexImport } from './routes/app/_a.loans/approved/index'
+import { Route as AppALoansLoanIdVisitReportImport } from './routes/app/_a.loans/$loanId/visit-report'
 import { Route as AppALoansLoanIdSubmitImport } from './routes/app/_a.loans/$loanId/submit'
 import { Route as AppALoansLoanIdStockPledgeImport } from './routes/app/_a.loans/$loanId/stock-pledge'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
@@ -111,6 +112,13 @@ const AppALoansApprovedIndexRoute = AppALoansApprovedIndexImport.update({
   path: '/loans/approved/',
   getParentRoute: () => AppARoute,
 } as any)
+
+const AppALoansLoanIdVisitReportRoute = AppALoansLoanIdVisitReportImport.update(
+  {
+    path: '/visit-report',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any,
+)
 
 const AppALoansLoanIdSubmitRoute = AppALoansLoanIdSubmitImport.update({
   path: '/submit',
@@ -331,6 +339,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdSubmitImport
       parentRoute: typeof AppALoansLoanIdImport
     }
+    '/app/_a/loans/$loanId/visit-report': {
+      preLoaderRoute: typeof AppALoansLoanIdVisitReportImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
     '/app/_a/loans/approved/': {
       preLoaderRoute: typeof AppALoansApprovedIndexImport
       parentRoute: typeof AppAImport
@@ -396,6 +408,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdReferenceRoute,
         AppALoansLoanIdStockPledgeRoute,
         AppALoansLoanIdSubmitRoute,
+        AppALoansLoanIdVisitReportRoute,
       ]),
       AppALoansApprovedIndexRoute,
       AppALoansPendingIndexRoute,

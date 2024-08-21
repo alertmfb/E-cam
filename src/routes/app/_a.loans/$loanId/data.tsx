@@ -10,6 +10,7 @@ import { PictoralEvidenceData } from '@/components/routes/loans/pictoral-evidenc
 import { ProfitLossData } from '@/components/routes/loans/profit-loss/pl-data'
 import { ReferenceData } from '@/components/routes/loans/references/reference-data'
 import { StockPledgeData } from '@/components/routes/loans/stock-pledge/sp-data'
+import { VisitReportData } from '@/components/routes/loans/visit-report/visit-report-data'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -32,6 +33,7 @@ function LoanData() {
         <ProfitLossData loanId={loanId} />
         <PictoralEvidenceData loanId={loanId} />
         <GuarantorVerificationData loanId={loanId} />
+        <VisitReportData loanId={loanId} />
         <Actions loanId={loanId} />
       </main>
     </div>

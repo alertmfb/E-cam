@@ -229,10 +229,10 @@ export function ApplicationNavB({ loanId }: { loanId: string }) {
             <DropdownMenuItem asChild>
               <Link
                 activeProps={{ className: 'text-black font-semibold' }}
-                to="/app/loans/$loanId/submit"
+                to="/app/loans/$loanId/visit-report"
                 params={{ loanId: loanId }}
               >
-                Submit
+                Visit Report
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -310,6 +310,106 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
             params={{ loanId: loanId }}
           >
             Collateral Pledge
+          </Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/visit-report"
+            params={{ loanId: loanId }}
+          >
+            Visit Report
+          </Link>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <BreadcrumbEllipsis className="cursor-pointer" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem asChild>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/submit"
+                params={{ loanId: loanId }}
+              >
+                Committee's Decision
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/submit"
+                params={{ loanId: loanId }}
+              >
+                Submit
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+export const ApplicationNavD = ({ loanId }: { loanId: string }) => {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <BreadcrumbEllipsis className="cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/visit-report"
+                  params={{ loanId: loanId }}
+                >
+                  Visit Report
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/col-pledge"
+                  params={{ loanId: loanId }}
+                >
+                  Collateral Pledge
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/stock-pledge"
+                  params={{ loanId: loanId }}
+                >
+                  Stock Pledge
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link
+                  activeProps={{ className: 'text-black font-semibold' }}
+                  to="/app/loans/$loanId/profit-loss"
+                  params={{ loanId: loanId }}
+                >
+                  Profit Loss
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/submit"
+            params={{ loanId: loanId }}
+          >
+            Committee Decision
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />

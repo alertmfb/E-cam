@@ -34,7 +34,7 @@ export function SignInForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 border p-10 rounded-lg w-96"
+        className="space-y-8 border p-4 sm:p-10 rounded-lg sm:w-96"
       >
         <FormField
           control={form.control}

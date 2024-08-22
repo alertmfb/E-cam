@@ -778,42 +778,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="running_loan_duration"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Running Loan Duration</FormLabel>
-                        <FormControl>
-                          <Input
-                            required
-                            placeholder=""
-                            type="number"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="running_monthly_instalment_amount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Monthly Installment Amount</FormLabel>
-                        <FormControl>
-                          <Input
-                            required
-                            placeholder=""
-                            type="number"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+
                   <FormField
                     control={form.control}
                     name="running_days_overdue"
@@ -868,87 +833,34 @@ export function ClientInfoForm({ loanId }: LoanId) {
                       </FormItem>
                     )}
                   />
-                  {/* <FormField
-                    control={form.control}
-                    name="disbursement_date"
-                    render={({ field }) => (
-                      <FormItem className="self-end">
-                        <FormLabel className="mr-3">
-                          Disbursement Date
-                        </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'w-[240px] pl-3 text-left font-normal',
-                                  !field.value && 'text-muted-foreground'
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, 'PPP')
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="maturity_date"
-                    render={({ field }) => (
-                      <FormItem className="self-end">
-                        <FormLabel className="mr-3">Maturity Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'w-[240px] pl-3 text-left font-normal',
-                                  !field.value && 'text-muted-foreground'
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, 'PPP')
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
                 </>
               )}
+              <FormField
+                control={form.control}
+                name="running_loan_duration"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Duration</FormLabel>
+                    <FormControl>
+                      <Input required placeholder="" type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="running_monthly_instalment_amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Monthly Installment Amount</FormLabel>
+                    <FormControl>
+                      <Input required placeholder="" type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </SectionInputContainer>
           </FormSection>
 

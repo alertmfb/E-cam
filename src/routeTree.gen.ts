@@ -39,6 +39,7 @@ import { Route as AppALoansLoanIdCommitteeDecisionImport } from './routes/app/_a
 import { Route as AppALoansLoanIdColPledgeImport } from './routes/app/_a.loans/$loanId/col-pledge'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
+import { Route as AppALoansLoanIdCashflowTestImport } from './routes/app/_a.loans/$loanId/cashflow-test'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 import { Route as AppALoansLoanIdBImport } from './routes/app/_a.loans/$loanId/_b'
 import { Route as AppALoansStatusLoanIdIndexImport } from './routes/app/_a.loans/status/$loanId/index'
@@ -204,6 +205,12 @@ const AppALoansLoanIdCertRoute = AppALoansLoanIdCertImport.update({
   getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
+const AppALoansLoanIdCashflowTestRoute =
+  AppALoansLoanIdCashflowTestImport.update({
+    path: '/cashflow-test',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any)
+
 const AppALoansLoanIdBusinessExpensesRoute =
   AppALoansLoanIdBusinessExpensesImport.update({
     path: '/business-expenses',
@@ -288,6 +295,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/business-expenses': {
       preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
+    '/app/_a/loans/$loanId/cashflow-test': {
+      preLoaderRoute: typeof AppALoansLoanIdCashflowTestImport
       parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/cert': {
@@ -405,6 +416,7 @@ export const routeTree = rootRoute.addChildren([
       AppAProfileIndexRoute,
       AppALoansLoanIdRoute.addChildren([
         AppALoansLoanIdBusinessExpensesRoute,
+        AppALoansLoanIdCashflowTestRoute,
         AppALoansLoanIdCertRoute,
         AppALoansLoanIdClientInformationRoute,
         AppALoansLoanIdColPledgeRoute,

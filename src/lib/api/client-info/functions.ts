@@ -90,6 +90,8 @@ export const useUploadClientImage = () => {
     onSuccess(data) {
       if (data) {
         alert('image uploaded')
+      } else {
+        alert('Failed to upload')
       }
     },
   })

@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,6 +29,7 @@ import {
   GuarantorInfoPayload,
   createGuarantorInfo,
   useGetGuarantorNameInfo,
+  useUploadGuarantorProfile,
 } from '@/lib/api/guarantor-info/functions'
 import {
   Table,
@@ -101,7 +103,7 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
     })
   }
 
-  const { data } = useGetGuarantorNameInfo(userId!, branch_id.toString(), role)
+  const { data } = useGetGuarantorNameInfo(userId!, loanId, role)
   const [prev, setPrev] = useState<boolean>(false)
 
   const displayPrev = () => {
@@ -227,6 +229,8 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                     </FormItem>
                   )}
                 />
+
+                <ImageUploadField loanId={loanId} />
               </SectionInputContainer>
             </FormSection>
 
@@ -636,5 +640,65 @@ const DataTable = ({ data }: { data: GuarantorInfoPayload[] }) => {
         ))}
       </TableBody>
     </Table>
+  )
+}
+
+const ImageUploadField = ({ loanId }: { loanId: string }) => {
+  const LIMIT = 2 * 2 ** 20 // 2MB
+  const allowedFormats: Record<string, boolean> = {
+    'image/jpeg': true,
+    'image/png': true,
+    'image/apng': true,
+    'image/webp': true,
+    'image/tiff': true,
+  }
+
+  const [type, setType] = useState<string>('url_one')
+  const upload = useUploadGuarantorProfile()
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      // check size of file
+      const file = e.target.files[0]
+
+      if (file.size > LIMIT) {
+        alert('Image size greater than 2MB')
+        return
+      }
+
+      if (!allowedFormats[file.type]) {
+        alert('Unsupported image format')
+        return
+      }
+
+      const form = new FormData()
+      form.append('picture', e.target.files[0])
+
+      upload.mutate({ loanId, image: form, type: type })
+    }
+  }
+
+  return (
+    <div className="flex items-center justify-center gap-3">
+      <FormItem className="">
+        <FormLabel>Guarantor's Picture</FormLabel>
+        <Input type="file" onChange={(e) => handleFileChange(e)} />
+        <FormDescription className="pl-4">
+          Supported formats: <i className="font-semibold">png, jpg, jpeg</i>
+          <br />
+          Max Size: <i className="font-semibold">2MB</i>
+        </FormDescription>
+
+        <Select onValueChange={(value) => setType(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Guarantor One" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="url_one">Guarantor One</SelectItem>
+            <SelectItem value="url_two">Guarantor Two</SelectItem>
+          </SelectContent>
+        </Select>
+      </FormItem>
+    </div>
   )
 }

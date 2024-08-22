@@ -120,7 +120,7 @@ export const VisitReportForm = ({
   )
 }
 
-const returnLocationColor = (idx: number): string => {
+export const returnLocationColor = (idx: number): string => {
   if (idx === 0 || idx === 1 || idx === 4 || idx === 5) {
     return 'bg-green-100'
   } else {

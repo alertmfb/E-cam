@@ -25,7 +25,7 @@ function LoanData() {
     <div className="container w-full flex flex-col px-4 gap-3 py-10">
       <h1 className="text-xl font-semibold">Loan Data</h1>
       <main className="flex flex-col pt-3 gap-6">
-        <ClientInfoData LoanId={loanId} />
+        <ClientInfoData loanId={loanId} />
         <GuarantorInfoData LoanId={loanId} />
         <ReferenceData loanId={loanId} />
         <ProfitLossData loanId={loanId} />

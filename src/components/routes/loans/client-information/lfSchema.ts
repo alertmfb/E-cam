@@ -21,9 +21,11 @@ const ciS = z.object({
     required_error: 'residence address is required',
   }),
   residence_landmark: z.string({ required_error: 'this field is required' }),
-  house_ownership_status: z.string({
-    required_error: 'this field is required',
-  }),
+  house_ownership_status: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .min(2, { message: 'select' }),
   house_stay: z.string({ required_error: 'this field is required' }),
   house_desc: z.string({ required_error: 'this field is required' }).max(250),
   marital_status: z.string({ required_error: 'marital status is required' }),

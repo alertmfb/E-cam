@@ -1,4 +1,4 @@
-import { ApplicationNavD } from '@/components/routes/loans/application-nav'
+import { ApplicationNavC } from '@/components/routes/loans/application-nav'
 import { CashflowTable } from '@/components/routes/loans/cashflow-test/mctTable'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
@@ -24,7 +24,7 @@ function CashFlowTest() {
           />
           <h1 className="text-2xl font-semibold">Monthly Cashflow Test</h1>
         </div>
-        <ApplicationNavD loanId={loanId} key="reference" />
+        <ApplicationNavC loanId={loanId} key="reference" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
         <CashflowTable loanId={loanId} />

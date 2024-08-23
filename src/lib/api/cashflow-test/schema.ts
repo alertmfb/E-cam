@@ -50,10 +50,11 @@ export const DESCRIPTIONS = [
   'Accrued Flow',
 ]
 
-const TENURE = 12
+export const TENURE = 2
+export const TOTAL_AND_AVERAGE = 2
 export const cashFlowMonths: CashflowMonthData[] = []
 
-for (let i = 0; i < TENURE; i++) {
+for (let i = 0; i < TENURE + TOTAL_AND_AVERAGE; i++) {
   const newMonth = {
     businessInflow: 0,
     perMargin: 0,
@@ -80,4 +81,29 @@ for (let i = 0; i < TENURE; i++) {
     accuredFlow: 0,
   }
   cashFlowMonths.push(newMonth)
+}
+
+const totalndAverage = (
+  ...values: number[]
+): { total: number; average: number } => {
+  const total = values.reduce((a, b) => a + b)
+  return {
+    total: total,
+    average: total / values.length,
+  }
+}
+
+export const totalAndAverage = (
+  months: CashflowMonthData[],
+  key: keyof CashflowMonthData
+) => {
+  const values = []
+  for (let i = 0; i < months.length; i++) {
+    values.push(months[i][key])
+  }
+  const total = values.reduce((a, b) => a + b)
+  return {
+    total: total,
+    average: total / values.length,
+  }
 }

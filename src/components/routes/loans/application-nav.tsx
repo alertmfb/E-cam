@@ -316,10 +316,10 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
         <BreadcrumbItem>
           <Link
             activeProps={{ className: 'text-black font-semibold' }}
-            to="/app/loans/$loanId/visit-report"
+            to="/app/loans/$loanId/cashflow-test"
             params={{ loanId: loanId }}
           >
-            Visit Report
+            Monthly Cashflow Test
           </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
@@ -366,10 +366,10 @@ export const ApplicationNavD = ({ loanId }: { loanId: string }) => {
               <DropdownMenuItem asChild>
                 <Link
                   activeProps={{ className: 'text-black font-semibold' }}
-                  to="/app/loans/$loanId/visit-report"
+                  to="/app/loans/$loanId/cashflow-test"
                   params={{ loanId: loanId }}
                 >
-                  Visit Report
+                  Monthly Cashflow Test
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
@@ -401,6 +401,15 @@ export const ApplicationNavD = ({ loanId }: { loanId: string }) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <Link
+            activeProps={{ className: 'text-black font-semibold' }}
+            to="/app/loans/$loanId/visit-report"
+            params={{ loanId: loanId }}
+          >
+            Visit Report
+          </Link>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

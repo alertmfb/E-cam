@@ -41,8 +41,32 @@ export function GuarantorPicUploadForm({ loanId }: { loanId: string }) {
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    const LIMIT = 2 * 2 ** 20 // 2MB
+    const allowedFormats: Record<string, boolean> = {
+      'image/jpeg': true,
+      'image/png': true,
+      'image/apng': true,
+      'image/webp': true,
+      'image/tiff': true,
+    }
+
+    if (!file) {
+      alert('No file selected!')
+      return
+    }
+
+    if (file.size > LIMIT) {
+      alert('Image size greater than 2MB')
+      return
+    }
+
+    if (!allowedFormats[file.type]) {
+      alert('Unsupported image format')
+      return
+    }
+
     const form = new FormData()
-    form.append('picture', file!)
+    form.append('picture', file)
 
     fileUpload.mutate({
       picture: form,
@@ -74,7 +98,6 @@ export function GuarantorPicUploadForm({ loanId }: { loanId: string }) {
         onSubmit={(e) => handleUpload(e)}
       >
         {/* <Label className="text-xl">Verification Picture Upload</Label> */}
-
         <div className="flex flex-col items-start justify-center gap-4">
           <div className="flex items-center justify-start gap-5 flex-1 flex-wrap">
             <div className="flex flex-col gap-3">
@@ -121,6 +144,12 @@ export function GuarantorPicUploadForm({ loanId }: { loanId: string }) {
                 </SelectContent>
               </Select>
             </div>
+          </div>
+          <div className="text-sm">
+            Supported Image formats:
+            <i className="font-semibold"> png, jpg, jpeg</i>
+            <br />
+            Max Size: <i className="font-semibold">2MB</i>
           </div>
 
           <div className="text-base font-semibold">

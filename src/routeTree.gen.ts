@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppAImport } from './routes/app/_a'
+import { Route as AppAProfileIndexImport } from './routes/app/_a.profile/index'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
 import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
@@ -22,6 +23,7 @@ import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/statu
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
 import { Route as AppALoansApprovedIndexImport } from './routes/app/_a.loans/approved/index'
+import { Route as AppALoansLoanIdVisitReportImport } from './routes/app/_a.loans/$loanId/visit-report'
 import { Route as AppALoansLoanIdSubmitImport } from './routes/app/_a.loans/$loanId/submit'
 import { Route as AppALoansLoanIdStockPledgeImport } from './routes/app/_a.loans/$loanId/stock-pledge'
 import { Route as AppALoansLoanIdReferenceImport } from './routes/app/_a.loans/$loanId/reference'
@@ -33,9 +35,11 @@ import { Route as AppALoansLoanIdGuarantorBusinessImport } from './routes/app/_a
 import { Route as AppALoansLoanIdFamilyExpensesImport } from './routes/app/_a.loans/$loanId/family-expenses'
 import { Route as AppALoansLoanIdDocumentImport } from './routes/app/_a.loans/$loanId/document'
 import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanId/data'
+import { Route as AppALoansLoanIdCommitteeDecisionImport } from './routes/app/_a.loans/$loanId/committee-decision'
 import { Route as AppALoansLoanIdColPledgeImport } from './routes/app/_a.loans/$loanId/col-pledge'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
 import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
+import { Route as AppALoansLoanIdCashflowTestImport } from './routes/app/_a.loans/$loanId/cashflow-test'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
 import { Route as AppALoansLoanIdBImport } from './routes/app/_a.loans/$loanId/_b'
 import { Route as AppALoansStatusLoanIdIndexImport } from './routes/app/_a.loans/status/$loanId/index'
@@ -68,6 +72,11 @@ const AppARoute = AppAImport.update({
 
 const AppALoansLoanIdRoute = AppALoansLoanIdImport.update({
   path: '/loans/$loanId',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppAProfileIndexRoute = AppAProfileIndexImport.update({
+  path: '/profile/',
   getParentRoute: () => AppARoute,
 } as any)
 
@@ -105,6 +114,13 @@ const AppALoansApprovedIndexRoute = AppALoansApprovedIndexImport.update({
   path: '/loans/approved/',
   getParentRoute: () => AppARoute,
 } as any)
+
+const AppALoansLoanIdVisitReportRoute = AppALoansLoanIdVisitReportImport.update(
+  {
+    path: '/visit-report',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any,
+)
 
 const AppALoansLoanIdSubmitRoute = AppALoansLoanIdSubmitImport.update({
   path: '/submit',
@@ -167,6 +183,12 @@ const AppALoansLoanIdDataRoute = AppALoansLoanIdDataImport.update({
   getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
 
+const AppALoansLoanIdCommitteeDecisionRoute =
+  AppALoansLoanIdCommitteeDecisionImport.update({
+    path: '/committee-decision',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any)
+
 const AppALoansLoanIdColPledgeRoute = AppALoansLoanIdColPledgeImport.update({
   path: '/col-pledge',
   getParentRoute: () => AppALoansLoanIdRoute,
@@ -182,6 +204,12 @@ const AppALoansLoanIdCertRoute = AppALoansLoanIdCertImport.update({
   path: '/cert',
   getParentRoute: () => AppALoansLoanIdRoute,
 } as any)
+
+const AppALoansLoanIdCashflowTestRoute =
+  AppALoansLoanIdCashflowTestImport.update({
+    path: '/cashflow-test',
+    getParentRoute: () => AppALoansLoanIdRoute,
+  } as any)
 
 const AppALoansLoanIdBusinessExpensesRoute =
   AppALoansLoanIdBusinessExpensesImport.update({
@@ -253,6 +281,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppADashboardIndexImport
       parentRoute: typeof AppAImport
     }
+    '/app/_a/profile/': {
+      preLoaderRoute: typeof AppAProfileIndexImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/$loanId': {
       preLoaderRoute: typeof AppALoansLoanIdImport
       parentRoute: typeof AppAImport
@@ -265,6 +297,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppALoansLoanIdBusinessExpensesImport
       parentRoute: typeof AppALoansLoanIdImport
     }
+    '/app/_a/loans/$loanId/cashflow-test': {
+      preLoaderRoute: typeof AppALoansLoanIdCashflowTestImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
     '/app/_a/loans/$loanId/cert': {
       preLoaderRoute: typeof AppALoansLoanIdCertImport
       parentRoute: typeof AppALoansLoanIdImport
@@ -275,6 +311,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/col-pledge': {
       preLoaderRoute: typeof AppALoansLoanIdColPledgeImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
+    '/app/_a/loans/$loanId/committee-decision': {
+      preLoaderRoute: typeof AppALoansLoanIdCommitteeDecisionImport
       parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/data': {
@@ -319,6 +359,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/submit': {
       preLoaderRoute: typeof AppALoansLoanIdSubmitImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
+    '/app/_a/loans/$loanId/visit-report': {
+      preLoaderRoute: typeof AppALoansLoanIdVisitReportImport
       parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/approved/': {
@@ -369,11 +413,14 @@ export const routeTree = rootRoute.addChildren([
       AppALoansIncompleteRoute,
       AppALoansNewRoute,
       AppADashboardIndexRoute,
+      AppAProfileIndexRoute,
       AppALoansLoanIdRoute.addChildren([
         AppALoansLoanIdBusinessExpensesRoute,
+        AppALoansLoanIdCashflowTestRoute,
         AppALoansLoanIdCertRoute,
         AppALoansLoanIdClientInformationRoute,
         AppALoansLoanIdColPledgeRoute,
+        AppALoansLoanIdCommitteeDecisionRoute,
         AppALoansLoanIdDataRoute,
         AppALoansLoanIdDocumentRoute,
         AppALoansLoanIdFamilyExpensesRoute,
@@ -385,6 +432,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdReferenceRoute,
         AppALoansLoanIdStockPledgeRoute,
         AppALoansLoanIdSubmitRoute,
+        AppALoansLoanIdVisitReportRoute,
       ]),
       AppALoansApprovedIndexRoute,
       AppALoansPendingIndexRoute,

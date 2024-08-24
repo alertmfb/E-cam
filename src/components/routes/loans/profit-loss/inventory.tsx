@@ -378,9 +378,9 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button className="" onClick={() => console.log(rrows, wm)}>
+          {/* <Button className="" onClick={() => console.log(rrows, wm)}>
             Log Data
-          </Button>
+          </Button> */}
           <Button
             className=""
             onClick={() => addMutation.mutate({ rrows, wm, loanId })}

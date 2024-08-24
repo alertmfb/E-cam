@@ -1,6 +1,6 @@
 import { giS } from '@/components/routes/loans/gurantors-info/giSchema'
 import { Axios } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
 export type GuarantorInfoPayload = z.infer<typeof giS>
@@ -55,7 +55,7 @@ const getGuarantorNameInfo = async ({
   userId,
   loanId,
   role,
-}: FetchParams): Promise<GuarantorInfoPayload[]> => {
+}: FetchParams): Promise<GuarantorInfoPayload[] | undefined> => {
   try {
     const res = await Axios.get(
       `/loan-application/guarantor-info/${loanId}?role=${role}&userId=${userId}&filter=business_name`,
@@ -63,7 +63,7 @@ const getGuarantorNameInfo = async ({
     )
     return res.data
   } catch (e) {
-    throw new Error(`response error: ${e}`)
+    console.error(e)
   }
 }
 
@@ -78,4 +78,71 @@ export const useGetGuarantorNameInfo = (
   })
 
   return grQry
+}
+
+const uploadGuarantorProfile = async ({
+  loanId,
+  type,
+  image,
+}: {
+  loanId: string
+  type: string
+  image: FormData
+}) => {
+  try {
+    const response = await Axios.post(
+      `/loan-application/guarantor-info/${loanId}/image?type=${type}`,
+      image,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useUploadGuarantorProfile = () => {
+  const upMut = useMutation({
+    mutationFn: uploadGuarantorProfile,
+    onSuccess(data) {
+      if (data) {
+        alert('image uploaded')
+      } else {
+        alert('Failed to upload')
+      }
+    },
+  })
+
+  return upMut
+}
+
+type ImageResponse = {
+  id: string
+  url_one: string
+  url_two: string
+}
+
+const getGuarantorProfile = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<ImageResponse | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/guarantor-info/${loanId}/image`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGuarantorProfile = (loanId: string) => {
+  const gpQry = useQuery({
+    queryKey: ['guarantor-profile-data'],
+    queryFn: () => getGuarantorProfile({ loanId }),
+  })
+
+  return gpQry
 }

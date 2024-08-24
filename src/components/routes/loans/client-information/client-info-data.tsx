@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import {
-  ClientInfoPayload,
   fetchClientInfo,
+  useClientImage,
 } from '@/lib/api/client-info/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
 import {
@@ -14,8 +14,10 @@ import {
 import { ChevronDown } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
+import { format } from 'date-fns'
+import { Button } from '@/components/ui/button'
 
-export function ClientInfoData(loanId: { LoanId: string }) {
+export function ClientInfoData({ loanId }: { loanId: string }) {
   const { role } = useUser()
   const { userId } = useAuth()
 
@@ -25,11 +27,13 @@ export function ClientInfoData(loanId: { LoanId: string }) {
     queryKey: ['client-info-data'],
     queryFn: () =>
       fetchClientInfo({
-        loanId: loanId.LoanId,
+        loanId: loanId,
         role: role,
         userId: userId!,
       }),
   })
+
+  const { data: image } = useClientImage(loanId)
 
   if (info.isPending) {
     return <div>Loading...</div>
@@ -56,7 +60,7 @@ export function ClientInfoData(loanId: { LoanId: string }) {
 
         {content && (
           <CardContent className="transition ease-in-out fade-in-30 delay-150">
-            <form className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
               {infoArray.slice(2, infoArray.length - 2).map((data, idx) => (
                 <div
                   key={idx}
@@ -74,7 +78,21 @@ export function ClientInfoData(loanId: { LoanId: string }) {
                   </Label>
                 </div>
               ))}
-            </form>
+              <div className="font-semibold text-sm flex items-center gap-3">
+                <span>Client's Image: </span>
+                {image && (
+                  <Button variant="link">
+                    <a
+                      href={image.url}
+                      rel="nopoener-noreferrer"
+                      target="_blank"
+                    >
+                      View
+                    </a>
+                  </Button>
+                )}
+              </div>
+            </div>
           </CardContent>
         )}
       </Card>
@@ -85,6 +103,10 @@ export function ClientInfoData(loanId: { LoanId: string }) {
 const formatValue = (item: string | Date, idx: number): string => {
   if (item === '' || item === null) {
     return ''
+  }
+
+  if (idx === 28 || idx === 29) {
+    return format(new Date(item), 'dd-MM-yyyy')
   }
 
   if (

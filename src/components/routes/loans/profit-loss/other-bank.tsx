@@ -128,7 +128,7 @@ export const OtherBank = ({ loanId }: { loanId: string }) => {
           </Button>
         </div>
         <Button className="" onClick={() => submit()}>
-          Save
+          Save Data
         </Button>
       </div>
     </div>

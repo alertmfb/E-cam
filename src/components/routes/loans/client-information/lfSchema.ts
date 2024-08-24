@@ -21,9 +21,11 @@ const ciS = z.object({
     required_error: 'residence address is required',
   }),
   residence_landmark: z.string({ required_error: 'this field is required' }),
-  house_ownership_status: z.string({
-    required_error: 'this field is required',
-  }),
+  house_ownership_status: z
+    .string({
+      required_error: 'this field is required',
+    })
+    .min(2, { message: 'select' }),
   house_stay: z.string({ required_error: 'this field is required' }),
   house_desc: z.string({ required_error: 'this field is required' }).max(250),
   marital_status: z.string({ required_error: 'marital status is required' }),
@@ -64,9 +66,9 @@ const ciS = z.object({
     .string({ required_error: 'this field is required' })
     .optional()
     .or(z.literal('')),
-  disbursement_date: z.date().optional(),
+  disbursement_date: z.date(),
   // TODO: make this exactly +x days from disbursement date
-  maturity_date: z.date().optional(),
+  maturity_date: z.date(),
   running_loan_duration: z
     .string({
       required_error: 'loan duration is required',

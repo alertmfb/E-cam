@@ -1,6 +1,7 @@
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -125,7 +126,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
     setZoneColor(getZoneColor(branch_id, n))
   }
 
-  const { data: bvn, fetchStatus } = useQuery({
+  const { data: bvn } = useQuery({
     queryKey: ['bvn'],
     queryFn: () => fetchBvn({ loanId: loanId }),
   })
@@ -138,11 +139,6 @@ export function ClientInfoForm({ loanId }: LoanId) {
       })
     },
   })
-
-  if (!bvn) {
-    alert('Error: bvn not found')
-    navigate({ to: '/app/dashboard' })
-  }
 
   function onSubmit(values: z.infer<typeof ciS>) {
     addMutation.mutate({
@@ -177,12 +173,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                   <FormItem>
                     <FormLabel>Phone number</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="091..."
-                        type="number"
-                        required
-                        {...field}
-                      />
+                      <Input placeholder="" type="number" required {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -314,15 +305,8 @@ export function ClientInfoForm({ loanId }: LoanId) {
                 )}
               />
 
+              {/* IMAGE UPLOAD */}
               <ImageFormItem loanId={loanId} />
-
-              {/* <FormItem>
-                <FormLabel>Customer's Picture</FormLabel>
-                <Input
-                  type="file"
-                  onChange={(e) => console.log(e.target.files[0].name)}
-                />
-              </FormItem> */}
             </SectionInputContainer>
           </FormSection>
 
@@ -347,9 +331,21 @@ export function ClientInfoForm({ loanId }: LoanId) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Business Owner Sex</FormLabel>
-                    <FormControl>
-                      <Input required placeholder="" {...field} />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      required
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="select" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="male">male</SelectItem>
+                        <SelectItem value="female">female</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -668,6 +664,88 @@ export function ClientInfoForm({ loanId }: LoanId) {
 
           <FormSection>
             <SectionInputContainer>
+              <FormField
+                control={form.control}
+                name="disbursement_date"
+                render={({ field }) => (
+                  <FormItem className="self-end">
+                    <FormLabel className="mr-3">Disbursement Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'w-[240px] pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="maturity_date"
+                render={({ field }) => (
+                  <FormItem className="self-end">
+                    <FormLabel className="mr-3">Maturity Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'w-[240px] pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </SectionInputContainer>
+          </FormSection>
+
+          <FormSection>
+            <SectionInputContainer>
               <FormItem className="w-fit">
                 <FormLabel>Is the client on a running loan?</FormLabel>
                 <select
@@ -700,42 +778,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="running_loan_duration"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Running Loan Duration</FormLabel>
-                        <FormControl>
-                          <Input
-                            required
-                            placeholder=""
-                            type="number"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="running_monthly_instalment_amount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Monthly Installment Amount</FormLabel>
-                        <FormControl>
-                          <Input
-                            required
-                            placeholder=""
-                            type="number"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+
                   <FormField
                     control={form.control}
                     name="running_days_overdue"
@@ -790,87 +833,34 @@ export function ClientInfoForm({ loanId }: LoanId) {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="disbursement_date"
-                    render={({ field }) => (
-                      <FormItem className="self-end">
-                        <FormLabel className="mr-3">
-                          Disbursement Date
-                        </FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'w-[240px] pl-3 text-left font-normal',
-                                  !field.value && 'text-muted-foreground'
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, 'PPP')
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="maturity_date"
-                    render={({ field }) => (
-                      <FormItem className="self-end">
-                        <FormLabel className="mr-3">Maturity Date</FormLabel>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'w-[240px] pl-3 text-left font-normal',
-                                  !field.value && 'text-muted-foreground'
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, 'PPP')
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 </>
               )}
+              <FormField
+                control={form.control}
+                name="running_loan_duration"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Duration</FormLabel>
+                    <FormControl>
+                      <Input required placeholder="" type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="running_monthly_instalment_amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Monthly Installment Amount</FormLabel>
+                    <FormControl>
+                      <Input required placeholder="" type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </SectionInputContainer>
           </FormSection>
 
@@ -1042,30 +1032,6 @@ export function ClientInfoForm({ loanId }: LoanId) {
             </SectionInputContainer>
           </FormSection>
 
-          {/* <FormSection>
-            <SectionInputContainer>
-              <FormItem>
-                <FormLabel>Loan Officer Name</FormLabel>
-                <FormControl>
-                  <Input
-                    required
-                    placeholder=""
-                    value="Loan Officer"
-                    disabled
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-              <FormItem>
-                <FormLabel>Loan Officer Branch</FormLabel>
-                <FormControl>
-                  <Input placeholder="" value="EBUTE-METTA" disabled />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </SectionInputContainer>
-          </FormSection> */}
-
           <FormSection>
             <SectionInputContainer>
               <FormItem>
@@ -1125,10 +1091,32 @@ export function FormSection({ children }: { children?: React.ReactNode }) {
 }
 
 const ImageFormItem = ({ loanId }: { loanId: string }) => {
+  const LIMIT = 2 * 2 ** 20 // 2MB
+  const allowedFormats: Record<string, boolean> = {
+    'image/jpeg': true,
+    'image/png': true,
+    'image/apng': true,
+    'image/webp': true,
+    'image/tiff': true,
+  }
+
   const upload = useUploadClientImage()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      // check size of file
+      const file = e.target.files[0]
+
+      if (file.size > LIMIT) {
+        alert('Image size greater than 2MB')
+        return
+      }
+
+      if (!allowedFormats[file.type]) {
+        alert('Unsupported image format')
+        return
+      }
+
       const form = new FormData()
       form.append('picture', e.target.files[0])
 
@@ -1140,6 +1128,11 @@ const ImageFormItem = ({ loanId }: { loanId: string }) => {
     <FormItem>
       <FormLabel>Customer's Picture</FormLabel>
       <Input type="file" onChange={(e) => handleFileChange(e)} />
+      <FormDescription className="pl-4">
+        Supported formats: <i className="font-semibold">png, jpg, jpeg</i>
+        <br />
+        Max Size: <i className="font-semibold">2MB</i>
+      </FormDescription>
     </FormItem>
   )
 }

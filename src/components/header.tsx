@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo3.png'
-import { Avatar, AvatarFallback } from './ui/avatar'
-import { User, LogOut } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { User, LogOut, UploadCloud } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useSignOut, useUser } from '@/lib/auth/hooks'
+import { useAuth, useSignOut, useUser } from '@/lib/auth/hooks'
 import { Role } from '@/lib/auth'
+import { useGetUserImage } from '@/lib/api/user-profile/functions'
 
 const roles: Record<Role, string> = {
   loan_officer: 'Loan Officer',
@@ -58,20 +59,31 @@ export function AppHeader() {
   )
 }
 
-function UserDropdown() {
+const UserDropdown = () => {
   const signOut = useSignOut()
+  const { userId } = useAuth()
+  const { data } = useGetUserImage(userId!)
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="cursor-pointer">
+        <Avatar className="cursor-pointer border">
+          {data && <AvatarImage src={data.url} />}
           <AvatarFallback>
             <User />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Settings</DropdownMenuLabel>
+        {/* <DropdownMenuLabel>Change Profile</DropdownMenuLabel> */}
+        <DropdownMenuItem asChild>
+          <Link
+            to="/app/profile"
+            className="cursor-pointer flex items-center gap-3"
+          >
+            <User /> Change Profile
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer flex items-center gap-3"

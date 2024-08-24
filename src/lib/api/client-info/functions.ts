@@ -1,6 +1,6 @@
 import { ciS } from '@/components/routes/loans/client-information/lfSchema'
 import { Axios } from '@/lib/axios'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 
 export type ClientInfoPayload = z.infer<typeof ciS> & {
@@ -87,12 +87,44 @@ const uploadClientImage = async ({
 export const useUploadClientImage = () => {
   const upMut = useMutation({
     mutationFn: uploadClientImage,
-    onSuccess(data, variables, context) {
+    onSuccess(data) {
       if (data) {
         alert('image uploaded')
+      } else {
+        alert('Failed to upload')
       }
     },
   })
 
   return upMut
+}
+
+type ImageResponse = {
+  id: string
+  url: string
+}
+
+const getClientImage = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<ImageResponse | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/loan-application/client-info/${loanId}/image`,
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useClientImage = (loanId: string) => {
+  const ciQry = useQuery({
+    queryKey: ['client-image-data'],
+    queryFn: () => getClientImage({ loanId }),
+  })
+
+  return ciQry
 }

@@ -13,6 +13,7 @@ import { ProfitLossData } from '@/components/routes/loans/profit-loss/pl-data'
 import { ReferenceData } from '@/components/routes/loans/references/reference-data'
 import { StockPledgeData } from '@/components/routes/loans/stock-pledge/sp-data'
 import { VisitReportData } from '@/components/routes/loans/visit-report/visit-report-data'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -26,18 +27,37 @@ function LoanData() {
     <div className="container w-full flex flex-col px-4 gap-3 py-10">
       <h1 className="text-xl font-semibold">Loan Data</h1>
       <main className="flex flex-col pt-3 gap-6">
-        <ClientInfoData loanId={loanId} />
-        <GuarantorInfoData loanId={loanId} />
-        <ReferenceData loanId={loanId} />
-        <ProfitLossData loanId={loanId} />
-        <StockPledgeData loanId={loanId} />
-        <ColPledgeData loanId={loanId} />
-        <ProfitLossData loanId={loanId} />
-        <CashflowData loanId={loanId} />
-        <PictoralEvidenceData loanId={loanId} />
-        <GuarantorVerificationData loanId={loanId} />
-        <VisitReportData loanId={loanId} />
-        <CommitteeDecisionData loanId={loanId} />
+        <Tabs
+          defaultValue="account"
+          className="w-full flex flex-col gap-3 outline-none"
+        >
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="client">Client Data</TabsTrigger>
+            <TabsTrigger value="sheets">Sheets</TabsTrigger>
+            <TabsTrigger value="verification">Verification</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="client" className="space-y-6">
+            <ClientInfoData loanId={loanId} />
+            <GuarantorInfoData loanId={loanId} />
+            <ReferenceData loanId={loanId} />
+          </TabsContent>
+
+          <TabsContent value="sheets" className="space-y-6">
+            <ProfitLossData loanId={loanId} />
+            <StockPledgeData loanId={loanId} />
+            <ColPledgeData loanId={loanId} />
+            <CashflowData loanId={loanId} />
+          </TabsContent>
+
+          <TabsContent value="verification" className="space-y-6">
+            <PictoralEvidenceData loanId={loanId} />
+            <GuarantorVerificationData loanId={loanId} />
+            <VisitReportData loanId={loanId} />
+            <CommitteeDecisionData loanId={loanId} />
+          </TabsContent>
+        </Tabs>
+
         <Actions loanId={loanId} />
       </main>
     </div>

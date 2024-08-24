@@ -18,31 +18,7 @@ import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
 
 export function ClientInfoData({ loanId }: { loanId: string }) {
-  const { role } = useUser()
-  const { userId } = useAuth()
-
   const [content, setContent] = useState(false)
-
-  const info = useQuery({
-    queryKey: ['client-info-data'],
-    queryFn: () =>
-      fetchClientInfo({
-        loanId: loanId,
-        role: role,
-        userId: userId!,
-      }),
-  })
-
-  const { data: image } = useClientImage(loanId)
-
-  if (info.isPending) {
-    return <div>Loading...</div>
-  }
-
-  if (!info.data) {
-    return <div></div>
-  }
-  const infoArray = Object.entries(info.data)
 
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
@@ -60,39 +36,7 @@ export function ClientInfoData({ loanId }: { loanId: string }) {
 
         {content && (
           <CardContent className="transition ease-in-out fade-in-30 delay-150">
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-              {infoArray.slice(2, infoArray.length - 2).map((data, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between gap-3 flex-1 flex-wrap"
-                >
-                  <Label
-                    className={`capitalize ${idx === 24 && 'text-blue-500 font-bold uppercase'}`}
-                  >
-                    {data[0].split('_').join(' ')}
-                  </Label>
-                  <Label
-                    className={`font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50 ${idx === 24 && 'text-blue-500 font-bold'}`}
-                  >
-                    {formatValue(data[1], idx)}
-                  </Label>
-                </div>
-              ))}
-              <div className="font-semibold text-sm flex items-center gap-3">
-                <span>Client's Image: </span>
-                {image && (
-                  <Button variant="link">
-                    <a
-                      href={image.url}
-                      rel="nopoener-noreferrer"
-                      target="_blank"
-                    >
-                      View
-                    </a>
-                  </Button>
-                )}
-              </div>
-            </div>
+            <DataFields loanId={loanId} />
           </CardContent>
         )}
       </Card>
@@ -128,4 +72,57 @@ const formatValue = (item: string | Date, idx: number): string => {
   }
 
   return item.toString()
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
+  const { role } = useUser()
+  const { userId } = useAuth()
+  const { data: image } = useClientImage(loanId)
+  const info = useQuery({
+    queryKey: ['client-info-data'],
+    queryFn: () =>
+      fetchClientInfo({
+        loanId: loanId,
+        role: role,
+        userId: userId!,
+      }),
+  })
+
+  if (!info.data) {
+    return <div></div>
+  }
+
+  const infoArray = Object.entries(info.data)
+
+  return (
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+      {infoArray.slice(2, infoArray.length - 2).map((data, idx) => (
+        <div
+          key={idx}
+          className="flex items-center justify-between gap-3 flex-1 flex-wrap"
+        >
+          <Label
+            className={`capitalize ${idx === 24 && 'text-blue-500 font-bold uppercase'}`}
+          >
+            {data[0].split('_').join(' ')}
+          </Label>
+          <Label
+            className={`font-normal text-wrap border w-fit max-w-56 text-right p-1 rounded-md capitalize text-base bg-gray-50 ${idx === 24 && 'text-blue-500 font-bold'}`}
+          >
+            {formatValue(data[1], idx)}
+          </Label>
+        </div>
+      ))}
+      <div className="font-semibold text-sm flex items-center gap-3">
+        <span>Client's Image: </span>
+        {image && (
+          <Button variant="link">
+            <a href={image.url} rel="nopoener-noreferrer" target="_blank">
+              View
+            </a>
+          </Button>
+        )}
+      </div>
+    </div>
+  )
 }

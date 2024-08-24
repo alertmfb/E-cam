@@ -24,12 +24,6 @@ import { useState } from 'react'
 export const ColPledgeData = ({ loanId }: { loanId: string }) => {
   const [content, setContent] = useState(false)
 
-  const { data } = usePrevColData(loanId)
-
-  if (!data) {
-    return <div></div>
-  }
-
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
       <Card className="w-full shadow-md">
@@ -46,14 +40,24 @@ export const ColPledgeData = ({ loanId }: { loanId: string }) => {
 
         {content && (
           <CardContent className="transition ease-in-out fade-in-30 delay-150">
-            <form className="w-full flex flex-col gap-3">
-              <CollateralPledgeTable colPledge={data} />
-            </form>
+            <DataFields loanId={loanId} />
           </CardContent>
         )}
       </Card>
     </div>
   )
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
+  const { data } = usePrevColData(loanId)
+
+  if (!data) {
+    return <div></div>
+  }
+
+  ;<div className="w-full flex flex-col gap-3">
+    <CollateralPledgeTable colPledge={data} />
+  </div>
 }
 
 const CollateralPledgeTable = ({

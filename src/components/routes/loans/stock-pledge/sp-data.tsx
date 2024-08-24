@@ -21,35 +21,41 @@ import { useState } from 'react'
 export const StockPledgeData = ({ loanId }: { loanId: string }) => {
   const [content, setContent] = useState(false)
 
+  return (
+    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+      <Card className="w-full shadow-md">
+        <CardHeader
+          className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
+          onClick={() => setContent((prev) => !prev)}
+        >
+          <CardTitle className="text-xl flex items-center gap-3 justify-between">
+            <div>Stock Pledge</div>
+            <ChevronDown />
+          </CardTitle>
+          <CardDescription>Inventory</CardDescription>
+        </CardHeader>
+
+        {content && (
+          <CardContent className="transition ease-in-out fade-in-30 delay-150">
+            <DataFields loanId={loanId} />
+          </CardContent>
+        )}
+      </Card>
+    </div>
+  )
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
   const data = usePrevStockInventory(loanId)
-  
-  if(!data) {
+
+  if (!data) {
     return <div></div>
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
-    <Card className="w-full shadow-md">
-      <CardHeader
-        className="cursor-pointer transition ease-in-out hover:scale-[1.01]"
-        onClick={() => setContent((prev) => !prev)}
-      >
-        <CardTitle className="text-xl flex items-center gap-3 justify-between">
-          <div>Stock Pledge</div>
-          <ChevronDown />
-        </CardTitle>
-        <CardDescription>Inventory</CardDescription>
-      </CardHeader>
-
-      {content && (
-        <CardContent className="transition ease-in-out fade-in-30 delay-150">
-          <form className="w-full flex flex-col gap-3">
-            <InventoryTable inventory={data} />
-          </form>
-        </CardContent>
-      )}
-    </Card>
-  </div>
+    <div className="w-full flex flex-col gap-3">
+      <InventoryTable inventory={data} />
+    </div>
   )
 }
 

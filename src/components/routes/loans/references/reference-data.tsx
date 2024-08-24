@@ -13,6 +13,26 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
 export function ReferenceData({ loanId }: { loanId: string }) {
+  return (
+    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+      <Card className="w-full shadow-md">
+        <CardHeader className="cursor-pointer transition ease-in-out hover:scale-[1.01]">
+          <CardTitle className="text-xl flex items-center gap-3 justify-between">
+            <div>References</div>
+            <ChevronDown />
+          </CardTitle>
+          <CardDescription></CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <DataFields loanId={loanId} />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
   const { branch_id } = useUser()
 
   const [fr, setFr] = useState(false)
@@ -33,7 +53,7 @@ export function ReferenceData({ loanId }: { loanId: string }) {
   const neighbourhoodReferences = data.neighbourhood_references
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+    <div>
       {familyReferences.map((re, idx) => (
         <Card className="w-full shadow-md" key={idx}>
           <CardHeader

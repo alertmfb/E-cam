@@ -1,3 +1,4 @@
+import { CashflowData } from '@/components/routes/loans/cashflow-test/cashflow-data'
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
 import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
 import { CommitteeDecisionData } from '@/components/routes/loans/committee-decision/committee-decision-data'
@@ -32,6 +33,7 @@ function LoanData() {
         <StockPledgeData loanId={loanId} />
         <ColPledgeData loanId={loanId} />
         <ProfitLossData loanId={loanId} />
+        <CashflowData loanId={loanId} />
         <PictoralEvidenceData loanId={loanId} />
         <GuarantorVerificationData loanId={loanId} />
         <VisitReportData loanId={loanId} />

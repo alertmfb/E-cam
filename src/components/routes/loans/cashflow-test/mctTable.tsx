@@ -19,12 +19,9 @@ import {
 } from '@/lib/api/cashflow-test/schema'
 import { cn } from '@/lib/utils'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+  useCashflow,
+  useUploadCashflow,
+} from '@/lib/api/cashflow-test/functions'
 
 export const CashflowTable = ({ loanId }: { loanId: string }) => {
   const [margin, setMargin] = useState<number>(0)
@@ -245,15 +242,40 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
     }
   }
 
+  const { data: cashflow } = useCashflow(loanId)
+
+  const uploadCashflow = useUploadCashflow()
+  const loadCashflow = () => {
+    if (cashflow) {
+      setMargin(cashflow.margin)
+      setMonths(cashflow.months)
+    }
+  }
+
+  const upload = () => {
+    uploadCashflow.mutate({
+      loanId: loanId,
+      cashflow: {
+        margin,
+        months,
+      },
+    })
+  }
+
   return (
     <div className="w-full space-y-4 pb-4">
+      {cashflow && (
+        <Button onClick={loadCashflow} variant={'secondary'}>
+          Load Previously Saved
+        </Button>
+      )}
       <div className="flex items-center gap-3">
         <span className="font-semibold">% Margin</span>
-
         <Input
           type="number"
           placeholder="00.00"
           className="w-40"
+          value={margin}
           onChange={(e) =>
             setMargin(e.target.value === '' ? 0 : parseFloat(e.target.value))
           }
@@ -290,7 +312,7 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
                   <Input
                     type="number"
                     className={cn('w-28 h-8', formatText(rowIdx))}
-                    readOnly={isOnlyValue(rowIdx, colIdx)}
+                    readOnly={isOnlyValue(rowIdx)}
                     onChange={(e) =>
                       updateCell(
                         colIdx,
@@ -331,17 +353,17 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
           ))}
         </TableBody>
       </Table>
-      <Button variant="outline" onClick={() => console.log(months)}>
-        Log
-      </Button>
-      <Button variant="outline">
-        Save
-      </Button>
+      <div className="space-x-3">
+        {/* <Button variant="outline" onClick={() => console.log(months)}>
+          Log
+        </Button> */}
+        <Button onClick={upload}>Save</Button>
+      </div>
     </div>
   )
 }
 
-const formatCell = (rowIdx: number): string => {
+export const formatCell = (rowIdx: number): string => {
   switch (rowIdx) {
     case 0:
       return 'bg-pink-100 hover:bg-pink-100'
@@ -370,21 +392,20 @@ const formatCell = (rowIdx: number): string => {
   }
 }
 
-const formatText = (rowIdx: number): string => {
+export const formatText = (rowIdx: number): string => {
   switch (rowIdx) {
     case 0:
     case 4:
     case 8:
+    case 22:
       return 'font-bold'
 
-    case 22:
-      return 'font-bold text-red-600'
     default:
       return ''
   }
 }
 
-const isOnlyValue = (rowIdx: number, colIdx: number): boolean => {
+export const isOnlyValue = (rowIdx: number): boolean => {
   switch (rowIdx) {
     case 1:
     case 3:

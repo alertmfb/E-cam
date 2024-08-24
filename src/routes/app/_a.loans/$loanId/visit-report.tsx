@@ -1,7 +1,4 @@
-import {
-  ApplicationNav,
-  ApplicationNavC,
-} from '@/components/routes/loans/application-nav'
+import { ApplicationNavD } from '@/components/routes/loans/application-nav'
 import { VisitReportForm } from '@/components/routes/loans/visit-report/visit-report-form'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
@@ -30,7 +27,7 @@ function VisitReport() {
           />
           <h1 className="text-2xl font-semibold">Visit Report</h1>
         </div>
-        <ApplicationNavC loanId={loanId} key="reference" />
+        <ApplicationNavD loanId={loanId} key="reference" />
       </div>
       <main className="flex flex-col h-20 pt-3 gap-5">
         <VisitReportForm loanId={loanId} role={role} />

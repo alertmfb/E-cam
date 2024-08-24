@@ -83,16 +83,6 @@ for (let i = 0; i < TENURE + TOTAL_AND_AVERAGE; i++) {
   cashFlowMonths.push(newMonth)
 }
 
-const totalndAverage = (
-  ...values: number[]
-): { total: number; average: number } => {
-  const total = values.reduce((a, b) => a + b)
-  return {
-    total: total,
-    average: total / values.length,
-  }
-}
-
 export const totalAndAverage = (
   months: CashflowMonthData[],
   key: keyof CashflowMonthData
@@ -102,8 +92,9 @@ export const totalAndAverage = (
     values.push(months[i][key])
   }
   const total = values.reduce((a, b) => a + b)
+
   return {
-    total: total,
-    average: total / values.length,
+    total: parseFloat(total.toFixed(2)),
+    average: parseFloat((total / months.length).toFixed(2)),
   }
 }

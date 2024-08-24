@@ -36,10 +36,6 @@ export function GuarantorInfoData({ loanId }: { loanId: string }) {
 
   const { data: image } = useGuarantorProfile(loanId)
 
-  if (isPending) {
-    return <div>...Loading</div>
-  }
-
   if (!info) {
     return <div></div>
   }

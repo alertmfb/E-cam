@@ -55,9 +55,11 @@ const DataFields = ({ loanId }: { loanId: string }) => {
     return <div></div>
   }
 
-  ;<div className="w-full flex flex-col gap-3">
-    <CollateralPledgeTable colPledge={data} />
-  </div>
+  return (
+    <div className="w-full flex flex-col gap-3">
+      <CollateralPledgeTable colPledge={data} />
+    </div>
+  )
 }
 
 const CollateralPledgeTable = ({

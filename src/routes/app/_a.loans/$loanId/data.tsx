@@ -1,7 +1,9 @@
+import { BusinessData } from '@/components/routes/loans/business-expenses/business-data'
 import { CashflowData } from '@/components/routes/loans/cashflow-test/cashflow-data'
 import { ClientInfoData } from '@/components/routes/loans/client-information/client-info-data'
 import { ColPledgeData } from '@/components/routes/loans/col-pledge/cp-data'
 import { CommitteeDecisionData } from '@/components/routes/loans/committee-decision/committee-decision-data'
+import { FamilyData } from '@/components/routes/loans/family-expenses/family-data'
 import { GuarantorVerificationData } from '@/components/routes/loans/guarantor-verification/gv-data'
 import { GuarantorInfoData } from '@/components/routes/loans/gurantors-info/guarantor-info-data'
 import {
@@ -28,7 +30,7 @@ function LoanData() {
       <h1 className="text-xl font-semibold">Loan Data</h1>
       <main className="flex flex-col pt-3 gap-6">
         <Tabs
-          defaultValue="account"
+          defaultValue="client"
           className="w-full flex flex-col gap-3 outline-none"
         >
           <TabsList className="grid w-full grid-cols-3">
@@ -39,6 +41,8 @@ function LoanData() {
 
           <TabsContent value="client" className="space-y-6">
             <ClientInfoData loanId={loanId} />
+            <FamilyData loanId={loanId} />
+            <BusinessData loanId={loanId} />
             <GuarantorInfoData loanId={loanId} />
             <ReferenceData loanId={loanId} />
           </TabsContent>

@@ -50,7 +50,7 @@ export const DESCRIPTIONS = [
   'Accrued Flow',
 ]
 
-export const TENURE = 2
+export const TENURE = 12
 export const TOTAL_AND_AVERAGE = 2
 export const cashFlowMonths: CashflowMonthData[] = []
 

@@ -19,7 +19,6 @@ export function ReferenceData({ loanId }: { loanId: string }) {
         <CardHeader className="cursor-pointer transition ease-in-out hover:scale-[1.01]">
           <CardTitle className="text-xl flex items-center gap-3 justify-between">
             <div>References</div>
-            <ChevronDown />
           </CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>

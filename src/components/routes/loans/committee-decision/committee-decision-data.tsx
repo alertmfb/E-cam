@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
-import { CommitteeDecisionTable } from './cd-table'
 import { useCommitteeDecision } from '@/lib/api/committee-decision/functions'
 
 export const CommitteeDecisionData = ({ loanId }: { loanId: string }) => {

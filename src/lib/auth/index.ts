@@ -39,6 +39,7 @@ export type Role =
   | 'branch_manager'
   | 'relationship_manager'
   | 'regional_manager'
+  | 'credit'
   | 'executive'
 
 export type User = {

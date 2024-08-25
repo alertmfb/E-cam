@@ -38,6 +38,7 @@ import { Route as AppALoansLoanIdDataImport } from './routes/app/_a.loans/$loanI
 import { Route as AppALoansLoanIdCommitteeDecisionImport } from './routes/app/_a.loans/$loanId/committee-decision'
 import { Route as AppALoansLoanIdColPledgeImport } from './routes/app/_a.loans/$loanId/col-pledge'
 import { Route as AppALoansLoanIdClientInformationImport } from './routes/app/_a.loans/$loanId/client-information'
+import { Route as AppALoansLoanIdChecklistImport } from './routes/app/_a.loans/$loanId/checklist'
 import { Route as AppALoansLoanIdCertImport } from './routes/app/_a.loans/$loanId/cert'
 import { Route as AppALoansLoanIdCashflowTestImport } from './routes/app/_a.loans/$loanId/cashflow-test'
 import { Route as AppALoansLoanIdBusinessExpensesImport } from './routes/app/_a.loans/$loanId/business-expenses'
@@ -200,6 +201,11 @@ const AppALoansLoanIdClientInformationRoute =
     getParentRoute: () => AppALoansLoanIdRoute,
   } as any)
 
+const AppALoansLoanIdChecklistRoute = AppALoansLoanIdChecklistImport.update({
+  path: '/checklist',
+  getParentRoute: () => AppALoansLoanIdRoute,
+} as any)
+
 const AppALoansLoanIdCertRoute = AppALoansLoanIdCertImport.update({
   path: '/cert',
   getParentRoute: () => AppALoansLoanIdRoute,
@@ -303,6 +309,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/_a/loans/$loanId/cert': {
       preLoaderRoute: typeof AppALoansLoanIdCertImport
+      parentRoute: typeof AppALoansLoanIdImport
+    }
+    '/app/_a/loans/$loanId/checklist': {
+      preLoaderRoute: typeof AppALoansLoanIdChecklistImport
       parentRoute: typeof AppALoansLoanIdImport
     }
     '/app/_a/loans/$loanId/client-information': {
@@ -418,6 +428,7 @@ export const routeTree = rootRoute.addChildren([
         AppALoansLoanIdBusinessExpensesRoute,
         AppALoansLoanIdCashflowTestRoute,
         AppALoansLoanIdCertRoute,
+        AppALoansLoanIdChecklistRoute,
         AppALoansLoanIdClientInformationRoute,
         AppALoansLoanIdColPledgeRoute,
         AppALoansLoanIdCommitteeDecisionRoute,

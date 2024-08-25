@@ -18,6 +18,10 @@ import { VisitReportData } from '@/components/routes/loans/visit-report/visit-re
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
+import { ListChecks, Notebook } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { LoanCheckListData } from '@/components/routes/loans/committee-decision/checklist-data'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
   component: LoanData,
@@ -59,6 +63,7 @@ function LoanData() {
             <GuarantorVerificationData loanId={loanId} />
             <VisitReportData loanId={loanId} />
             <CommitteeDecisionData loanId={loanId} />
+            <LoanCheckListData loanId={loanId} />
           </TabsContent>
         </Tabs>
 
@@ -70,15 +75,41 @@ function LoanData() {
 
 function Actions({ loanId }: { loanId: string }) {
   const { role } = useUser()
+  const navigate = useNavigate()
 
-  if (role === 'loan_officer') {
-    return <div></div>
+  switch (role) {
+    case 'loan_officer':
+      return <div></div>
+
+    case 'credit':
+      return (
+        <Button
+          className="flex items-center gap-3"
+          onClick={() =>
+            navigate({
+              to: '/app/loans/$loanId/checklist',
+              params: { loanId: loanId },
+            })
+          }
+        >
+          <ListChecks /> Complete Loan check list
+        </Button>
+      )
+
+    default:
+      return (
+        <>
+          <LoanActionForm loanId={loanId} />
+          <LoanRejectionForm loanId={loanId} />
+        </>
+      )
   }
 
-  return (
-    <>
-      <LoanActionForm loanId={loanId} />
-      <LoanRejectionForm loanId={loanId} />
-    </>
-  )
+  // if (role === 'loan_officer' || role === 'credit') {
+  //   return <div></div>
+  // }
+
+  // return (
+
+  // )
 }

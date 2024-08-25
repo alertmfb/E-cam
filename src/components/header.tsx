@@ -19,6 +19,7 @@ const roles: Record<Role, string> = {
   relationship_manager: 'Relationship Manager',
   branch_manager: 'Branch Manager',
   regional_manager: 'Regional Manager',
+  credit: 'Credit',
   executive: 'Executive',
 }
 
@@ -41,7 +42,7 @@ export function AppHeader() {
             </div>
             <div className="flex items-center gap-2">
               <p className="text-sm">{roles[role]}</p>
-              {role === 'regional_manager' ? (
+              {role === 'regional_manager' || role === 'credit' ? (
                 <p className="text-sm font-semibold">
                   {institution_name?.toUpperCase()}
                 </p>

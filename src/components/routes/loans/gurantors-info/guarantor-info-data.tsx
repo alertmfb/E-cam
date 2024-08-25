@@ -42,9 +42,47 @@ export function GuarantorInfoData({ loanId }: { loanId: string }) {
 
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
-      {/* {info?.slice(0, 3).map((item, idx) => (
-      ))} */}
+      <Card className="w-full shadow-md">
+        <CardHeader className="cursor-pointer transition ease-in-out hover:scale-[1.01]">
+          <CardTitle className="text-xl flex items-center gap-3 justify-between">
+            <div>Guarantors</div>
+          </CardTitle>
+          <CardDescription>The client's guarantors</CardDescription>
+        </CardHeader>
 
+        <CardContent>
+          <DataFields loanId={loanId} />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
+  const { role } = useUser()
+  const { userId } = useAuth()
+
+  const [content, setContent] = useState(false)
+  const [contentT, setContentT] = useState(false)
+
+  const { data: info, isPending } = useQuery({
+    queryKey: ['guarantor-info-data'],
+    queryFn: () =>
+      fetchGuarantorInfo({
+        loanId: loanId,
+        role: role,
+        userId: userId!,
+      }),
+  })
+
+  const { data: image } = useGuarantorProfile(loanId)
+
+  if (!info) {
+    return <div></div>
+  }
+
+  return (
+    <div>
       {info[0] && (
         <Card className="w-full shadow-md">
           <CardHeader

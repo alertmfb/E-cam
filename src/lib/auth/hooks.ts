@@ -150,16 +150,6 @@ export async function signOut() {
         withCredentials: true,
       }
     )
-
-    // if (response.data) {
-    //   cookies.remove(TOKEN_NAME, { path: '/' })
-    //   cookies.remove(SESSION_NAME, { path: '/' })
-    //   cookies.remove(SESSION_ROLE, { path: '/' })
-    //   cookies.remove(SESSION_BRANCH_ID, { path: '/' })
-    //   cookies.remove(SESSION_BRANCH_NAME, { path: '/' })
-    //   cookies.remove(SESSION_INSTITUTION_ID, { path: '/' })
-    //   cookies.remove(SESSION_INSTITUTION_NAME, { path: '/' })
-    // }
   } catch (e) {
     console.error(e)
   }

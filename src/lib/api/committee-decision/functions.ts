@@ -1,5 +1,5 @@
 import { Axios } from '@/lib/axios'
-import { CommitteeDecisionData } from './schema'
+import { CommitteeDecisionData, LoanCheckList } from './schema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const uploadCommitteeDecision = async ({
@@ -61,4 +61,64 @@ export const useCommitteeDecision = (loanId: string) => {
   })
 
   return cdQry
+}
+
+const uploadLoanChecklist = async ({
+  loanId,
+  loanChecklist,
+}: {
+  loanId: string
+  loanChecklist: LoanCheckList
+}) => {
+  try {
+    const response = await Axios.post(
+      `/loan-application/checklist/${loanId}`,
+      { loanChecklist: loanChecklist },
+      { withCredentials: true }
+    )
+
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useUploadLoanCheckList = () => {
+  const qc = useQueryClient()
+  const cdMut = useMutation({
+    mutationFn: uploadLoanChecklist,
+    onSuccess(data, variables, context) {
+      if (data) {
+        qc.invalidateQueries({ queryKey: ['loan-checklist'] })
+        alert('Uploaded')
+      } else {
+        alert('Failed to save')
+      }
+    },
+  })
+  return cdMut
+}
+
+const getCheckList = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<LoanCheckList | undefined> => {
+  try {
+    const response = await Axios.get(`/loan-application/checklist/${loanId}`, {
+      withCredentials: true,
+    })
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useLoanCheckList = (loanId: string) => {
+  const clQry = useQuery({
+    queryKey: ['loan-checklist'],
+    queryFn: () => getCheckList({ loanId }),
+  })
+
+  return clQry
 }

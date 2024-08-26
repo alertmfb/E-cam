@@ -23,7 +23,7 @@ function ProfitLoss() {
   }
 
   return (
-    <div className="w-full mx-auto px-6 xl:px-20 flex flex-col gap-4">
+    <div className="container w-full flex flex-col gap-3 p-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <div className="flex items-center gap-3">
           <ArrowLeft
@@ -37,7 +37,7 @@ function ProfitLoss() {
         <ApplicationNavC loanId={loanId} key="reference" />
       </div>
       <Tabs defaultValue="inventory" className="w-full">
-        <TabsList>
+        <TabsList className="flex-wrap h-20 min-[415px]:h-auto">
           <TabsTrigger value="inventory">Inventory</TabsTrigger>
           <TabsTrigger value="bank">Bank/Other IMF Balances</TabsTrigger>
           <TabsTrigger value="bs">Balance Sheet</TabsTrigger>

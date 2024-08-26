@@ -13,7 +13,7 @@ function CashFlowTest() {
   const navigate = useNavigate()
 
   return (
-    <div className="w-full mx-auto px-6 xl:px-20 flex flex-col gap-4">
+    <div className="w-full mx-auto px-3 xl:px-20 flex flex-col gap-4">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <div className="flex items-center gap-3">
           <ArrowLeft

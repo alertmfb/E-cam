@@ -109,7 +109,7 @@ export const CollateralPledge = ({ loanId }: { loanId: string }) => {
       <div className="flex items-center justify-between gap-3 text-xl font-bold flex-1 flex-wrap">
         Movable
         <div className="p-2 bg-gray-100 rounded-md">
-          <span className="text-purple-500">%DEPRECIATION</span>{' '}
+          <div className="text-purple-500 text-wrap">%DEPRECIATION</div>{' '}
           {MOVABLE_DEPRE * 100}
         </div>
         <div className="flex items-center gap-2">

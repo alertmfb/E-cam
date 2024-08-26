@@ -259,7 +259,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                     <FormControl>
                       <Textarea
                         placeholder="brief business description"
-                        className="w-96"
+                        className="w-64 sm:w-96"
                         required
                         {...field}
                       />
@@ -278,7 +278,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                       <Textarea
                         placeholder="business address"
                         required
-                        className="w-96"
+                        className="w-64 sm:w-96"
                         {...field}
                       />
                     </FormControl>
@@ -357,7 +357,11 @@ export function ClientInfoForm({ loanId }: LoanId) {
                   <FormItem>
                     <FormLabel>Business Owner residence address</FormLabel>
                     <FormControl>
-                      <Textarea className="w-96" placeholder=".." {...field} />
+                      <Textarea
+                        className="w-64 sm:w-96"
+                        placeholder=".."
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -428,7 +432,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                     <FormLabel>House Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        className="w-96"
+                        className="w-64 sm:w-96"
                         placeholder="brief house description"
                         {...field}
                       />
@@ -514,7 +518,11 @@ export function ClientInfoForm({ loanId }: LoanId) {
                   <FormItem>
                     <FormLabel>Place of worship address</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="" className="w-96" {...field} />
+                      <Textarea
+                        placeholder=""
+                        className="w-64 sm:w-96"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -569,7 +577,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                     <FormControl>
                       <Textarea
                         placeholder="loan purpose"
-                        className="w-96"
+                        className="w-64 sm:w-96"
                         {...field}
                       />
                     </FormControl>
@@ -652,7 +660,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                       <Textarea
                         placeholder="if yes, why?"
                         {...field}
-                        className="w-96"
+                        className="w-64 sm:w-96"
                       />
                     </FormControl>
                     <FormMessage />
@@ -1038,7 +1046,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
                 <FormLabel>Location of client's business</FormLabel>
 
                 <select
-                  className="flex h-10 items-center justify-between rounded-md border border-input px-2"
+                  className="flex h-10 items-center justify-between rounded-md border border-input px-2 w-52"
                   onChange={(e) => handleZonificationCheck(e.target.value)}
                 >
                   <option value="">select</option>

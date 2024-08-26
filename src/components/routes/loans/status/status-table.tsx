@@ -12,6 +12,7 @@ import { getLoanApplicationStatus } from '@/lib/api/loan-application/functions'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { useAuth, useUser } from '@/lib/auth/hooks'
+import { Loader2 } from 'lucide-react'
 
 export function ApplicationStatusTable() {
   const { role } = useUser()
@@ -47,7 +48,15 @@ export function LoanOfficerStatusTable() {
   })
 
   if (applications.fetchStatus === 'fetching') {
-    return <div>Loading...</div>
+    return (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
+
+  if (!applications) {
+    return <div>...</div>
   }
 
   return (

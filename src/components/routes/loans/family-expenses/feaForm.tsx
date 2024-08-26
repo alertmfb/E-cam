@@ -149,7 +149,7 @@ export function FamilyExpensesForm({ loanId }: { loanId: string }) {
                       <FormLabel>Details</FormLabel>
                       <FormControl>
                         <Textarea
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           placeholder="details"
                           {...field}
                         />
@@ -294,7 +294,7 @@ export function FamilyAssetsForm({ loanId }: { loanId: string }) {
                       <FormLabel>Details</FormLabel>
                       <FormControl>
                         <Textarea
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           placeholder="details"
                           {...field}
                         />

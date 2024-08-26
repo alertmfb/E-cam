@@ -24,7 +24,7 @@ function Reference() {
   }
 
   return (
-    <div className="container w-full flex flex-col gap-3">
+    <div className="container w-full flex flex-col gap-3 p-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <div className="flex items-center gap-3">
           <ArrowLeft

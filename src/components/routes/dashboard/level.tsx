@@ -38,7 +38,7 @@ export function DashboardUi() {
 
 function LoanOfficerUi() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 pb-4">
       <Link to="/app/loans/new">
         <Card
           x-chunk="dashboard-01-chunk-0"

@@ -18,28 +18,6 @@ import { ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function GuarantorInfoData({ loanId }: { loanId: string }) {
-  const { role } = useUser()
-  const { userId } = useAuth()
-
-  const [content, setContent] = useState(false)
-  const [contentT, setContentT] = useState(false)
-
-  const { data: info, isPending } = useQuery({
-    queryKey: ['guarantor-info-data'],
-    queryFn: () =>
-      fetchGuarantorInfo({
-        loanId: loanId,
-        role: role,
-        userId: userId!,
-      }),
-  })
-
-  const { data: image } = useGuarantorProfile(loanId)
-
-  if (!info) {
-    return <div></div>
-  }
-
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
       <Card className="w-full shadow-md">

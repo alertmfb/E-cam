@@ -6,7 +6,9 @@ const submitApplication = async ({ loanId }: { loanId: string }) => {
   try {
     const response = await Axios.put(
       `/loan-application/submit?loanId=${loanId}`,
-      {},
+      {
+        name: name,
+      },
       { withCredentials: true }
     )
     return response.data

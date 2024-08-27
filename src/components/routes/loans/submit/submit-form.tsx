@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { useFindUser } from '@/lib/api/find/functions'
 import { useSubmitApplication } from '@/lib/api/submit/functions'
-import { useUser } from '@/lib/auth/hooks'
+import { useAuth, useUser } from '@/lib/auth/hooks'
 import { CloudUpload } from 'lucide-react'
 
 export const SubmitForm = ({ loanId }: { loanId: string }) => {
@@ -13,10 +13,19 @@ export const SubmitForm = ({ loanId }: { loanId: string }) => {
     branch_id.toString()
   )
 
+  if (!branchManager) {
+    return <div></div>
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     submit.mutate({
       loanId: loanId,
+      senderName: name,
+      // TODO: Find a fix for getting current user's email
+      senderEmail: '',
+      ccName: branchManager.name,
+      ccEmail: branchManager.email,
     })
   }
 

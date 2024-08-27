@@ -1,13 +1,29 @@
 import { Axios } from '@/lib/axios'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { string } from 'zod'
 
-const submitApplication = async ({ loanId }: { loanId: string }) => {
+const submitApplication = async ({
+  loanId,
+  senderName,
+  ccName,
+  senderEmail,
+  ccEmail,
+}: {
+  loanId: string
+  senderName: string
+  senderEmail: string
+  ccName: string
+  ccEmail: string
+}) => {
   try {
     const response = await Axios.put(
       `/loan-application/submit?loanId=${loanId}`,
       {
-        name: name,
+        senderName,
+        senderEmail,
+        ccName,
+        ccEmail,
       },
       { withCredentials: true }
     )

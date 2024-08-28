@@ -19,9 +19,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { ListChecks, Notebook } from 'lucide-react'
+import { ListChecks } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
 import { LoanCheckListData } from '@/components/routes/loans/committee-decision/checklist-data'
+import { useFinalApproval } from '@/lib/api/loan-action/functions'
 
 export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
   component: LoanData,
@@ -29,6 +30,7 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/data')({
 
 function LoanData() {
   const { loanId } = Route.useParams() as { loanId: string }
+
   return (
     <div className="container w-full flex flex-col px-4 gap-3 py-10">
       <h1 className="text-xl font-semibold">Loan Data</h1>
@@ -77,6 +79,8 @@ function Actions({ loanId }: { loanId: string }) {
   const { role } = useUser()
   const navigate = useNavigate()
 
+  const { data: finalApproval } = useFinalApproval(loanId)
+
   switch (role) {
     case 'loan_officer':
       return <div></div>
@@ -99,8 +103,8 @@ function Actions({ loanId }: { loanId: string }) {
     default:
       return (
         <>
-          <LoanActionForm loanId={loanId} />
-          <LoanRejectionForm loanId={loanId} />
+          {!finalApproval && <LoanActionForm loanId={loanId} />}
+          {!finalApproval && <LoanRejectionForm loanId={loanId} />}
         </>
       )
   }

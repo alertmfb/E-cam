@@ -5,6 +5,7 @@ import {
 } from '../../../components/routes/loans/loan-action/laSchema'
 import { Axios } from '@/lib/axios'
 import { FindUserResponse } from '../find/functions'
+import { useQuery } from '@tanstack/react-query'
 
 type ApprovalPayload = z.infer<typeof loanActionSchema>
 type RejectionPayload = z.infer<typeof loanRejectionSchema>
@@ -26,7 +27,11 @@ type MutationData = {
 }
 
 type RejectionData = {
-  payload: RejectionPayload
+  payload: RejectionPayload & {
+    senderName: string
+    senderEmail: string
+    recepients: FindUserResponse[]
+  }
   params: ApprovalParams
 }
 
@@ -66,4 +71,28 @@ export const rejectLoanApplication = async ({
   } catch (e) {
     throw new Error(`response error: ${e}`)
   }
+}
+
+const findFinalAproval = async ({
+  loanId,
+}: {
+  loanId: string
+}): Promise<{ customer_name: string } | undefined> => {
+  try {
+    const response = await Axios.get(`/loan-application/approved/${loanId}`, {
+      withCredentials: true,
+    })
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useFinalApproval = (loanId: string) => {
+  const faQry = useQuery({
+    queryKey: ['loan-final-check'],
+    queryFn: () => findFinalAproval({ loanId }),
+  })
+
+  return faQry
 }

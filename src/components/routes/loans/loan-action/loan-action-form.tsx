@@ -25,8 +25,9 @@ import {
 } from '../../../../lib/api/loan-action/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
 import { useNavigate } from '@tanstack/react-router'
-import { useFindUser, useGetMailRecepient } from '@/lib/api/find/functions'
+import { useGetMailRecepient } from '@/lib/api/find/functions'
 import { Role } from '@/lib/auth'
+import { Loader2 } from 'lucide-react'
 
 const returnRecepientRole = (role: Role): Role => {
   switch (role) {
@@ -35,6 +36,9 @@ const returnRecepientRole = (role: Role): Role => {
 
     case 'regional_manager':
       return 'executive'
+
+    case 'executive':
+      return 'branch_manager'
 
     default:
       return role
@@ -91,6 +95,8 @@ export function LoanActionForm(loanId: { loanId: string }) {
     })
   }
 
+  // TODO: Check if loan has gotten final approval
+
   return (
     <Form {...form}>
       <form
@@ -133,8 +139,9 @@ export function LoanActionForm(loanId: { loanId: string }) {
               )}
             />
 
-            <Button type="submit" className="w-fit">
-              Process
+            <Button type="submit" className="w-fit flex items-center gap-3">
+              Process{' '}
+              {addMutation.isPending && <Loader2 className="animate-spin" />}
             </Button>
           </FormSection>
         </div>
@@ -181,6 +188,8 @@ export function LoanRejectionForm(loanId: { loanId: string }) {
       },
     })
   }
+
+  // TODO: Check if loan has gotten final approval
 
   return (
     <Form {...form}>

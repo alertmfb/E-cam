@@ -37,13 +37,15 @@ export const useFindUser = (role: Role, branchId: string) => {
 const getMailRecepient = async ({
   role,
   branchId,
+  loanId,
 }: {
   role: Role
   branchId: string
+  loanId?: string
 }): Promise<FindUserResponse[] | undefined> => {
   try {
     const response = await Axios.get(
-      `/find/user?role=${role}&branchId=${branchId}`,
+      `/find/user?role=${role}&branchId=${branchId}&loanId=${loanId}`,
       {
         withCredentials: true,
       }
@@ -54,10 +56,14 @@ const getMailRecepient = async ({
   }
 }
 
-export const useGetMailRecepient = (role: Role, branchId: string) => {
+export const useGetMailRecepient = (
+  role: Role,
+  branchId: string,
+  loanId?: string
+) => {
   const uQry = useQuery({
     queryKey: [`find-${role}s`],
-    queryFn: () => getMailRecepient({ role, branchId }),
+    queryFn: () => getMailRecepient({ role, branchId, loanId }),
   })
 
   return uQry

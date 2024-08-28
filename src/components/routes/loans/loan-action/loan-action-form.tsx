@@ -38,14 +38,14 @@ const returnRecepientRole = (role: Role): Role => {
       return 'executive'
 
     case 'executive':
-      return 'branch_manager'
+      return 'loan_officer'
 
     default:
       return role
   }
 }
 
-export function LoanActionForm(loanId: { loanId: string }) {
+export function LoanActionForm({ loanId }: { loanId: string }) {
   const { role, branch_id, institution_id, name, email } = useUser()
   const { userId } = useAuth()
   const navigate = useNavigate()
@@ -66,7 +66,7 @@ export function LoanActionForm(loanId: { loanId: string }) {
       navigate({
         to: '/app/loans/status/$loanId/$branchId',
         params: {
-          loanId: loanId.loanId,
+          loanId: loanId,
           branchId: role !== 'executive' ? branch_id.toString() : 'exec',
         },
       })
@@ -74,8 +74,10 @@ export function LoanActionForm(loanId: { loanId: string }) {
   })
 
   const { data: recepients } = useGetMailRecepient(
+    // Return the role(s) of the receipents to fetch
     returnRecepientRole(role),
-    branch_id.toString()
+    branch_id.toString(),
+    loanId
   )
 
   if (!recepients) {
@@ -87,7 +89,7 @@ export function LoanActionForm(loanId: { loanId: string }) {
       payload: { ...values, senderName: name, senderEmail: email, recepients },
       params: {
         institutionId: role !== 'executive' ? institution_id.toString() : '',
-        loanId: loanId.loanId,
+        loanId: loanId,
         branchId: role !== 'executive' ? branch_id.toString() : '',
         role: role,
         userId: userId!,

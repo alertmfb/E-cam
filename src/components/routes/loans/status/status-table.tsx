@@ -118,7 +118,11 @@ export function BranchManagerStatusTable() {
   })
 
   if (applications.fetchStatus === 'fetching') {
-    return <div>Loading...</div>
+    return (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    )
   }
 
   return (
@@ -183,6 +187,14 @@ export function GeneralStatusTable() {
       }),
   })
 
+  if (applications.fetchStatus === 'fetching') {
+    return (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <Table>
       <TableCaption>
@@ -245,6 +257,14 @@ export function ExecutiveStatusTable() {
         role: role,
       }),
   })
+
+  if (applications.fetchStatus === 'fetching') {
+    return (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
 
   return (
     <Table>

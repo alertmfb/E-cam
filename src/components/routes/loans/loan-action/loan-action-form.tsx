@@ -25,9 +25,24 @@ import {
 } from '../../../../lib/api/loan-action/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
 import { useNavigate } from '@tanstack/react-router'
+import { useFindUser, useGetMailRecepient } from '@/lib/api/find/functions'
+import { Role } from '@/lib/auth'
+
+const returnRecepientRole = (role: Role): Role => {
+  switch (role) {
+    case 'branch_manager':
+      return 'regional_manager'
+
+    case 'regional_manager':
+      return 'executive'
+
+    default:
+      return role
+  }
+}
 
 export function LoanActionForm(loanId: { loanId: string }) {
-  const { role, branch_id, institution_id } = useUser()
+  const { role, branch_id, institution_id, name, email } = useUser()
   const { userId } = useAuth()
   const navigate = useNavigate()
 
@@ -54,9 +69,18 @@ export function LoanActionForm(loanId: { loanId: string }) {
     },
   })
 
-  function onSubmit(values: z.infer<typeof loanActionSchema>) {
+  const { data: recepients } = useGetMailRecepient(
+    returnRecepientRole(role),
+    branch_id.toString()
+  )
+
+  if (!recepients) {
+    return <div></div>
+  }
+
+  const onSubmit = (values: z.infer<typeof loanActionSchema>) => {
     addMutation.mutate({
-      payload: values,
+      payload: { ...values, senderName: name, senderEmail: email, recepients },
       params: {
         institutionId: role !== 'executive' ? institution_id.toString() : '',
         loanId: loanId.loanId,

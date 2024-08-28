@@ -104,12 +104,4 @@ function Actions({ loanId }: { loanId: string }) {
         </>
       )
   }
-
-  // if (role === 'loan_officer' || role === 'credit') {
-  //   return <div></div>
-  // }
-
-  // return (
-
-  // )
 }

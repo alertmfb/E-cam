@@ -1,7 +1,6 @@
 import { Axios } from '@/lib/axios'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { string } from 'zod'
 
 const submitApplication = async ({
   loanId,
@@ -41,6 +40,8 @@ export const useSubmitApplication = () => {
       if (data) {
         alert('Loan Application Submitted')
         navigate({ to: '/app/dashboard' })
+      } else {
+        alert('Failed to submit')
       }
     },
   })

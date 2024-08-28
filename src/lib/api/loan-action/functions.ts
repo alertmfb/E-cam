@@ -4,6 +4,7 @@ import {
   loanRejectionSchema,
 } from '../../../components/routes/loans/loan-action/laSchema'
 import { Axios } from '@/lib/axios'
+import { FindUserResponse } from '../find/functions'
 
 type ApprovalPayload = z.infer<typeof loanActionSchema>
 type RejectionPayload = z.infer<typeof loanRejectionSchema>
@@ -16,7 +17,11 @@ type ApprovalParams = {
   branchId: string
 }
 type MutationData = {
-  payload: ApprovalPayload
+  payload: ApprovalPayload & {
+    senderName: string
+    senderEmail: string
+    recepients: FindUserResponse[]
+  }
   params: ApprovalParams
 }
 

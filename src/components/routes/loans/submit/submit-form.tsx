@@ -2,10 +2,10 @@ import { Button } from '@/components/ui/button'
 import { useFindUser } from '@/lib/api/find/functions'
 import { useSubmitApplication } from '@/lib/api/submit/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
-import { CloudUpload } from 'lucide-react'
+import { CloudUpload, Loader2 } from 'lucide-react'
 
 export const SubmitForm = ({ loanId }: { loanId: string }) => {
-  const { name, branch_id, institution_id } = useUser()
+  const { name, branch_id, email } = useUser()
   const submit = useSubmitApplication()
 
   const { data: branchManager } = useFindUser(
@@ -19,11 +19,11 @@ export const SubmitForm = ({ loanId }: { loanId: string }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
     submit.mutate({
       loanId: loanId,
       senderName: name,
-      // TODO: Find a fix for getting current user's email
-      senderEmail: '',
+      senderEmail: email,
       ccName: branchManager.name,
       ccEmail: branchManager.email,
     })
@@ -50,7 +50,8 @@ export const SubmitForm = ({ loanId }: { loanId: string }) => {
             variant="outline"
             className="bg-blue-700 text-white flex items-center gap-2"
           >
-            <CloudUpload /> Submit
+            <CloudUpload /> Submit{' '}
+            {submit.isPending && <Loader2 className="animate-spin" />}
           </Button>
         </div>
       </form>

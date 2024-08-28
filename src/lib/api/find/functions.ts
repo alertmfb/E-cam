@@ -2,7 +2,7 @@ import { Role } from '@/lib/auth'
 import { Axios } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
 
-type FindUserResponse = {
+export type FindUserResponse = {
   name: string
   email: string
 }
@@ -29,6 +29,35 @@ export const useFindUser = (role: Role, branchId: string) => {
   const uQry = useQuery({
     queryKey: ['find-user'],
     queryFn: () => findUser({ role, branchId }),
+  })
+
+  return uQry
+}
+
+const getMailRecepient = async ({
+  role,
+  branchId,
+}: {
+  role: Role
+  branchId: string
+}): Promise<FindUserResponse[] | undefined> => {
+  try {
+    const response = await Axios.get(
+      `/find/user?role=${role}&branchId=${branchId}`,
+      {
+        withCredentials: true,
+      }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useGetMailRecepient = (role: Role, branchId: string) => {
+  const uQry = useQuery({
+    queryKey: [`find-${role}s`],
+    queryFn: () => getMailRecepient({ role, branchId }),
   })
 
   return uQry

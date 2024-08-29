@@ -3,6 +3,7 @@ import { AuthContext } from './auth-provider'
 import {
   SESSION_BRANCH_ID,
   SESSION_BRANCH_NAME,
+  SESSION_EMAIL,
   SESSION_INSTITUTION_ID,
   SESSION_INSTITUTION_NAME,
   SESSION_NAME,
@@ -43,6 +44,7 @@ export function useAuth() {
 
 export function useUser(): User {
   const name = cookies.get(SESSION_NAME)
+  const email = cookies.get(SESSION_EMAIL)
   const role = cookies.get(SESSION_ROLE)
   const branch_id = cookies.get(SESSION_BRANCH_ID)
   const branch_name = cookies.get(SESSION_BRANCH_NAME)
@@ -52,6 +54,7 @@ export function useUser(): User {
   return {
     name: name,
     role: role,
+    email: email,
     branch_id: branch_id,
     branch_name: branch_name,
     institution_id: institution_id,
@@ -78,6 +81,7 @@ export const useSignOut = () => {
     onSuccess() {
       cookies.remove(TOKEN_NAME)
       cookies.remove(SESSION_NAME)
+      cookies.remove(SESSION_EMAIL)
       cookies.remove(SESSION_ROLE)
       cookies.remove(SESSION_BRANCH_ID)
       cookies.remove(SESSION_BRANCH_NAME)
@@ -108,6 +112,9 @@ export async function signIn(payload: {
         path: '/',
       })
       cookies.set(SESSION_NAME, res.data.name, {
+        path: '/',
+      })
+      cookies.set(SESSION_EMAIL, res.data.email, {
         path: '/',
       })
       cookies.set(SESSION_ROLE, res.data.role, {
@@ -150,16 +157,6 @@ export async function signOut() {
         withCredentials: true,
       }
     )
-
-    // if (response.data) {
-    //   cookies.remove(TOKEN_NAME, { path: '/' })
-    //   cookies.remove(SESSION_NAME, { path: '/' })
-    //   cookies.remove(SESSION_ROLE, { path: '/' })
-    //   cookies.remove(SESSION_BRANCH_ID, { path: '/' })
-    //   cookies.remove(SESSION_BRANCH_NAME, { path: '/' })
-    //   cookies.remove(SESSION_INSTITUTION_ID, { path: '/' })
-    //   cookies.remove(SESSION_INSTITUTION_NAME, { path: '/' })
-    // }
   } catch (e) {
     console.error(e)
   }

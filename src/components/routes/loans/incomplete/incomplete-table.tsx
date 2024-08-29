@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getIncompleteApplications } from '@/lib/api/loan-application/functions'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth/hooks'
+import { Loader2 } from 'lucide-react'
 
 export function IncompleteTable() {
   const { userId } = useAuth()
@@ -22,7 +23,11 @@ export function IncompleteTable() {
   })
 
   if (fetchStatus === 'fetching') {
-    return <div>Loading...</div>
+    return (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    )
   }
 
   return (

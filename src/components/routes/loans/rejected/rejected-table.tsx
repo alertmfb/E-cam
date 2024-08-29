@@ -12,6 +12,7 @@ import { getRejectedApplications } from '@/lib/api/loan-application/functions'
 import { useAuth, useUser } from '@/lib/auth/hooks'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 export function RejectedApplicationsTable() {
   const { role } = useUser()
@@ -45,6 +46,15 @@ const LoanOfficerRejectedTable = () => {
         role: role,
       }),
   })
+
+  if (applications.fetchStatus === 'fetching') {
+    return (
+      <div>
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <Table>
       <TableCaption>

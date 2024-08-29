@@ -146,7 +146,7 @@ export function FamilyRefereceForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -189,7 +189,7 @@ export function FamilyRefereceForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -380,7 +380,7 @@ export function CommercialReferenceForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -423,7 +423,7 @@ export function CommercialReferenceForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -616,7 +616,7 @@ export function NeighbourhoodReferenceForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -659,7 +659,7 @@ export function NeighbourhoodReferenceForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>

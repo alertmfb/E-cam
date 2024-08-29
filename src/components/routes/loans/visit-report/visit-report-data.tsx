@@ -16,13 +16,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
-import { VisitReportForm, returnLocationColor } from './visit-report-form'
-import { useUser } from '@/lib/auth/hooks'
+import { returnLocationColor } from './visit-report-form'
 import { useVisitReport } from '@/lib/api/visit-report/functions'
 import { cn } from '@/lib/utils'
 
 export const VisitReportData = ({ loanId }: { loanId: string }) => {
-  const { role } = useUser()
   const [content, setContent] = useState(false)
 
   return (
@@ -56,7 +54,7 @@ const VisitReport = ({ loanId }: { loanId: string }) => {
   const { data: fetched } = useVisitReport(loanId)
 
   if (!fetched) {
-    return <div>No Data</div>
+    return <div></div>
   }
 
   return (

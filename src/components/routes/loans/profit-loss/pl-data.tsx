@@ -26,11 +26,6 @@ import { useState } from 'react'
 
 export const ProfitLossData = ({ loanId }: { loanId: string }) => {
   const [content, setContent] = useState(false)
-  const data = useGetPL(loanId)
-
-  if (!data) {
-    return <div></div>
-  }
 
   return (
     <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
@@ -48,17 +43,29 @@ export const ProfitLossData = ({ loanId }: { loanId: string }) => {
 
         {content && (
           <CardContent className="transition ease-in-out fade-in-30 delay-150">
-            <form className="w-full flex flex-col gap-3">
-              <span className="font-semibold">Inventory:</span>
-              <InventoryTable inventory={data.inventory} />
-              <span className="font-semibold">Bank/Other IMF Balances:</span>
-              <OtherBalancesTable otherBalances={data.otherBalances} />
-              <span className="font-semibold">Balance Sheet:</span>
-              <BalanceSheetTable balanceSheet={data.balanceSheet} />
-            </form>
+            <DataFields loanId={loanId} />
           </CardContent>
         )}
       </Card>
+    </div>
+  )
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
+  const data = useGetPL(loanId)
+
+  if (!data) {
+    return <div></div>
+  }
+
+  return (
+    <div className="w-full flex flex-col gap-3">
+      <span className="font-semibold">Inventory:</span>
+      <InventoryTable inventory={data.inventory} />
+      <span className="font-semibold">Bank/Other IMF Balances:</span>
+      <OtherBalancesTable otherBalances={data.otherBalances} />
+      <span className="font-semibold">Balance Sheet:</span>
+      <BalanceSheetTable balanceSheet={data.balanceSheet} />
     </div>
   )
 }

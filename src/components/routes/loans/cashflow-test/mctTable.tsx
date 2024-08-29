@@ -18,9 +18,13 @@ import {
   totalAndAverage,
 } from '@/lib/api/cashflow-test/schema'
 import { cn } from '@/lib/utils'
-import { number } from 'zod'
+import {
+  useCashflow,
+  useUploadCashflow,
+} from '@/lib/api/cashflow-test/functions'
 
 export const CashflowTable = ({ loanId }: { loanId: string }) => {
+  const [margin, setMargin] = useState<number>(0)
   const [months, setMonths] = useState<CashflowMonthData[]>(cashFlowMonths)
 
   const TOTAL_IDX = months.length - 2
@@ -37,7 +41,7 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
       )
     )
 
-    updateFirstLiquidity(idx)
+    updateMargin(idx)
     updateTotalExpenses(idx)
     updateOperationalCashflow(idx)
     updateTotalInflowInvestment(idx)
@@ -47,6 +51,7 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
     updateCashEOP(idx)
     updateAccuredFlow(idx)
     // Update total and average for the rest of the cells
+    updateAllLiquidity(idx)
     updateTotal(key)
     updateAverage(key)
   }
@@ -81,6 +86,22 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
           : month
       )
     )
+  }
+
+  const updateMargin = (colIdx: number) => {
+    const per = margin === 0 ? 0 : margin / 100
+    setMonths((prev) =>
+      prev.map((month, i) =>
+        i === colIdx
+          ? {
+              ...month,
+              perMargin: month.businessInflow - month.businessInflow * per,
+            }
+          : month
+      )
+    )
+    updateTotal('perMargin')
+    updateAverage('perMargin')
   }
 
   const updateTotalExpenses = (colIdx: number) => {
@@ -196,33 +217,6 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
     updateAverage('cashAtEnd')
   }
 
-  const updateFirstLiquidity = (colIdx: number) => {
-    // setMonths((prev) =>
-    //   prev.map((month, idx) =>
-    //     colIdx > 0
-    //       ? {
-    //           ...month,
-    //           firstLiquidity: months[colIdx - 0].accuredFlow,
-    //         }
-    //       : month
-    //   )
-    // )
-
-    // updateTotal('firstLiquidity')
-    // updateAverage('firstLiquidity')
-    colIdx !== 0 &&
-      setMonths((prev) =>
-        prev.map((month, colIdx) =>
-          colIdx !== 0
-            ? {
-                ...prev[colIdx],
-                firstLiquidity: months[colIdx - 1].accuredFlow,
-              }
-            : month
-        )
-      )
-  }
-
   const updateAccuredFlow = (colIdx: number) => {
     setMonths((prev) =>
       prev.map((month, i) =>
@@ -234,20 +228,66 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
           : month
       )
     )
-    // updateFirstLiquidity(colIdx)
     updateTotal('accuredFlow')
     updateAverage('accuredFlow')
   }
 
+  const updateAllLiquidity = (colIdx: number) => {
+    if (colIdx === 0) {
+      setMonths((prev) =>
+        prev.map((month, i) =>
+          i > 0 ? { ...month, firstLiquidity: prev[i - 1].accuredFlow } : month
+        )
+      )
+    }
+  }
+
+  const { data: cashflow } = useCashflow(loanId)
+
+  const uploadCashflow = useUploadCashflow()
+  const loadCashflow = () => {
+    if (cashflow) {
+      setMargin(cashflow.margin)
+      setMonths(cashflow.months)
+    }
+  }
+
+  const upload = () => {
+    uploadCashflow.mutate({
+      loanId: loanId,
+      cashflow: {
+        margin,
+        months,
+      },
+    })
+  }
+
   return (
     <div className="w-full space-y-4 pb-4">
+      {cashflow && (
+        <Button onClick={loadCashflow} variant={'secondary'}>
+          Load Previously Saved
+        </Button>
+      )}
+      <div className="flex items-center gap-3">
+        <span className="font-semibold">% Margin</span>
+        <Input
+          type="number"
+          placeholder="00.00"
+          className="w-40"
+          value={margin}
+          onChange={(e) =>
+            setMargin(e.target.value === '' ? 0 : parseFloat(e.target.value))
+          }
+        />
+      </div>
       <Table className="border">
         <TableHeader>
           <TableRow className="bg-purple-100 hover:bg-purple-100">
             <TableHead className="text-black border">Description</TableHead>
             <TableHead className="text-black border">1st month</TableHead>
             <TableHead className="text-black border">2nd month</TableHead>
-            {/* <TableHead className="text-black border">3rd month</TableHead>
+            <TableHead className="text-black border">3rd month</TableHead>
             <TableHead className="text-black border">4th month</TableHead>
             <TableHead className="text-black border">5th month</TableHead>
             <TableHead className="text-black border">6th month</TableHead>
@@ -256,7 +296,7 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
             <TableHead className="text-black border">9th month</TableHead>
             <TableHead className="text-black border">10th month</TableHead>
             <TableHead className="text-black border">11th month</TableHead>
-            <TableHead className="text-black border">12th month</TableHead> */}
+            <TableHead className="text-black border">12th month</TableHead>
             <TableHead className="text-black border">Total</TableHead>
             <TableHead className="text-black border">Average</TableHead>
           </TableRow>
@@ -264,14 +304,15 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
         <TableBody>
           {DESCRIPTIONS.map((description, rowIdx) => (
             <TableRow key={rowIdx} className={cn(formatCell(rowIdx))}>
-              <TableCell className="border font-semibold">
+              <TableCell className="border font-semibold p-1">
                 {description}
               </TableCell>
               {months.slice(0, TENURE).map((month, colIdx) => (
                 <TableCell className="border p-1" key={colIdx}>
                   <Input
-                    className={cn('w-40 h-8', formatText(rowIdx))}
-                    readOnly={isOnlyValue(rowIdx, colIdx)}
+                    type="number"
+                    className={cn('w-28 h-8', formatText(rowIdx))}
+                    readOnly={isOnlyValue(rowIdx)}
                     onChange={(e) =>
                       updateCell(
                         colIdx,
@@ -299,7 +340,8 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
                 .map((month, colIdx) => (
                   <TableCell className="border p-1" key={colIdx}>
                     <Input
-                      className={cn('w-40 h-8', formatText(rowIdx))}
+                      // type="number"
+                      className={cn('w-28 h-8', formatText(rowIdx))}
                       readOnly
                       value={month[
                         Object.keys(month)[rowIdx] as keyof CashflowMonthData
@@ -311,14 +353,17 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
           ))}
         </TableBody>
       </Table>
-      <Button variant="outline" onClick={() => console.log(months)}>
-        Log
-      </Button>
+      <div className="space-x-3">
+        {/* <Button variant="outline" onClick={() => console.log(months)}>
+          Log
+        </Button> */}
+        <Button onClick={upload}>Save</Button>
+      </div>
     </div>
   )
 }
 
-const formatCell = (rowIdx: number): string => {
+export const formatCell = (rowIdx: number): string => {
   switch (rowIdx) {
     case 0:
       return 'bg-pink-100 hover:bg-pink-100'
@@ -347,22 +392,22 @@ const formatCell = (rowIdx: number): string => {
   }
 }
 
-const formatText = (rowIdx: number): string => {
+export const formatText = (rowIdx: number): string => {
   switch (rowIdx) {
     case 0:
     case 4:
     case 8:
+    case 22:
       return 'font-bold'
 
-    case 22:
-      return 'font-bold text-red-600'
     default:
       return ''
   }
 }
 
-const isOnlyValue = (rowIdx: number, colIdx: number): boolean => {
+export const isOnlyValue = (rowIdx: number): boolean => {
   switch (rowIdx) {
+    case 1:
     case 3:
     case 4:
     case 8:

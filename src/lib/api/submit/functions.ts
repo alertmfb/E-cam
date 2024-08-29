@@ -2,11 +2,28 @@ import { Axios } from '@/lib/axios'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
-const submitApplication = async ({ loanId }: { loanId: string }) => {
+const submitApplication = async ({
+  loanId,
+  senderName,
+  ccName,
+  senderEmail,
+  ccEmail,
+}: {
+  loanId: string
+  senderName: string
+  senderEmail: string
+  ccName: string
+  ccEmail: string
+}) => {
   try {
     const response = await Axios.put(
       `/loan-application/submit?loanId=${loanId}`,
-      {},
+      {
+        senderName,
+        senderEmail,
+        ccName,
+        ccEmail,
+      },
       { withCredentials: true }
     )
     return response.data
@@ -23,6 +40,8 @@ export const useSubmitApplication = () => {
       if (data) {
         alert('Loan Application Submitted')
         navigate({ to: '/app/dashboard' })
+      } else {
+        alert('Failed to submit')
       }
     },
   })

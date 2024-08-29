@@ -18,6 +18,25 @@ import { ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function GuarantorInfoData({ loanId }: { loanId: string }) {
+  return (
+    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
+      <Card className="w-full shadow-md">
+        <CardHeader className="cursor-pointer transition ease-in-out hover:scale-[1.01]">
+          <CardTitle className="text-xl flex items-center gap-3 justify-between">
+            <div>Guarantors</div>
+          </CardTitle>
+          <CardDescription>The client's guarantors</CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <DataFields loanId={loanId} />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+const DataFields = ({ loanId }: { loanId: string }) => {
   const { role } = useUser()
   const { userId } = useAuth()
 
@@ -36,19 +55,12 @@ export function GuarantorInfoData({ loanId }: { loanId: string }) {
 
   const { data: image } = useGuarantorProfile(loanId)
 
-  if (isPending) {
-    return <div>...Loading</div>
-  }
-
   if (!info) {
     return <div></div>
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 flex-wrap flex-auto">
-      {/* {info?.slice(0, 3).map((item, idx) => (
-      ))} */}
-
+    <div>
       {info[0] && (
         <Card className="w-full shadow-md">
           <CardHeader

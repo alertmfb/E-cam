@@ -3,6 +3,7 @@ import { isExpired, decodeToken } from 'react-jwt'
 
 export const TOKEN_NAME = '_aqws'
 export const SESSION_NAME = '_qsname'
+export const SESSION_EMAIL = '_qsemail'
 export const SESSION_ROLE = '_qsrole'
 export const SESSION_BRANCH_ID = '_qsbid'
 export const SESSION_BRANCH_NAME = '_qsbn'
@@ -39,11 +40,14 @@ export type Role =
   | 'branch_manager'
   | 'relationship_manager'
   | 'regional_manager'
+  | 'credit'
   | 'executive'
+  | 'admin'
 
 export type User = {
   name: string
   role: Role
+  email: string
   branch_id: number
   branch_name: string
   institution_id: string

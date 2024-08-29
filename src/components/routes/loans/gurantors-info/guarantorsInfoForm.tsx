@@ -165,7 +165,7 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -208,7 +208,7 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -282,7 +282,7 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -350,7 +350,7 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                       <FormControl>
                         <Textarea
                           placeholder="..."
-                          className="w-96"
+                          className="w-64 sm:w-96"
                           {...field}
                         />
                       </FormControl>
@@ -451,7 +451,7 @@ export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
                         <Textarea
                           placeholder="..."
                           {...field}
-                          className="w-96"
+                          className="w-64 sm:w-96"
                         />
                       </FormControl>
                       <FormMessage />

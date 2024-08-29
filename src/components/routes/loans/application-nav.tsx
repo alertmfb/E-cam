@@ -331,6 +331,15 @@ export const ApplicationNavC = ({ loanId }: { loanId: string }) => {
             <DropdownMenuItem asChild>
               <Link
                 activeProps={{ className: 'text-black font-semibold' }}
+                to="/app/loans/$loanId/visit-report"
+                params={{ loanId: loanId }}
+              >
+                Visit Report
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link
+                activeProps={{ className: 'text-black font-semibold' }}
                 to="/app/loans/$loanId/committee-decision"
                 params={{ loanId: loanId }}
               >

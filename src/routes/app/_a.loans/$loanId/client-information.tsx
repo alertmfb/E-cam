@@ -21,7 +21,7 @@ function CustomerInformation() {
   }
 
   return (
-    <div className="container w-full flex flex-col gap-3">
+    <div className="container w-full flex flex-col gap-3 p-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">
         <div className="flex items-center gap-3">
           <ArrowLeft
@@ -34,7 +34,7 @@ function CustomerInformation() {
         </div>
         <ApplicationNav loanId={loanId} />
       </div>
-      <main className="flex flex-col h-20 pt-3">
+      <main className="flex flex-col pt-3">
         <ClientInfoForm loanId={loanId} />
       </main>
     </div>

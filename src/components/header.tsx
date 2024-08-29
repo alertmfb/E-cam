@@ -31,6 +31,7 @@ const roles: Record<Role, string> = {
   regional_manager: 'Regional Manager',
   credit: 'Credit',
   executive: 'Executive',
+  admin: 'Admin',
 }
 
 export function AppHeader() {

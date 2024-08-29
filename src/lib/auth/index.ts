@@ -42,6 +42,7 @@ export type Role =
   | 'regional_manager'
   | 'credit'
   | 'executive'
+  | 'admin'
 
 export type User = {
   name: string

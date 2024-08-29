@@ -19,6 +19,9 @@ import { Route as AppAProfileIndexImport } from './routes/app/_a.profile/index'
 import { Route as AppADashboardIndexImport } from './routes/app/_a.dashboard/index'
 import { Route as AppALoansNewImport } from './routes/app/_a.loans/new'
 import { Route as AppALoansIncompleteImport } from './routes/app/_a.loans/incomplete'
+import { Route as AppAAdminUsersImport } from './routes/app/_a.admin/users'
+import { Route as AppAAdminInstitutionsImport } from './routes/app/_a.admin/institutions'
+import { Route as AppAAdminBranchesImport } from './routes/app/_a.admin/branches'
 import { Route as AppALoansStatusIndexImport } from './routes/app/_a.loans/status/index'
 import { Route as AppALoansRejectedIndexImport } from './routes/app/_a.loans/rejected/index'
 import { Route as AppALoansPendingIndexImport } from './routes/app/_a.loans/pending/index'
@@ -93,6 +96,21 @@ const AppALoansNewRoute = AppALoansNewImport.update({
 
 const AppALoansIncompleteRoute = AppALoansIncompleteImport.update({
   path: '/loans/incomplete',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppAAdminUsersRoute = AppAAdminUsersImport.update({
+  path: '/admin/users',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppAAdminInstitutionsRoute = AppAAdminInstitutionsImport.update({
+  path: '/admin/institutions',
+  getParentRoute: () => AppARoute,
+} as any)
+
+const AppAAdminBranchesRoute = AppAAdminBranchesImport.update({
+  path: '/admin/branches',
   getParentRoute: () => AppARoute,
 } as any)
 
@@ -275,6 +293,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAImport
       parentRoute: typeof AppRoute
     }
+    '/app/_a/admin/branches': {
+      preLoaderRoute: typeof AppAAdminBranchesImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/admin/institutions': {
+      preLoaderRoute: typeof AppAAdminInstitutionsImport
+      parentRoute: typeof AppAImport
+    }
+    '/app/_a/admin/users': {
+      preLoaderRoute: typeof AppAAdminUsersImport
+      parentRoute: typeof AppAImport
+    }
     '/app/_a/loans/incomplete': {
       preLoaderRoute: typeof AppALoansIncompleteImport
       parentRoute: typeof AppAImport
@@ -420,6 +450,9 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AppRoute.addChildren([
     AppARoute.addChildren([
+      AppAAdminBranchesRoute,
+      AppAAdminInstitutionsRoute,
+      AppAAdminUsersRoute,
       AppALoansIncompleteRoute,
       AppALoansNewRoute,
       AppADashboardIndexRoute,

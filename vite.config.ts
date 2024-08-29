@@ -6,7 +6,7 @@ import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
-  base: 'https://credit-appraisial.alertmfb.com.ng/',
+  // base: 'https://credit-appraisial.alertmfb.com.ng/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

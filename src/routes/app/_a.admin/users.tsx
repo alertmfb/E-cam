@@ -1,3 +1,4 @@
+import { UserTable } from '@/components/routes/admin/user-table'
 import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
@@ -26,6 +27,7 @@ function Users() {
           <h1 className="text-2xl font-semibold">Users</h1>
         </div>
       </div>
+      <UserTable />
     </div>
   )
 }

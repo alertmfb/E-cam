@@ -1,3 +1,4 @@
+import { BranchTable } from '@/components/routes/admin/branch-table'
 import { useUser } from '@/lib/auth/hooks'
 import { useNavigate } from '@tanstack/react-router'
 import { createFileRoute } from '@tanstack/react-router'
@@ -27,7 +28,7 @@ function Branches() {
           <h1 className="text-2xl font-semibold">Branches</h1>
         </div>
       </div>
-      {/* <StockInventory loanId={loanId} /> */}
+      <BranchTable />
     </div>
   )
 }

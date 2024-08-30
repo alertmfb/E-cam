@@ -1,17 +1,19 @@
-const branches = {
-  1: 'EBUTE-METTA',
-  2: 'IDUMOTA',
-  3: 'IDUMAGBO',
-  4: 'MUSHIN',
-  5: 'AGEGE',
-  6: 'IKORODU',
-  7: 'IKEJA',
-  8: 'TRADE-FAIR',
-  9: 'IKOTUN',
-  10: 'SANGO',
+type Branch = Record<string, number>
+
+const branches: Branch = {
+  'EBUTE-METTA': 1,
+  IDUMOTA: 2,
+  IDUMAGBO: 3,
+  MUSHIN: 4,
+  AGEGE: 5,
+  IKORODU: 6,
+  IKEJA: 7,
+  'TRADE-FAIR': 8,
+  IKOTUN: 9,
+  SANGO: 10,
 }
 
-const branchesArr = Object.values(branches)
+const branchesArr = Object.keys(branches)
 
 const locations = {
   IKOTUN: 9,
@@ -95,24 +97,46 @@ const locations = {
   'VICTORIAL ISALND/IKOYI': 1,
   AYOBO: 5,
 }
+
 type Location = keyof typeof locations
 const locationsArr = Object.keys(locations)
+
+/**
+ *
+ * It returns the zone number of the location passed from the form
+ *
+ */
 
 function getZoneNumber(value: string) {
   const x: Location = value as Location
   return locations[x]
 }
 
-const getZoneColor = (branchId: number, locationId: number) => {
-  if (branchId === locationId) {
+/**
+ *
+ * @param branchId
+ * @param locationId
+ *
+ * @return It returns the zone color by comparing the branch score and the location zone score
+ */
+
+const getZoneColor = (branchScore: number, locationZoneScore: number) => {
+  if (branchScore === locationZoneScore) {
     return 'bg-green-600'
   }
 
-  if (locationId - branchId === 1) {
+  if (locationZoneScore - branchScore === 1) {
     return 'bg-blue-600'
   }
 
   return 'bg-red-500'
 }
 
-export { branchesArr, locations, locationsArr, getZoneNumber, getZoneColor }
+export {
+  branches,
+  branchesArr,
+  locations,
+  locationsArr,
+  getZoneNumber,
+  getZoneColor,
+}

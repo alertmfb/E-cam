@@ -35,6 +35,7 @@ import {
   getZoneNumber,
   getZoneColor,
   branchesArr,
+  branches,
 } from './zonification'
 import { useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -46,11 +47,12 @@ import {
 
 import { useNavigate } from '@tanstack/react-router'
 import { useUser } from '@/lib/auth/hooks'
+import { Loader2 } from 'lucide-react'
 
 type LoanId = { loanId: string }
 
 export function ClientInfoForm({ loanId }: LoanId) {
-  const { branch_id } = useUser()
+  const { branch_id, branch_name } = useUser()
   const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof ciS>>({
@@ -123,7 +125,7 @@ export function ClientInfoForm({ loanId }: LoanId) {
   function handleZonificationCheck(clientLocation: string) {
     setBusinessLocation(clientLocation)
     const n = getZoneNumber(clientLocation)
-    setZoneColor(getZoneColor(branch_id, n))
+    setZoneColor(getZoneColor(branches[branch_name], n))
   }
 
   const { data: bvn } = useQuery({
@@ -1070,10 +1072,11 @@ export function ClientInfoForm({ loanId }: LoanId) {
         </div>
         <Button
           type="submit"
-          className="w-32 self-end"
+          className="w-32 self-end flex items-center gap-3"
           disabled={zoneColor === 'bg-red-500' || zoneColor === 'bg-white'}
         >
           Save
+          {addMutation.isPending && <Loader2 className="animate-spin" />}
         </Button>
       </form>
     </Form>
@@ -1134,7 +1137,10 @@ const ImageFormItem = ({ loanId }: { loanId: string }) => {
 
   return (
     <FormItem>
-      <FormLabel>Customer's Picture</FormLabel>
+      <FormLabel className="flex items-center gap-3">
+        Customer's Picture{' '}
+        {upload.isPending && <Loader2 className="animate-spin" />}{' '}
+      </FormLabel>
       <Input type="file" onChange={(e) => handleFileChange(e)} />
       <FormDescription className="pl-4">
         Supported formats: <i className="font-semibold">png, jpg, jpeg</i>

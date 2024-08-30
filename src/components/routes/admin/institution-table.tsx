@@ -57,7 +57,12 @@ export const InstitutionTable = () => {
           ))}
         </TableBody>
       </Table>
-      <Dialog>
+    </div>
+  )
+}
+
+/**
+ * <Dialog>
         <DialogTrigger asChild>
           <Button className="flex items-center gap-3">
             <PlusCircle />
@@ -84,6 +89,4 @@ export const InstitutionTable = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  )
-}
+ */

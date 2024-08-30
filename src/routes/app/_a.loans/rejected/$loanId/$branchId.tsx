@@ -1,4 +1,5 @@
 import { RejectedData } from '@/components/routes/loans/rejected/rejected-data'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 
@@ -15,6 +16,12 @@ function RejectedLoan() {
   }
 
   const navigate = useNavigate()
+
+  const { role } = useUser()
+
+  if (role === 'admin' || role === 'credit') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="w-full container flex flex-col px-4 gap-3 pt-10">

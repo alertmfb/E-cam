@@ -1,4 +1,5 @@
 import { ApplicationStatusTable } from '@/components/routes/loans/status/status-table'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 
@@ -8,6 +9,13 @@ export const Route = createFileRoute('/app/_a/loans/status/')({
 
 function Status() {
   const navigate = useNavigate()
+
+  const { role } = useUser()
+
+  if (role === 'admin') {
+    return <div>Not Found</div>
+  }
+
   return (
     <div className="container w-full flex flex-col px-4 gap-3 pt-10">
       <div className="flex gap-3 items-center">

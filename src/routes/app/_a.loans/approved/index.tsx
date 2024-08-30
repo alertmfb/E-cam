@@ -1,4 +1,5 @@
 import { ApprovedApplicationsTable } from '@/components/routes/loans/approved/approved-table'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 
@@ -8,6 +9,12 @@ export const Route = createFileRoute('/app/_a/loans/approved/')({
 
 function Approved() {
   const navigate = useNavigate()
+
+  const { role } = useUser()
+
+  if (role === 'admin' || role === 'credit') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="w-full container flex flex-col px-4 gap-3 pt-10">

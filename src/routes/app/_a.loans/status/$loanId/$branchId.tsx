@@ -1,4 +1,5 @@
 import { StatusData } from '@/components/routes/loans/status/status-data'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 
@@ -13,6 +14,12 @@ function StatusId() {
   }
 
   const navigate = useNavigate()
+
+  const { role } = useUser()
+
+  if (role === 'admin') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="container w-full flex flex-col px-4 gap-3 pt-10">

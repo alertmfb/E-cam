@@ -111,7 +111,10 @@ export const BranchTable = () => {
                 ))}
               </SelectContent>
             </Select>
-            <Button className="w-40 flex items-center gap-3" onClick={create}>
+            <Button
+              className="w-40 flex items-center gap-3 mt-6"
+              onClick={create}
+            >
               Save
               {cb.isPending && <Loader2 className="animate-spin" />}
             </Button>

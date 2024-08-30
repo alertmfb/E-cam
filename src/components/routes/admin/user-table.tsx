@@ -68,22 +68,24 @@ export const UserTable = () => {
       case 'loan_officer':
       case 'branch_manager':
       case 'regional_manager':
-        cu.mutate({
-          name,
-          email,
-          role,
-          password,
-          branchId: parseInt(branch),
-        })
+        password !== '' &&
+          cu.mutate({
+            name,
+            email,
+            role,
+            password,
+            branchId: parseInt(branch),
+          })
         break
       case 'credit':
       case 'executive':
-        cu.mutate({
-          name,
-          email,
-          role,
-          password,
-        })
+        password !== '' &&
+          cu.mutate({
+            name,
+            email,
+            role,
+            password,
+          })
         break
 
       default:
@@ -93,7 +95,7 @@ export const UserTable = () => {
   }
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 pt-6">
       {/* <Table className="border">
         <TableHeader>
           <TableRow className="bg-secondary">

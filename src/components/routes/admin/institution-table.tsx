@@ -74,7 +74,10 @@ export const InstitutionTable = () => {
               placeholder="Institution Name"
               onChange={(e) => setInstitutionName(e.target.value)}
             />
-            <Button className="w-40 flex items-center gap-3" onClick={create}>
+            <Button
+              className="w-40 flex items-center gap-3 mt-6"
+              onClick={create}
+            >
               Save
               {ci.isPending && <Loader2 className="animate-spin" />}
             </Button>

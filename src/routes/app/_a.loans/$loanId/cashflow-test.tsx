@@ -1,5 +1,6 @@
 import { ApplicationNavC } from '@/components/routes/loans/application-nav'
 import { CashflowTable } from '@/components/routes/loans/cashflow-test/mctTable'
+import { useUser } from '@/lib/auth/hooks'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ArrowLeft } from 'lucide-react'
 
@@ -9,8 +10,13 @@ export const Route = createFileRoute('/app/_a/loans/$loanId/cashflow-test')({
 
 function CashFlowTest() {
   const { loanId } = Route.useParams() as { loanId: string }
+  const { role } = useUser()
 
   const navigate = useNavigate()
+
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
 
   return (
     <div className="w-full mx-auto px-3 xl:px-20 flex flex-col gap-4">

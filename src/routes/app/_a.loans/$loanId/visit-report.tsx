@@ -15,6 +15,10 @@ function VisitReport() {
 
   const navigate = useNavigate()
 
+  if (role !== 'loan_officer') {
+    return <div>Not Found</div>
+  }
+
   return (
     <div className="container w-full flex flex-col gap-3 px-3">
       <div className="flex items-center gap-5 justify-between flex-1 flex-wrap">

@@ -641,9 +641,9 @@ export const CollateralPledge = ({ loanId }: { loanId: string }) => {
       </Table>
 
       <div className="flex items-center justify-between">
-        <Button variant="secondary" onClick={() => console.log(rows)}>
+        {/* <Button variant="secondary" onClick={() => console.log(rows)}>
           Log Data
-        </Button>
+        </Button> */}
 
         <Button onClick={() => submit()}>Save</Button>
       </div>

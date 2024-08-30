@@ -42,6 +42,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth, useUser } from '@/lib/auth/hooks'
 import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
 
 export function GuarantorsInfoForm({ loanId }: { loanId: string }) {
   const { branch_id, role } = useUser()
@@ -681,7 +682,10 @@ const ImageUploadField = ({ loanId }: { loanId: string }) => {
   return (
     <div className="flex items-center justify-center gap-3">
       <FormItem className="">
-        <FormLabel>Guarantor's Picture</FormLabel>
+        <FormLabel className="items-start gap-3">
+          Guarantor's Picture
+          {upload.isPending && <Loader2 className="animate-spin" />}
+        </FormLabel>
         <Input type="file" onChange={(e) => handleFileChange(e)} />
         <FormDescription className="pl-4">
           Supported formats: <i className="font-semibold">png, jpg, jpeg</i>

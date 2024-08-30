@@ -1,7 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useUploadUserImage } from '@/lib/api/user-profile/functions'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/lib/auth/hooks'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 
 export const Route = createFileRoute('/app/_a/profile/')({
   component: Upload,
@@ -9,10 +10,17 @@ export const Route = createFileRoute('/app/_a/profile/')({
 
 function Upload() {
   const { userId } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <div className="container w-full flex flex-col px-4 gap-3 pt-10">
-      <h1 className="text-xl font-semibold">Profile Upload</h1>
+      <div className="flex items-center gap-3">
+        <ArrowLeft
+          onClick={() => navigate({ to: '/app/dashboard', replace: true })}
+          className="cursor-pointer"
+        />
+        <h1 className="text-xl font-semibold">Profile Upload</h1>
+      </div>
       <main className="flex flex-col h-24 pt-3">
         <ImageFormItem userId={userId!} />
       </main>
@@ -56,11 +64,14 @@ const ImageFormItem = ({ userId }: { userId: string }) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <Input
-        type="file"
-        onChange={(e) => handleFileChange(e)}
-        className="lg:w-1/2"
-      />
+      <div className="flex items-center gap-3">
+        <Input
+          type="file"
+          onChange={(e) => handleFileChange(e)}
+          className="lg:w-1/2"
+        />
+        {upload.isPending && <Loader2 className="animate-spin" />}
+      </div>
       <span className="text-sm pl-4">Supported formats: jpg, png, jpeg</span>
     </div>
   )

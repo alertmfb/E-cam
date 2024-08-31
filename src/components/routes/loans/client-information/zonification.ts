@@ -1,9 +1,9 @@
 type Branch = Record<string, number>
 
 const branches: Branch = {
-  'EBUTE-METTA': 1,
+  'EBUTE-METTA': 3,
   IDUMOTA: 2,
-  IDUMAGBO: 3,
+  IDUMAGBO: 1,
   MUSHIN: 4,
   AGEGE: 5,
   IKORODU: 6,
@@ -51,7 +51,7 @@ const locations = {
   'IDIMU ROAD': 9,
   'ISOLO ROAD': 4,
   'AMU MARKET MUSHIN': 4,
-  'EBUTE-METTA': 1,
+  'EBUTE-METTA': 3,
   YABA: 3,
   'LAGOS ISLAND': 1,
   AJAH: 1,

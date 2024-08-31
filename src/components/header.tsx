@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo3.png'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { User, LogOut, Menu } from 'lucide-react'
+import { User, LogOut, Menu, Settings } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -93,7 +93,7 @@ const UserInfo = () => {
               to="/app/profile"
               className="cursor-pointer flex items-center gap-3"
             >
-              <User /> Profile
+              <Settings /> Settings
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -172,7 +172,7 @@ const MoblieMenu = () => {
                   to="/app/profile"
                   className="cursor-pointer flex items-center gap-3"
                 >
-                  Change Profile
+                  <Settings /> Settings
                 </Link>
               </Button>
             </SheetClose>

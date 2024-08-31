@@ -46,7 +46,11 @@ export const UserTable = () => {
   const [branch, setBranch] = useState('')
   const [password, setPassword] = useState('')
 
-  if (!institutions || !branches || !users) {
+  if (!institutions || !branches) {
+    return <div></div>
+  }
+
+  if (!users) {
     return <div></div>
   }
 

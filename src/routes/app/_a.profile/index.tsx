@@ -141,8 +141,9 @@ const ResetPasswordForm = ({ userId }: { userId: string }) => {
         <div className="">Confirm Password</div>
         <Input placeholder="********" type="password" ref={confirmRef} />
       </div>
-      <Button className="mt-4" onClick={submit}>
+      <Button className="mt-4 flex items-center gap-3" onClick={submit}>
         Reset
+        {reset.isPending && <Loader2 className="animate-spin" />}
       </Button>
     </div>
   )

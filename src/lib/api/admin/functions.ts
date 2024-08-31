@@ -145,3 +145,32 @@ export const useCreateUser = () => {
 
   return cMut
 }
+
+const getUsers = async (): Promise<
+  | {
+      id: number
+      name: string
+      email: number
+      role: Role
+      branch_id: number
+    }[]
+  | undefined
+> => {
+  try {
+    const response = await Axios.get(`/admin/user`, {
+      withCredentials: true,
+    })
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useUsers = () => {
+  const uQry = useQuery({
+    queryKey: ['admin-user'],
+    queryFn: getUsers,
+  })
+
+  return uQry
+}

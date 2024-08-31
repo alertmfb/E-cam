@@ -25,6 +25,7 @@ import {
   useBranches,
   useCreateUser,
   useInstitution,
+  useUsers,
 } from '@/lib/api/admin/functions'
 import { Role } from '@/lib/auth'
 import { Loader2, PlusCircle } from 'lucide-react'
@@ -35,6 +36,9 @@ type UserRoles = Exclude<Role, 'admin'>
 export const UserTable = () => {
   const { data: institutions } = useInstitution()
   const { data: branches } = useBranches()
+  const { data: users } = useUsers()
+
+  const cu = useCreateUser()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -42,13 +46,7 @@ export const UserTable = () => {
   const [branch, setBranch] = useState('')
   const [password, setPassword] = useState('')
 
-  const cu = useCreateUser()
-
-  if (!institutions) {
-    return <div></div>
-  }
-
-  if (!branches) {
+  if (!institutions || !branches || !users) {
     return <div></div>
   }
 
@@ -56,6 +54,12 @@ export const UserTable = () => {
 
   institutions.forEach((institution) => {
     institutionMap[institution.id] = institution.name
+  })
+
+  const branchesMap: Record<number, string> = {}
+
+  branches.forEach((branch) => {
+    branchesMap[branch.id] = branch.name
   })
 
   const create = () => {
@@ -96,28 +100,35 @@ export const UserTable = () => {
 
   return (
     <div className="w-full space-y-4 pt-6">
-      {/* <Table className="border">
+      <Table className="border">
         <TableHeader>
           <TableRow className="bg-secondary">
             <TableHead className="text-black border">S/N</TableHead>
             <TableHead className="text-black border">Name</TableHead>
+            <TableHead className="text-black border">Email</TableHead>
+            <TableHead className="text-black border">Role</TableHead>
+            <TableHead className="text-black border">Branch</TableHead>
             <TableHead className="text-black border">Institution</TableHead>
-            <TableHead className="text-black border"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {branches.map((branch, idx) => (
+          {users.map((user, idx) => (
             <TableRow className="hover:bg-white">
               <TableCell className="border">{idx + 1}</TableCell>
-              <TableCell className="border">{branch.name}</TableCell>
+              <TableCell className="border">{user.name}</TableCell>
+              <TableCell className="border">{user.email}</TableCell>
+              <TableCell className="border">{user.role}</TableCell>
               <TableCell className="border">
-                {institutionMap[branch.institution_id]}
+                {branchesMap[user.branch_id]}
+              </TableCell>
+              <TableCell className="border">
+                {institutionMap[user.branch_id]}
               </TableCell>
               <TableCell className="border"></TableCell>
             </TableRow>
           ))}
         </TableBody>
-      </Table> */}
+      </Table>
       <Dialog>
         <DialogTrigger asChild>
           <Button className="flex items-center gap-3">

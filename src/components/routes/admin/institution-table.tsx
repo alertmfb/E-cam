@@ -22,20 +22,20 @@ import { useState } from 'react'
 
 export const InstitutionTable = () => {
   const { data: institutions } = useInstitution()
-  const [institutionName, setInstitutionName] = useState('')
-  const ci = useCreateInstitution()
+  // const [institutionName, setInstitutionName] = useState('')
+  // const ci = useCreateInstitution()
 
   if (!institutions) {
     return <div></div>
   }
 
-  const create = () => {
-    if (institutionName === '') {
-      alert('Set a valid institution name')
-      return
-    }
-    ci.mutate({ name: institutionName })
-  }
+  // const create = () => {
+  //   if (institutionName === '') {
+  //     alert('Set a valid institution name')
+  //     return
+  //   }
+  //   ci.mutate({ name: institutionName })
+  // }
 
   return (
     <div className="w-full space-y-4">

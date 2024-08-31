@@ -17,11 +17,20 @@ import {
   TOTAL_AND_AVERAGE,
   totalAndAverage,
 } from '@/lib/api/cashflow-test/schema'
+import { margins, marginsArr } from './margins'
 import { cn } from '@/lib/utils'
 import {
   useCashflow,
   useUploadCashflow,
 } from '@/lib/api/cashflow-test/functions'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Info } from 'lucide-react'
 
 export const CashflowTable = ({ loanId }: { loanId: string }) => {
   const [margin, setMargin] = useState<number>(0)
@@ -243,8 +252,6 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
   }
 
   const { data: cashflow } = useCashflow(loanId)
-
-  const uploadCashflow = useUploadCashflow()
   const loadCashflow = () => {
     if (cashflow) {
       setMargin(cashflow.margin)
@@ -252,6 +259,7 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
     }
   }
 
+  const uploadCashflow = useUploadCashflow()
   const upload = () => {
     uploadCashflow.mutate({
       loanId: loanId,
@@ -269,17 +277,14 @@ export const CashflowTable = ({ loanId }: { loanId: string }) => {
           Load Previously Saved
         </Button>
       )}
-      <div className="flex items-center gap-3">
-        <span className="font-semibold">% Margin</span>
-        <Input
-          type="number"
-          placeholder="00.00"
-          className="w-40"
-          value={margin}
-          onChange={(e) =>
-            setMargin(e.target.value === '' ? 0 : parseFloat(e.target.value))
-          }
-        />
+      <div className="flex items-center gap-3 flex-1 flex-wrap">
+        <div className="font-semibold flex items-center gap-2">
+          <Info />
+          Set Benchmarked Margin
+        </div>
+        <div className="w-full sm:w-1/2">
+          <MarginOptions setMargin={setMargin} />
+        </div>
       </div>
       <Table className="border">
         <TableHeader>
@@ -419,4 +424,25 @@ export const isOnlyValue = (rowIdx: number): boolean => {
     default:
       return false
   }
+}
+
+const MarginOptions = ({
+  setMargin,
+}: {
+  setMargin: React.Dispatch<React.SetStateAction<number>>
+}) => {
+  return (
+    <Select onValueChange={(key) => setMargin(margins[key])}>
+      <SelectTrigger className="">
+        <SelectValue placeholder="Select margin" />
+      </SelectTrigger>
+      <SelectContent>
+        {marginsArr.map(([key, value], idx) => (
+          <SelectItem value={key} key={idx}>
+            {key} - <span className="font-bold">{value}%</span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  )
 }

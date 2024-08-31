@@ -33,10 +33,10 @@ export const BalanceSheet = ({ loanId }: { loanId: string }) => {
   let totalEquity = 0
   let totalEquityAndLiabilities = 0
 
-  const lastSaved = useGetBS(loanId)
+  const { data: lastSaved } = useGetBS(loanId)
   const loadSaved = () => {
-    if (lastSaved.data) {
-      setRows(lastSaved.data)
+    if (lastSaved) {
+      setRows(lastSaved)
     }
   }
 

@@ -61,3 +61,37 @@ export const useGetUserImage = (userId: string) => {
 
   return usQry
 }
+
+const resetPassword = async ({
+  userId,
+  password,
+}: {
+  userId: string
+  password: string
+}) => {
+  try {
+    const response = await Axios.post(
+      `/auth/password-reset/${userId}`,
+      { password: password },
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const useResetPassword = () => {
+  const rMut = useMutation({
+    mutationFn: resetPassword,
+    onSuccess(data) {
+      if (data) {
+        alert('Password Changed!')
+      } else {
+        alert('Failed to change password')
+      }
+    },
+  })
+
+  return rMut
+}

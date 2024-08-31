@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import logo from '../assets/logo3.png'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { User, LogOut, Menu, MoonIcon } from 'lucide-react'
+import { User, LogOut, Menu } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -93,7 +93,7 @@ const UserInfo = () => {
               to="/app/profile"
               className="cursor-pointer flex items-center gap-3"
             >
-              <User /> Change Profile
+              <User /> Profile
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

@@ -16,8 +16,6 @@ import { useState } from 'react'
 
 export const Inventory = ({ loanId }: { loanId: string }) => {
   // Fetch last saved on mount
-  const [isLast, setIsLast] = useState(false)
-
   const [rrows, setRows] = useState([
     {
       item: '',
@@ -41,7 +39,6 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
   const loadPrev = () => {
     if (lastSaved) {
       setRows(lastSaved)
-      setIsLast(true)
     }
   }
 
@@ -187,7 +184,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
 
               <TableCell className="border">
                 <Input
-                  type="number"
+                  // type="number"
                   id={'quantity' + idx}
                   onChange={(e) =>
                     changeCell(
@@ -196,7 +193,8 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[1] as keyof InventoryData
                     )
                   }
-                  value={rrows[idx].quantity === 0 ? '' : rrows[idx].quantity}
+                  // value={rrows[idx].quantity === 0 ? '' : rrows[idx].quantity}
+                  value={rrows[idx].quantity}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
@@ -209,7 +207,7 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
               </TableCell>
               <TableCell className="border">
                 <Input
-                  type="number"
+                  // type="number"
                   id={'sp' + idx}
                   onChange={(e) =>
                     changeCell(
@@ -218,14 +216,17 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[3] as keyof InventoryData
                     )
                   }
+                  // value={
+                  //   rrows[idx].sellingPrice === 0 ? '' : rrows[idx].sellingPrice
+                  // }
                   value={
-                    rrows[idx].sellingPrice === 0 ? '' : rrows[idx].sellingPrice
+                    isNaN(rrows[idx].sellingPrice) ? 0 : rrows[idx].sellingPrice
                   }
                 />
               </TableCell>
               <TableCell className="border">
                 <Input
-                  type="number"
+                  // type="number"
                   id={'cp' + idx}
                   onChange={(e) =>
                     changeCell(
@@ -234,7 +235,8 @@ export const Inventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[4] as keyof InventoryData
                     )
                   }
-                  value={rrows[idx].costPrice === 0 ? '' : rrows[idx].costPrice}
+                  // value={rrows[idx].costPrice === 0 ? '' : rrows[idx].costPrice}
+                  value={isNaN(rrows[idx].costPrice) ? 0 : rrows[idx].costPrice}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">

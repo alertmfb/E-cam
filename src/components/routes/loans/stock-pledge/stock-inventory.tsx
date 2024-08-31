@@ -9,7 +9,7 @@ import {
   TableHeader,
 } from '@/components/ui/table'
 import type { InventoryData } from '@/lib/api/profit-loss/schema'
-import { calculateTotal } from '@/lib/api/profit-loss/schema'
+import { calculateTotal, plInventory } from '@/lib/api/profit-loss/schema'
 import {
   usePrevStockInventory,
   useSaveStockInventory,
@@ -18,8 +18,7 @@ import { useState } from 'react'
 
 export const StockInventory = ({ loanId }: { loanId: string }) => {
   // Fetch last saved on mount
-  const [isLast, setIsLast] = useState(false)
-
+  // const [rrows, setRows] = useState(plInventory)
   const [rrows, setRows] = useState([
     {
       item: '',
@@ -183,7 +182,7 @@ export const StockInventory = ({ loanId }: { loanId: string }) => {
 
               <TableCell className="border">
                 <Input
-                  type="number"
+                  // type="number"
                   id={'quantity' + idx}
                   onChange={(e) =>
                     changeCell(
@@ -192,7 +191,7 @@ export const StockInventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[1] as keyof InventoryData
                     )
                   }
-                  value={rrows[idx].quantity === 0 ? '' : rrows[idx].quantity}
+                  value={isNaN(rrows[idx].quantity) ? 0 : rrows[idx].quantity}
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">
@@ -205,7 +204,7 @@ export const StockInventory = ({ loanId }: { loanId: string }) => {
               </TableCell>
               <TableCell className="border">
                 <Input
-                  type="number"
+                  // type="number"
                   id={'sp' + idx}
                   onChange={(e) =>
                     changeCell(
@@ -215,13 +214,13 @@ export const StockInventory = ({ loanId }: { loanId: string }) => {
                     )
                   }
                   value={
-                    rrows[idx].sellingPrice === 0 ? '' : rrows[idx].sellingPrice
+                    isNaN(rrows[idx].sellingPrice) ? 0 : rrows[idx].sellingPrice
                   }
                 />
               </TableCell>
               <TableCell className="border">
                 <Input
-                  type="number"
+                  // type="number"
                   id={'cp' + idx}
                   onChange={(e) =>
                     changeCell(
@@ -230,7 +229,9 @@ export const StockInventory = ({ loanId }: { loanId: string }) => {
                       Object.keys(cell)[4] as keyof InventoryData
                     )
                   }
-                  value={rrows[idx].costPrice === 0 ? '' : rrows[idx].costPrice}
+                  value={
+                    isNaN(rrows[idx].sellingPrice) ? 0 : rrows[idx].costPrice
+                  }
                 />
               </TableCell>
               <TableCell className="border bg-pink-50">

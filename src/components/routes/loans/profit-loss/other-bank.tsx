@@ -109,7 +109,11 @@ export const OtherBank = ({ loanId }: { loanId: string }) => {
                 <Input
                   id={'bal' + idx}
                   onChange={(e) =>
-                    updateCell(idx, parseFloat(e.target.value), 'bal')
+                    updateCell(
+                      idx,
+                      parseFloat(e.target.value === '' ? '0' : e.target.value),
+                      'bal'
+                    )
                   }
                   value={rows[idx].bal}
                 />

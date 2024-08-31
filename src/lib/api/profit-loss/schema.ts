@@ -9,13 +9,26 @@ export type InventoryData = {
   wM: number
 }
 
+export const plInventory = [
+  {
+    item: '',
+    quantity: 0,
+    value: 0,
+    sellingPrice: 0,
+    costPrice: 0,
+    profit: 0,
+    margin: 0,
+    wM: 0,
+  },
+]
+
 export function calculateTotal(
   arr: InventoryData[],
   column: keyof Omit<InventoryData, 'item'>
 ): number {
   const total = arr.map((obj, i) => obj[column]).reduce((a, c) => a + c)
 
-  return total
+  return isNaN(total) ? 0 : total
 }
 
 export type BalanceSheetData = {

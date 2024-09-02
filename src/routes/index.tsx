@@ -15,7 +15,7 @@ function LandingPage() {
   }
 
   return (
-    <main className="container h-screen items-center p-2 flex flex-col justify-center gap-14">
+    <main className="container min-h-screen items-center p-2 flex flex-col justify-center gap-14">
       <div className="flex items-center gap-2">
         <img src="/logo3.png" alt="alert" width={50} height={50} />
         <h1 className="font-semibold text-2xl text-center text-balance">

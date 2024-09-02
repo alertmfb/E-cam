@@ -15,12 +15,18 @@ function LandingPage() {
   }
 
   return (
-    <main className="container min-h-screen items-center p-2 flex flex-col justify-center gap-14">
-      <div className="flex items-center gap-2">
-        <img src="/logo3.png" alt="alert" width={50} height={50} />
-        <h1 className="font-semibold text-2xl text-center text-balance">
+    <main className="container min-h-screen items-center p-3 flex flex-col justify-center gap-14">
+      <div className="flex items-center gap-2 justify-end">
+        <img
+          src="/logo3.png"
+          alt="alert"
+          width={50}
+          height={50}
+          className="scale-75 sm:scale-100"
+        />
+        <div className="font-semibold text-xl sm:text-2xl text-center text-balance">
           E-CAM
-        </h1>
+        </div>
       </div>
       <SignInForm />
     </main>

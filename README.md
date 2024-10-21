@@ -1,7 +1,5 @@
 ## Breakdown
 
-An '\*' indicates the item is subject to change
-
 1. Users\*
 
 - Loan Officer

@@ -1,5 +1,3 @@
-### Authentication
-
 ## Breakdown
 
 An '\*' indicates the item is subject to change
